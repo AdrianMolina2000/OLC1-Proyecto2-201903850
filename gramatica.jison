@@ -7,20 +7,21 @@
 
 /* Espacios en blanco */
 \s+					{}
-[ \r\t]+            {}
+[ \t\r\n\f]         {}
 \n                  {}
 "/""/".*            {}
 [/][*][^*/]*[*][/]  {}
 
-
 /* TIPOS */
-"Int"           return 'TENTERO'
-"Double"        return 'TDECIMAL'
-"Boolean"       return 'TBOLEANO'
-"Char"          return 'TCARACTER'
+"Int"           return 'TINT'
+"Double"        return 'TDOUBLE'
+"Boolean"       return 'TBOOLEAN'
+"Char"          return 'TCHAR'
 "String"        return 'TSTRING'
 "List"          return 'LIST'
-"New"           return 'NEW'
+"New"           return 'TNEW'
+"True"          return 'TRUE'
+"False"         return 'FALSE'
 
 /* OPERADORES ARITMETICOS */
 "+"             return 'MAS'
@@ -43,6 +44,7 @@
 "?"             return 'INTERROGACION'
 ":"             return 'DPUNTOS'
 ";"             return 'PTCOMA';
+"."				return 'PUNTO';
 
 /* OPERADORES LOGICOS */
 "||"            return 'OR'
@@ -58,11 +60,12 @@
 "]"             return 'CORDER'
 
 /* SI */
+[0-9]+\b				return 'ENTERO';
+// ^[0-9]+([.][0-9]+)?$	return 'DECIMAL';
 ([a-zA-Z])[a-zA-Z0-9_]*	return 'ID';
 \"[^\"]*\"              return 'CADENA';
 (\'[^☼]\')            	return 'CARACTER';
-[0-9]+\b              	return 'ENTERO';
-[0-9]+("."[0-9]+)?\b    return 'DECIMAL';
+
 
 <<EOF>>                 return 'EOF';
 
@@ -75,7 +78,7 @@
 %left   'IGUALA','DIFERENTED','MENORQ','MENORIGUALQ','MAYORA', 'MAYORIGUALQ'
 %left   'MAS', 'MENOS'
 %left   'POR', 'DIVIDIDO', 'POT', 'MOD'
-%left   UMENOS
+%left    UMENOS, 'ENTERO'
 
 %start ini 
 
@@ -92,5 +95,52 @@ instrucciones
 ;
 
 instruccion
-	:TSTRING ID PTCOMA{console.log('nombramiento ' + $2);}
+	:asignacion
 ;
+
+asignacion
+	:TINT ID PTCOMA{console.log('declaración de variable tipo INT-> ' + $2);}
+	|TINT ID ASIGNAR ENTERO PTCOMA{console.log('declaración de variable tipo INT -> ' + $2 + ', VALOR: ' + $4);}
+	|TDOUBLE ID PTCOMA{console.log('declaración de variable tipo DOUBLE-> ' + $2);}
+	|TDOUBLE ID ASIGNAR numeroD PTCOMA{console.log('declaración de variable tipo DECIMAL -> ' + $2 + ', VALOR: ' + $4);}
+	|TBOOLEAN ID PTCOMA{console.log('declaración de variable tipo BOOLEAN-> ' + $2);}
+	|TBOOLEAN ID ASIGNAR TRUE PTCOMA{console.log('declaración de variable tipo BOOLEAN -> ' + $2 + ', VALOR: ' + $4);}
+	|TBOOLEAN ID ASIGNAR FALSE PTCOMA{console.log('declaración de variable tipo BOOLEAN -> ' + $2 + ', VALOR: ' + $4);}
+	|TCHAR ID PTCOMA{console.log('declaración de variable tipo CHAR-> ' + $2);}
+	|TCHAR ID ASIGNAR CARACTER PTCOMA{console.log('declaración de variable tipo CARACTER -> ' + $2 + ', VALOR: ' + $4);}
+	|TSTRING ID PTCOMA{console.log('declaración de variable tipo STRING-> ' + $2);}
+	|TSTRING ID ASIGNAR CADENA PTCOMA{console.log('declaración de variable tipo STRING -> ' + $2 + ', VALOR: ' + $4);}
+;
+
+numeroD
+	:ENTERO PUNTO ENTERO {$$ = $1+$2+$3;}
+	|ENTERO
+;
+
+
+
+tipos
+	:TINT
+	|TDOUBLE
+	|TBOOLEAN
+	|TCHAR
+	|TSTRING
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,1 +1,10 @@
-String identificador;
+String cade = "cas";
+int num = 12;
+double num2 = 12.2;
+boolean si = true;
+char so= 's';
+String cad;
+int num;
+double num2;
+boolean si;
+char sa;
