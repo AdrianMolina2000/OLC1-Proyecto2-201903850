@@ -60,7 +60,8 @@
 "]"             return 'CORDER'
 
 /* SI */
-[0-9]+("."[0-9]+)?	return 'NUMERO';
+[0-9]+\b				return 'ENTERO';
+// ^[0-9]+([.][0-9]+)?$	return 'DECIMAL';
 ([a-zA-Z])[a-zA-Z0-9_]*	return 'ID';
 \"[^\"]*\"              return 'CADENA';
 (\'[^☼]\')            	return 'CARACTER';
@@ -71,7 +72,7 @@
 .                       { console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
 /lex
 
-%left   'OR', 'INTERROGACION'
+%left   'OR'
 %left   'AND'
 %right  'NOT'
 %left   'IGUALA','DIFERENTED','MENORQ','MENORIGUALQ','MAYORA', 'MAYORIGUALQ'
@@ -94,48 +95,36 @@ instrucciones
 ;
 
 instruccion
-	:declaracionVar
+	:asignacion
 ;
 
 
 declaracionVar
-	:tipos ID PTCOMA {console.log('declaración de variable tipo -> ' + $1);}
-	|tipos ID ASIGNAR expresion PTCOMA {console.log('declaración de variable tipo -> ' + $1 + ', Con valor: ' + $4);}
+	:TINT ID PTCOMA{console.log('declaración de variable tipo INT-> ' + $2);}
+	|TINT ID ASIGNAR ENTERO PTCOMA{console.log('declaración de variable tipo INT -> ' + $2 + ', VALOR: ' + $4);}
+	|TDOUBLE ID PTCOMA{console.log('declaración de variable tipo DOUBLE-> ' + $2);}
+	|TDOUBLE ID ASIGNAR numeroD PTCOMA{console.log('declaración de variable tipo DECIMAL -> ' + $2 + ', VALOR: ' + $4);}
+	|TBOOLEAN ID PTCOMA{console.log('declaración de variable tipo BOOLEAN-> ' + $2);}
+	|TBOOLEAN ID ASIGNAR TRUE PTCOMA{console.log('declaración de variable tipo BOOLEAN -> ' + $2 + ', VALOR: ' + $4);}
+	|TBOOLEAN ID ASIGNAR FALSE PTCOMA{console.log('declaración de variable tipo BOOLEAN -> ' + $2 + ', VALOR: ' + $4);}
+	|TCHAR ID PTCOMA{console.log('declaración de variable tipo CHAR-> ' + $2);}
+	|TCHAR ID ASIGNAR CARACTER PTCOMA{console.log('declaración de variable tipo CARACTER -> ' + $2 + ', VALOR: ' + $4);}
+	|TSTRING ID PTCOMA{console.log('declaración de variable tipo STRING-> ' + $2);}
+	|TSTRING ID ASIGNAR CADENA PTCOMA{console.log('declaración de variable tipo STRING -> ' + $2 + ', VALOR: ' + $4);}
+;
+
+expr
+	:expAr MAS expAr
+	|expAr 
 ;
 
 
-expresion 
-	:MENOS expresion %prec UMENOS	 	{$$ = $1+$2;}		
-    |NOT expresion	               		{$$ = $1+$2;}	
-    |expresion MAS expresion      		{$$ = $1+$2+$3;}	
-    |expresion MENOS expresion      	{$$ = $1+$2+$3;}		
-    |expresion POR expresion      		{$$ = $1+$2+$3;}	
-    |expresion DIVIDIDO expresion		{$$ = $1+$2+$3;}	
-    |expresion MOD expresion			{$$ = $1+$2+$3;}
-    |expresion POT expresion			{$$ = $1+$2+$3;}
-	|expresion MENORQ expresion	 		{$$ = $1+$2+$3;}	
-    |expresion MAYORA expresion         {$$ = $1+$2+$3;}			
-    |expresion MAYORIGUALQ expresion	{$$ = $1+$2+$3;}			  
-    |expresion MENORIGUALQ expresion	{$$ = $1+$2+$3;}			   
-    |expresion IGUALA expresion	  		{$$ = $1+$2+$3;}			
-    |expresion DIFERENTED expresion	   	{$$ = $1+$2+$3;}
-    |expresion OR expresion	  			{$$ = $1+$2+$3;}
-    |expresion AND expresion			{$$ = $1+$2+$3;}
-    |NUMERO                        
-    |TRUE			   
-    |FALSE				    
-    |CADENA		    
-    |CARACTER           				
-    |PARIZQ expresion PARDER			{$$ = $1+$2+$3;}	
-	|ID MAS MAS 						{$$ = $1+$2+$3;}
-	|ID MENOS MENOS 					{$$ = $1+$2+$3;}
-	|expresion INTERROGACION expresion DPUNTOS expresion {$$ = $1+$2+$3+$4+$5;}
-;
 
-// numeroD
-// 	:ENTERO PUNTO ENTERO {$$ = $1+$2+$3;}
-// 	|ENTERO
-// ;
+
+numeroD
+	:ENTERO PUNTO ENTERO {$$ = $1+$2+$3;}
+	|ENTERO
+;
 
 tipos
 	:TINT
