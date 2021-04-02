@@ -1,4 +1,13 @@
-﻿string[ ] vector2 = {"hola", "Mundo"}; //vector de 2 posiciones, con "Hola" y "Mundo" 
-int[ ] vectorNumero = {2020,2021,2022}; 
-vector2[0] = "OLC1 ";
-vector2[1] = "1er Semestre "+vectorNumero[1];
+﻿list<string> listaS = new list<string>; //lista de strings 
+int[ ] vectorNumero = {2020,2021,2022}; //agregamos valores a la lista 
+listaS.add("Hola "); 
+listaS.add("Mundo"); 
+
+/* Actualmente listaS[[0]]= 
+"Hola " listaS[[1]]= “Mundo” */ 
+
+listaS[[0]]="OLC1 "; 
+listaS[[1]]="1er Semestre "+vectorNumero[1]; 
+
+/* RESULTADO listaS[[0]]= “OLC1 ” 
+listaS[[1]]= “1er Semestre 2021” */

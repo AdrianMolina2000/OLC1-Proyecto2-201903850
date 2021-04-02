@@ -18,10 +18,11 @@
 "Boolean"       return 'TBOOLEAN'
 "Char"          return 'TCHAR'
 "String"        return 'TSTRING'
-"List"          return 'LIST'
-"New"           return 'TNEW'
 "True"          return 'TRUE'
 "False"         return 'FALSE'
+"List"          return 'LIST'
+"New"           return 'NEW'
+"Add"           return 'ADD'
 
 /* OPERADORES ARITMETICOS */
 "+"             return 'MAS'
@@ -106,6 +107,9 @@ declaracionVar
     |tipos CORIZQ CORDER ID ASIGNAR TNEW tipos CORIZQ NUMERO CORDER PTCOMA{console.log('declaración de arreglo tipo -> ' + $1 + ', Con ' + $9 + ' posiciones');}
     |tipos CORIZQ CORDER ID ASIGNAR LLAIZQ listaValores LLADER PTCOMA{console.log('declaración de arreglo tipo -> ' + $1 + ', con valores: ' + $7 );}
     |ID CORIZQ NUMERO CORDER ASIGNAR expresion PTCOMA{console.log('Asignar: ' + $6 + ', a la posicion: ' + $3 );}
+    |LIST MENORQ tipos MAYORA ID ASIGNAR NEW LIST MENORQ tipos MAYORA PTCOMA{console.log('declaración de lista tipo -> ' + $3 + ', nombre: ' + $5);}
+    |ID PUNTO ADD PARIZQ expresion PARDER PTCOMA{console.log('agregar a lista-> ' + $1 + ', valor: ' + $5);}
+    |ID CORIZQ CORIZQ NUMERO CORDER CORDER ASIGNAR expresion PTCOMA{console.log('Asignar: ' + $8 + ', a la posicion: ' + $4);}
 ;
 
 expresion 
@@ -130,12 +134,13 @@ expresion
     |FALSE				    
     |CADENA		    
     |CARACTER
-    |ID CORIZQ NUMERO CORDER           
-    |PARIZQ expresion PARDER			{$$ = $1+$2+$3;}	
-    |PARIZQ tipos PARDER expresion  	{$$ = $1+$2+$3+$4;}	
-	|ID MAS MAS 						{$$ = $1+$2+$3;}
-	|ID MENOS MENOS 					{$$ = $1+$2+$3;}
-    |ID				
+    |ID CORIZQ CORIZQ NUMERO CORDER CORDER  {$$ = $1+$2+$3+$4+$5+$6;}	
+    |ID CORIZQ NUMERO CORDER                {$$ = $1+$2+$3+$4;}	
+    |PARIZQ expresion PARDER			    {$$ = $1+$2+$3;}	
+    |PARIZQ tipos PARDER expresion  	    {$$ = $1+$2+$3+$4;}	
+	|ID MAS MAS 						    {$$ = $1+$2+$3;}
+	|ID MENOS MENOS 					    {$$ = $1+$2+$3;}
+    |ID				    
 	|expresion INTERROGACION expresion DPUNTOS expresion {$$ = $1+$2+$3+$4+$5;}
 ;
 
