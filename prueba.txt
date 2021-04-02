@@ -1,1 +1,4 @@
-int numero = 1>4?true:false;;
+﻿string[ ] vector2 = {"hola", "Mundo"}; //vector de 2 posiciones, con "Hola" y "Mundo" 
+int[ ] vectorNumero = {2020,2021,2022}; 
+vector2[0] = "OLC1 ";
+vector2[1] = "1er Semestre "+vectorNumero[1];

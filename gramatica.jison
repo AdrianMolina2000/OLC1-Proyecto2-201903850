@@ -45,6 +45,7 @@
 ":"             return 'DPUNTOS'
 ";"             return 'PTCOMA';
 "."				return 'PUNTO';
+","             return 'COMA';
 
 /* OPERADORES LOGICOS */
 "||"            return 'OR'
@@ -60,10 +61,10 @@
 "]"             return 'CORDER'
 
 /* SI */
-[0-9]+("."[0-9]+)?	return 'NUMERO';
+[0-9]+("."[0-9]+)?  	return 'NUMERO';
 ([a-zA-Z])[a-zA-Z0-9_]*	return 'ID';
-\"[^\"]*\"              return 'CADENA';
-(\'[^☼]\')            	return 'CARACTER';
+\"[^"]*\"              return 'CADENA';
+(\'[^']\')            	return 'CARACTER';
 
 
 <<EOF>>                 return 'EOF';
@@ -71,7 +72,7 @@
 .                       { console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
 /lex
 
-%left   'OR', 'INTERROGACION'
+%left   'OR', 'INTERROGACION', 'ID', 'tipos'
 %left   'AND'
 %right  'NOT'
 %left   'IGUALA','DIFERENTED','MENORQ','MENORIGUALQ','MAYORA', 'MAYORIGUALQ'
@@ -101,8 +102,11 @@ instruccion
 declaracionVar
 	:tipos ID PTCOMA {console.log('declaración de variable tipo -> ' + $1);}
 	|tipos ID ASIGNAR expresion PTCOMA {console.log('declaración de variable tipo -> ' + $1 + ', Con valor: ' + $4);}
+    |ID ASIGNAR expresion PTCOMA {console.log('declaración de variable Con valor: ' + $3);}
+    |tipos CORIZQ CORDER ID ASIGNAR TNEW tipos CORIZQ NUMERO CORDER PTCOMA{console.log('declaración de arreglo tipo -> ' + $1 + ', Con ' + $9 + ' posiciones');}
+    |tipos CORIZQ CORDER ID ASIGNAR LLAIZQ listaValores LLADER PTCOMA{console.log('declaración de arreglo tipo -> ' + $1 + ', con valores: ' + $7 );}
+    |ID CORIZQ NUMERO CORDER ASIGNAR expresion PTCOMA{console.log('Asignar: ' + $6 + ', a la posicion: ' + $3 );}
 ;
-
 
 expresion 
 	:MENOS expresion %prec UMENOS	 	{$$ = $1+$2;}		
@@ -125,11 +129,19 @@ expresion
     |TRUE			   
     |FALSE				    
     |CADENA		    
-    |CARACTER           				
+    |CARACTER
+    |ID CORIZQ NUMERO CORDER           
     |PARIZQ expresion PARDER			{$$ = $1+$2+$3;}	
+    |PARIZQ tipos PARDER expresion  	{$$ = $1+$2+$3+$4;}	
 	|ID MAS MAS 						{$$ = $1+$2+$3;}
 	|ID MENOS MENOS 					{$$ = $1+$2+$3;}
+    |ID				
 	|expresion INTERROGACION expresion DPUNTOS expresion {$$ = $1+$2+$3+$4+$5;}
+;
+
+listaValores
+    :listaValores COMA expresion {$$ = $1+$2+$3;}
+    |expresion
 ;
 
 // numeroD
