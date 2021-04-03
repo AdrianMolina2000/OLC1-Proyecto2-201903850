@@ -74,6 +74,9 @@
 "for"           return 'FOR'
 "continue"      return 'CONTINUE'
 "return"        return 'RETURN'
+"void"          return 'VOID'
+"toLower"       return 'TOLOWER'
+
 
 /* SI */
 [0-9]+("."[0-9]+)?  	return 'NUMERO';
@@ -87,12 +90,12 @@
 .                       { console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
 /lex
 
-%left   'OR', 'INTERROGACION', 'ID', 'tipos'
+%left   'OR', 'INTERROGACION', 'tipos'
 %left   'AND'
 %right  'NOT'
 %left   'IGUALA','DIFERENTED','MENORQ','MENORIGUALQ','MAYORA', 'MAYORIGUALQ'
 %left   'MAS', 'MENOS'
-%left   'POR', 'DIVIDIDO', 'POT', 'MOD'
+%left   'POR', 'DIVIDIDO', 'POT', 'MOD', 'ID'
 %left    UMENOS
 
 %start ini 
@@ -111,6 +114,9 @@ instrucciones
 
 instruccion
 	:declaracionVar
+    |funciones
+    |metodos
+    |llamada
     |sentencia_if
     |sentencia_switch
     |sentencia_while
@@ -118,9 +124,36 @@ instruccion
     |sentencia_dowhile
     |sentencia_print
     |increment_decrement PTCOMA
-    |sentencia_return
     |BREAK PTCOMA
     |CONTINUE PTCOMA
+    |sentencia_return
+;
+
+metodos
+    :VOID ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER{console.log('metodo llamada {'+$2+'} con parametros{'+$4+'}');}
+;
+
+funciones
+    :tipos ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER{console.log('funcion llamada {'+$2+'} del tipo {' +$1+'} con parametros{'+$4+'}');}
+;
+
+llamada
+    :llamar PTCOMA
+;
+
+llamar
+    :ID PARIZQ parametros_llamada PARDER {$$ = $1+$2+$3+$4}
+    |ID PARIZQ PARDER  {$$ = $1+$2+$3}
+;
+
+parametros_llamada
+    :parametros_llamada COMA expresion {$$ = $1+' '+$2+' '+$3}
+    |expresion
+;
+parametros
+    :parametros COMA tipos ID   {$$ = $1+' '+$2+' '+$3+' '+$4}
+    |tipos ID                   {$$ = $1+' '+$2}
+    |                           {$$ = 'Sin parametros'}
 ;
 
 sentencia_if
@@ -203,6 +236,7 @@ expresion
     |expresion DIFERENTED expresion	   	{$$ = $1+$2+$3;}
     |expresion OR expresion	  			{$$ = $1+$2+$3;}
     |expresion AND expresion			{$$ = $1+$2+$3;}
+    |ID				    
     |NUMERO                        
     |TRUE			   
     |FALSE				    
@@ -212,9 +246,10 @@ expresion
     |ID CORIZQ NUMERO CORDER                {$$ = $1+$2+$3+$4;}	
     |PARIZQ expresion PARDER			    {$$ = $1+$2+$3;}	
     |PARIZQ tipos PARDER expresion  	    {$$ = $1+$2+$3+$4;}	
-    |ID				    
     |increment_decrement
 	|expresion INTERROGACION expresion DPUNTOS expresion {$$ = $1+$2+$3+$4+$5;}
+    |llamar
+    |TOLOWER PARIZQ expresion PARDER {$$ = $1+$2+$3+$4;}
 ;
 
 increment_decrement

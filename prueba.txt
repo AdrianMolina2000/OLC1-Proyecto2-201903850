@@ -1,9 +1,2 @@
-﻿Int a=5;
-Do{ 
-	If (a>=1 && a <3){ 
-		Print(true); 
-	} 
-	Else{ 
-		Print(false); 
-	} a--; 
-} while (a>0);
+﻿string cad_1 = toLower("hOla MunDo"); // cad_1 = “hola mundo” 
+string cad_2 = toLower("RESULTADO = " + 100); // cad_2 = “resultado = 100”
