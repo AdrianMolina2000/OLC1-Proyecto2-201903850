@@ -1,2 +1,4 @@
-﻿string cad_1 = toLower("hOla MunDo"); // cad_1 = “hola mundo” 
-string cad_2 = toLower("RESULTADO = " + 100); // cad_2 = “resultado = 100”
+﻿void funcion2(string mensaje){ 
+	print(mensaje); 
+} 
+exec funcion2("hola soy un mensaje");

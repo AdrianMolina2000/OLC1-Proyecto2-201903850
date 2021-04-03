@@ -76,6 +76,14 @@
 "return"        return 'RETURN'
 "void"          return 'VOID'
 "toLower"       return 'TOLOWER'
+"toUpper"       return 'TOUPPER'
+"length"        return 'LENGTH'
+"truncate"      return 'TRUNCATE'
+"round"         return 'ROUND'
+"typeof"        return 'TYPEOF'
+"tostring"      return 'TOSTRING'
+"tochararray"   return 'TOCHARARRAY'
+"exec"   return 'EXEC'
 
 
 /* SI */
@@ -127,6 +135,13 @@ instruccion
     |BREAK PTCOMA
     |CONTINUE PTCOMA
     |sentencia_return
+    |exe
+
+;
+
+exe
+    :EXEC ID PARIZQ PARDER PTCOMA {console.log('se ejecuta {' + $2 + '}');}
+    |EXEC ID PARIZQ listaValores PARDER PTCOMA {console.log('se ejecuta {' + $2 + '} con parametros {'+$4+'}');}
 ;
 
 metodos
@@ -215,6 +230,7 @@ declaracionVar
     |tipos CORIZQ CORDER ID ASIGNAR LLAIZQ listaValores LLADER PTCOMA{console.log('declaración de arreglo {' + $4 + '} de tipo {'+ $1 + '} con valores {' + $7 + '}');}
     |ID CORIZQ NUMERO CORDER ASIGNAR expresion PTCOMA{console.log('Asignar {' + $6 + '} a la posicion {' + $3 + '} del arreglo {'+$1+'}');}
     |LIST MENORQ tipos MAYORA ID ASIGNAR NEW LIST MENORQ tipos MAYORA PTCOMA{console.log('declaración de lista {' + $5 + '} del tipo {' + $3 + '}');}
+    |LIST MENORQ tipos MAYORA ID ASIGNAR tocha PTCOMA{console.log('declaración de lista {' + $5 + '} del tipo {' + $7 + '}');}
     |ID PUNTO ADD PARIZQ expresion PARDER PTCOMA{console.log('agregar a lista {' + $1 + '} el valor {' + $5 + '}');}
     |ID CORIZQ CORIZQ NUMERO CORDER CORDER ASIGNAR expresion PTCOMA{console.log('Asignar {' + $8 + '} a la posicion {' + $4 + '} de la lista {'+$1+'}');}
 ;
@@ -250,7 +266,14 @@ expresion
 	|expresion INTERROGACION expresion DPUNTOS expresion {$$ = $1+$2+$3+$4+$5;}
     |llamar
     |TOLOWER PARIZQ expresion PARDER {$$ = $1+$2+$3+$4;}
+    |TOUPPER PARIZQ expresion PARDER {$$ = $1+$2+$3+$4;}
+    |LENGTH PARIZQ expresion PARDER {$$ = $1+$2+$3+$4;}
+    |TRUNCATE PARIZQ expresion PARDER {$$ = $1+$2+$3+$4;}
+    |ROUND PARIZQ expresion PARDER {$$ = $1+$2+$3+$4;}
+    |TYPEOF PARIZQ expresion PARDER {$$ = $1+$2+$3+$4;}
+    |TOSTRING PARIZQ expresion PARDER {$$ = $1+$2+$3+$4;}
 ;
+
 
 increment_decrement
 	:ID MAS MAS 						    {$$ = $1+$2+$3;}
@@ -260,6 +283,10 @@ increment_decrement
 listaValores
     :listaValores COMA expresion {$$ = $1+$2+$3;}
     |expresion
+;
+
+tocha
+    :TOCHARARRAY PARIZQ expresion PARDER  {$$ = $1+$2+$3+$4;}
 ;
 
 // numeroD
