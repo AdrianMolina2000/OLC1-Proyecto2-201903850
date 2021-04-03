@@ -61,10 +61,24 @@
 "["             return 'CORIZQ'
 "]"             return 'CORDER'
 
+/* SENTENCIAS */
+"if"            return 'IF'
+"else"          return 'ELSE'
+"switch"        return 'SWITCH'
+"case"          return 'CASE'
+"default"       return 'DEFAULT'
+"Break"         return 'BREAK'
+"while"         return 'WHILE'
+"do"            return 'DO'
+"print"         return 'PRINT'
+"for"           return 'FOR'
+"continue"      return 'CONTINUE'
+"return"        return 'RETURN'
+
 /* SI */
 [0-9]+("."[0-9]+)?  	return 'NUMERO';
 ([a-zA-Z])[a-zA-Z0-9_]*	return 'ID';
-\"[^"]*\"              return 'CADENA';
+\"[^"]*\"               return 'CADENA';
 (\'[^']\')            	return 'CARACTER';
 
 
@@ -97,19 +111,79 @@ instrucciones
 
 instruccion
 	:declaracionVar
+    |sentencia_if
+    |sentencia_switch
+    |sentencia_while
+    |sentencia_for
+    |sentencia_dowhile
+    |sentencia_print
+    |increment_decrement PTCOMA
+    |sentencia_return
+    |BREAK PTCOMA
+    |CONTINUE PTCOMA
 ;
 
+sentencia_if
+    :IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER {console.log('IF');}
+    |IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER ELSE LLAIZQ instruccion LLADER {console.log('IF ELSE');}
+    |IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER ELSE sentencia_if {console.log('ELIF');}
+;
+
+sentencia_switch
+    :SWITCH PARIZQ expresion PARDER LLAIZQ caseList defaultList LLADER {console.log('SWITCH');}
+    |SWITCH PARIZQ expresion PARDER LLAIZQ caseList LLADER {console.log('SWITCH');}
+    |SWITCH PARIZQ expresion PARDER LLAIZQ defaultList LLADER {console.log('SWITCH');}
+;
+
+caseList
+    :caseList CASE expresion DPUNTOS instrucciones 
+    |CASE expresion DPUNTOS instrucciones {console.log('CASE');}
+;
+
+defaultList
+    :DEFAULT DPUNTOS instrucciones {console.log('DEFAULT');}
+;
+
+sentencia_while
+    :WHILE PARIZQ expresion PARDER LLAIZQ instrucciones LLADER {console.log('WHILE');}
+;
+
+sentencia_dowhile
+    :DO LLAIZQ instrucciones LLADER WHILE PARIZQ expresion PARDER PTCOMA {console.log('DO WHILE');}
+;
+
+sentencia_for
+    :FOR PARIZQ forVar PTCOMA expresion PTCOMA for_increment PARDER LLAIZQ instrucciones LLADER {console.log('FOR');}
+;
+
+forVar
+    :iD ASIGNAR expresion{console.log('se asigna {' + $3 + '} a la variable {' +$1+ '}');}
+    |TINT ID ASIGNAR NUMERO{console.log('se declaró la variable {' + $2 + '} del tipo {int} con valor: '+ $4);}
+;
+
+for_increment
+    :increment_decrement {console.log('se incrementa: ' + $1);}
+    |ID ASIGNAR expresion {console.log('se incrementa: ' + $3);}
+;
+
+sentencia_print
+    :PRINT PARIZQ expresion PARDER PTCOMA{console.log('Se imprime: ' + $3);}
+;
+
+sentencia_return
+    :RETURN expresion PTCOMA{console.log('return: ' + $2);}
+;
 
 declaracionVar
-	:tipos ID PTCOMA {console.log('declaración de variable tipo -> ' + $1);}
-	|tipos ID ASIGNAR expresion PTCOMA {console.log('declaración de variable tipo -> ' + $1 + ', Con valor: ' + $4);}
-    |ID ASIGNAR expresion PTCOMA {console.log('declaración de variable Con valor: ' + $3);}
-    |tipos CORIZQ CORDER ID ASIGNAR TNEW tipos CORIZQ NUMERO CORDER PTCOMA{console.log('declaración de arreglo tipo -> ' + $1 + ', Con ' + $9 + ' posiciones');}
-    |tipos CORIZQ CORDER ID ASIGNAR LLAIZQ listaValores LLADER PTCOMA{console.log('declaración de arreglo tipo -> ' + $1 + ', con valores: ' + $7 );}
-    |ID CORIZQ NUMERO CORDER ASIGNAR expresion PTCOMA{console.log('Asignar: ' + $6 + ', a la posicion: ' + $3 );}
-    |LIST MENORQ tipos MAYORA ID ASIGNAR NEW LIST MENORQ tipos MAYORA PTCOMA{console.log('declaración de lista tipo -> ' + $3 + ', nombre: ' + $5);}
-    |ID PUNTO ADD PARIZQ expresion PARDER PTCOMA{console.log('agregar a lista-> ' + $1 + ', valor: ' + $5);}
-    |ID CORIZQ CORIZQ NUMERO CORDER CORDER ASIGNAR expresion PTCOMA{console.log('Asignar: ' + $8 + ', a la posicion: ' + $4);}
+	:tipos ID PTCOMA {console.log('se declaró la variable {' + $2 + '} del tipo {' + $1 + '}');}
+	|tipos ID ASIGNAR expresion PTCOMA {console.log('se declaró la variable {' + $2 + '} del tipo {' + $1 + '} con valor: '+ $4);}
+    |ID ASIGNAR expresion PTCOMA {console.log('Se asigno {' + $3 + '} a la variable {' + $1 + '}');}
+    |tipos CORIZQ CORDER ID ASIGNAR TNEW tipos CORIZQ NUMERO CORDER PTCOMA{console.log('declaración de arreglo {' + $4 + '} de tipo {'+ $1 + '} de {' + $9 + '} posiciones');}
+    |tipos CORIZQ CORDER ID ASIGNAR LLAIZQ listaValores LLADER PTCOMA{console.log('declaración de arreglo {' + $4 + '} de tipo {'+ $1 + '} con valores {' + $7 + '}');}
+    |ID CORIZQ NUMERO CORDER ASIGNAR expresion PTCOMA{console.log('Asignar {' + $6 + '} a la posicion {' + $3 + '} del arreglo {'+$1+'}');}
+    |LIST MENORQ tipos MAYORA ID ASIGNAR NEW LIST MENORQ tipos MAYORA PTCOMA{console.log('declaración de lista {' + $5 + '} del tipo {' + $3 + '}');}
+    |ID PUNTO ADD PARIZQ expresion PARDER PTCOMA{console.log('agregar a lista {' + $1 + '} el valor {' + $5 + '}');}
+    |ID CORIZQ CORIZQ NUMERO CORDER CORDER ASIGNAR expresion PTCOMA{console.log('Asignar {' + $8 + '} a la posicion {' + $4 + '} de la lista {'+$1+'}');}
 ;
 
 expresion 
@@ -138,10 +212,14 @@ expresion
     |ID CORIZQ NUMERO CORDER                {$$ = $1+$2+$3+$4;}	
     |PARIZQ expresion PARDER			    {$$ = $1+$2+$3;}	
     |PARIZQ tipos PARDER expresion  	    {$$ = $1+$2+$3+$4;}	
-	|ID MAS MAS 						    {$$ = $1+$2+$3;}
-	|ID MENOS MENOS 					    {$$ = $1+$2+$3;}
     |ID				    
+    |increment_decrement
 	|expresion INTERROGACION expresion DPUNTOS expresion {$$ = $1+$2+$3+$4+$5;}
+;
+
+increment_decrement
+	:ID MAS MAS 						    {$$ = $1+$2+$3;}
+	|ID MENOS MENOS 					    {$$ = $1+$2+$3;}
 ;
 
 listaValores

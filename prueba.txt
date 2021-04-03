@@ -1,13 +1,9 @@
-﻿list<string> listaS = new list<string>; //lista de strings 
-int[ ] vectorNumero = {2020,2021,2022}; //agregamos valores a la lista 
-listaS.add("Hola "); 
-listaS.add("Mundo"); 
-
-/* Actualmente listaS[[0]]= 
-"Hola " listaS[[1]]= “Mundo” */ 
-
-listaS[[0]]="OLC1 "; 
-listaS[[1]]="1er Semestre "+vectorNumero[1]; 
-
-/* RESULTADO listaS[[0]]= “OLC1 ” 
-listaS[[1]]= “1er Semestre 2021” */
+﻿Int a=5;
+Do{ 
+	If (a>=1 && a <3){ 
+		Print(true); 
+	} 
+	Else{ 
+		Print(false); 
+	} a--; 
+} while (a>0);
