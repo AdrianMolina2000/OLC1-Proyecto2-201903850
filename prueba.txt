@@ -1,4 +1,0 @@
-﻿void funcion2(string mensaje){ 
-	print(mensaje); 
-} 
-exec funcion2("hola soy un mensaje");
