@@ -204,7 +204,7 @@ case 60:
 this.$ = new Aritmetica(null, $$[$0], '-', _$[$0-1].first_line, _$[$0-1].first_column);
 break;
 case 61:
-this.$ = $$[$0-1]+$$[$0];
+this.$ = new Logic(null, $$[$0], '!', _$[$0-1].first_line, _$[$0-1].first_column);
 break;
 case 62:
 this.$ = new Aritmetica($$[$0-2], $$[$0], '+', _$[$0-2].first_line, _$[$0-2].first_column);
@@ -218,11 +218,20 @@ break;
 case 65:
 this.$ = new Aritmetica($$[$0-2], $$[$0], '/', _$[$0-2].first_line, _$[$0-2].first_column);
 break;
-case 66: case 68: case 69: case 70: case 71: case 72: case 73: case 74: case 75: case 84: case 96: case 97: case 98:
-this.$ = $$[$0-2]+$$[$0-1]+$$[$0];
+case 66:
+this.$ = new Aritmetica($$[$0-2], $$[$0], '%', _$[$0-2].first_line, _$[$0-2].first_column);
 break;
 case 67:
 this.$ = new Aritmetica($$[$0-2], $$[$0], '^', _$[$0-2].first_line, _$[$0-2].first_column);
+break;
+case 68: case 69: case 70: case 71: case 72: case 73: case 84: case 96: case 97: case 98:
+this.$ = $$[$0-2]+$$[$0-1]+$$[$0];
+break;
+case 74:
+this.$ = new Logic($$[$0-2], $$[$0], '||', _$[$0-2].first_line, _$[$0-2].first_column);
+break;
+case 75:
+this.$ = new Logic($$[$0-2], $$[$0], '&&', _$[$0-2].first_line, _$[$0-2].first_column);
 break;
 case 77:
 this.$ = new Primitivo(new Tipo(esEntero(Number($$[$0]))), Number($$[$0]), _$[$0].first_line, _$[$0].first_column);
@@ -506,6 +515,7 @@ _handle_error:
     const {Tipo, tipos, esEntero} = require('../other/tipo');
     const {Tree} = require('../Simbols/Tree');
     const {Aritmetica} = require('../Expresiones/Aritmetica');
+    const {Logic} = require('../Expresiones/Logico');
 
 
 
@@ -981,7 +991,7 @@ case 70: console.error('Este es un error léxico: ' + yy_.yytext + ', en la line
 break;
 }
 },
-rules: [/^(?:\s+)/i,/^(?:[ \t\r\n\f])/i,/^(?:\n)/i,/^(?:\/\/.*)/i,/^(?:[/][*][^*/]*[*][/])/i,/^(?:Int\b)/i,/^(?:Double\b)/i,/^(?:Boolean\b)/i,/^(?:Char\b)/i,/^(?:String\b)/i,/^(?:True\b)/i,/^(?:False\b)/i,/^(?:List\b)/i,/^(?:New\b)/i,/^(?:Add\b)/i,/^(?:\+)/i,/^(?:-)/i,/^(?:\*)/i,/^(?:\/)/i,/^(?:\^)/i,/^(?:%)/i,/^(?:==)/i,/^(?:!=)/i,/^(?:<=)/i,/^(?:<)/i,/^(?:>=)/i,/^(?:>)/i,/^(?:=)/i,/^(?:\?)/i,/^(?::)/i,/^(?:;)/i,/^(?:\.)/i,/^(?:,)/i,/^(?:\|\|)/i,/^(?:&&)/i,/^(?:!)/i,/^(?:\()/i,/^(?:\))/i,/^(?:\{)/i,/^(?:\})/i,/^(?:\[)/i,/^(?:\])/i,/^(?:if\b)/i,/^(?:else\b)/i,/^(?:switch\b)/i,/^(?:case\b)/i,/^(?:default\b)/i,/^(?:Break\b)/i,/^(?:while\b)/i,/^(?:do\b)/i,/^(?:print\b)/i,/^(?:for\b)/i,/^(?:continue\b)/i,/^(?:return\b)/i,/^(?:void\b)/i,/^(?:toLower\b)/i,/^(?:toUpper\b)/i,/^(?:length\b)/i,/^(?:truncate\b)/i,/^(?:round\b)/i,/^(?:typeof\b)/i,/^(?:tostring\b)/i,/^(?:tochararray\b)/i,/^(?:exec\b)/i,/^(?:[0-9]+(\.[0-9]+)?\b)/i,/^(?:[0-9]+\b)/i,/^(?:([a-zA-Z])[a-zA-Z0-9_]*)/i,/^(?:"[^"]*")/i,/^(?:('[^']'))/i,/^(?:$)/i,/^(?:.)/i],
+rules: [/^(?:\s+)/i,/^(?:[ \t\r\n\f])/i,/^(?:\n)/i,/^(?:\/\/.*)/i,/^(?:[/][*][^*/]*[*][/])/i,/^(?:Int\b)/i,/^(?:Double\b)/i,/^(?:Boolean\b)/i,/^(?:Char\b)/i,/^(?:String\b)/i,/^(?:True\b)/i,/^(?:False\b)/i,/^(?:List\b)/i,/^(?:New\b)/i,/^(?:Add\b)/i,/^(?:\+)/i,/^(?:-)/i,/^(?:\*)/i,/^(?:\/)/i,/^(?:\^)/i,/^(?:%)/i,/^(?:==)/i,/^(?:!=)/i,/^(?:<=)/i,/^(?:<)/i,/^(?:>=)/i,/^(?:>)/i,/^(?:=)/i,/^(?:\?)/i,/^(?::)/i,/^(?:;)/i,/^(?:\.)/i,/^(?:,)/i,/^(?:\|\|)/i,/^(?:&&)/i,/^(?:!)/i,/^(?:\()/i,/^(?:\))/i,/^(?:\{)/i,/^(?:\})/i,/^(?:\[)/i,/^(?:\])/i,/^(?:if\b)/i,/^(?:else\b)/i,/^(?:switch\b)/i,/^(?:case\b)/i,/^(?:default\b)/i,/^(?:Break\b)/i,/^(?:while\b)/i,/^(?:do\b)/i,/^(?:print\b)/i,/^(?:for\b)/i,/^(?:continue\b)/i,/^(?:return\b)/i,/^(?:void\b)/i,/^(?:toLower\b)/i,/^(?:toUpper\b)/i,/^(?:length\b)/i,/^(?:truncate\b)/i,/^(?:round\b)/i,/^(?:typeof\b)/i,/^(?:tostring\b)/i,/^(?:tochararray\b)/i,/^(?:exec\b)/i,/^(?:[0-9]+(\.[0-9]+)?\b)/i,/^(?:[0-9]+\b)/i,/^(?:([a-zA-Z])[a-zA-Z0-9_]*)/i,/^(?:"([^"]|")*")/i,/^(?:('[^']'))/i,/^(?:$)/i,/^(?:.)/i],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70],"inclusive":true}}
 });
 return lexer;

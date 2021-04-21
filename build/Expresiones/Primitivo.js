@@ -11,7 +11,6 @@ class Primitivo extends Nodo_1.Nodo {
         if (typeof (this.valor) === "string") {
             this.valor = this.valor.replace(/\\n/g, "\n");
             this.valor = this.valor.replace(/\\t/g, "\t");
-            this.valor = this.valor.replace(/\\\"/g, "\"");
             this.valor = this.valor.replace(/\\\'/g, "\'");
         }
         return this.valor;

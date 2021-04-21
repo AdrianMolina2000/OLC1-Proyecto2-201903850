@@ -547,6 +547,13 @@ export class Aritmetica extends Nodo {
                     // tree.consola.push(error.toString());
                     return error;
                 }
+            } else {
+                const error = new Excepcion('Semantico',
+                    `Error, Operador desconocido`,
+                    this.line, this.column);
+                tree.excepciones.push(error);
+                tree.consola.push(error.toString());
+                return error;
             }
         } else {
             const resultadoDerecho = this.operadorDer.execute(table, tree);

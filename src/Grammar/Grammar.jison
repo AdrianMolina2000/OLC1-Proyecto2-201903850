@@ -6,6 +6,7 @@
     const {Tipo, tipos, esEntero} = require('../other/tipo');
     const {Tree} = require('../Simbols/Tree');
     const {Aritmetica} = require('../Expresiones/Aritmetica');
+    const {Logico} = require('../Expresiones/Logico');
 
 
 
@@ -251,7 +252,7 @@ declaracionVar
 
 expresion 
 	:MENOS expresion %prec UMENOS	 	{$$ = new Aritmetica(null, $2, '-', @1.first_line, @1.first_column);}		
-    |NOT expresion	               		{$$ = $1+$2;}	
+    |NOT expresion	               		{$$ = new Logico(null, $2, '!', @1.first_line, @1.first_column);}	
     |expresion MAS expresion      		{$$ = new Aritmetica($1, $3, '+', @1.first_line, @1.first_column);}	
     |expresion MENOS expresion      	{$$ = new Aritmetica($1, $3, '-', @1.first_line, @1.first_column);}		
     |expresion POR expresion      		{$$ = new Aritmetica($1, $3, '*', @1.first_line, @1.first_column);}		
@@ -264,8 +265,8 @@ expresion
     |expresion MENORIGUALQ expresion	{$$ = $1+$2+$3;}			   
     |expresion IGUALA expresion	  		{$$ = $1+$2+$3;}			
     |expresion DIFERENTED expresion	   	{$$ = $1+$2+$3;}
-    |expresion OR expresion	  			{$$ = $1+$2+$3;}
-    |expresion AND expresion			{$$ = $1+$2+$3;}
+    |expresion OR expresion	  			{$$ = new Logico($1, $3, '||', @1.first_line, @1.first_column);}
+    |expresion AND expresion			{$$ = new Logico($1, $3, '&&', @1.first_line, @1.first_column);}
     |ID				                    
 //  |ENTERO                             {$$ = new Primitivo(new Tipo(tipos.ENTERO), Number($1), _$.first_line, _$.first_column);}                                                 
     |DECIMAL                            {$$ = new Primitivo(new Tipo(esEntero(Number($1))), Number($1), @1.first_line, @1.first_column);}                                                  
