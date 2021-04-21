@@ -7,7 +7,7 @@ import { Excepcion } from './other/Excepcion';
 const parser = require('./Grammar/Grammar.js');
 const cors = require('cors');
 const app = express();
-const port = 4003;
+const port = 3000;
 app.use(cors());
 
 app.use(express.static(__dirname + '/public'));

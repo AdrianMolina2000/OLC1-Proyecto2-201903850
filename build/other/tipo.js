@@ -12,6 +12,15 @@ var tipos;
     tipos[tipos["ARRAY"] = 7] = "ARRAY";
     tipos[tipos["VOID"] = 8] = "VOID";
 })(tipos = exports.tipos || (exports.tipos = {}));
+function esEntero(numero) {
+    if (numero % 1 == 0) {
+        return tipos.ENTERO;
+    }
+    else {
+        return tipos.DECIMAL;
+    }
+}
+exports.esEntero = esEntero;
 class Tipo {
     constructor(tipo) {
         this.tipo = tipo;

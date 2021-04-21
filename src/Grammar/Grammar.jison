@@ -3,9 +3,12 @@
     const {Primitivo} = require('../Expresiones/Primitivo');
     const {Print} = require('../Instrucciones/Print');
     const {Excepcion} = require('../other/Excepcion');
-    const {Tipo, tipos} = require('../other/tipo');
+    const {Tipo, tipos, esEntero} = require('../other/tipo');
     const {Tree} = require('../Simbols/Tree');
     const {Aritmetica} = require('../Expresiones/Aritmetica');
+
+
+
 %}
 /* Definición Léxica */
 %lex
@@ -250,9 +253,9 @@ expresion
 	:MENOS expresion %prec UMENOS	 	{$$ = $1+$2;}		
     |NOT expresion	               		{$$ = $1+$2;}	
     |expresion MAS expresion      		{$$ = new Aritmetica($1, $3, '+', @1.first_line, @1.first_column);}	
-    |expresion MENOS expresion      	{$$ = $1+$2+$3;}		
-    |expresion POR expresion      		{$$ = $1+$2+$3;}	
-    |expresion DIVIDIDO expresion		{$$ = $1+$2+$3;}	
+    |expresion MENOS expresion      	{$$ = new Aritmetica($1, $3, '-', @1.first_line, @1.first_column);}		
+    |expresion POR expresion      		{$$ = new Aritmetica($1, $3, '*', @1.first_line, @1.first_column);}		
+    |expresion DIVIDIDO expresion		{$$ = new Aritmetica($1, $3, '/', @1.first_line, @1.first_column);}		
     |expresion MOD expresion			{$$ = $1+$2+$3;}
     |expresion POT expresion			{$$ = $1+$2+$3;}
 	|expresion MENORQ expresion	 		{$$ = $1+$2+$3;}	
@@ -265,7 +268,7 @@ expresion
     |expresion AND expresion			{$$ = $1+$2+$3;}
     |ID				                    
 //  |ENTERO                             {$$ = new Primitivo(new Tipo(tipos.ENTERO), Number($1), _$.first_line, _$.first_column);}                                                 
-    |DECIMAL                            {$$ = new Primitivo(new Tipo(tipos.NUMERO), Number($1), @1.first_line, @1.first_column);}                                                  
+    |DECIMAL                            {$$ = new Primitivo(new Tipo(esEntero(Number($1))), Number($1), @1.first_line, @1.first_column);}                                                  
     |TRUE			                    {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), true, @1.first_line, @1.first_column);} 
     |FALSE				                {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), false, @1.first_line, @1.first_column);}
     |CADENA		                        {$$ = new Primitivo(new Tipo(tipos.STRING), $1.replace(/\"/g,""), @1.first_line, @1.first_column);} 

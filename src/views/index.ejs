@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Compilador</title>
     <link rel="stylesheet" href="/css/codemirror.css">
-    <link rel="stylesheet" href="/css/dracula.css">
+    <!-- <link rel="stylesheet" href="/css/dracula.css"> -->
+    <link rel="stylesheet" href="/css/material-darker.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/main.css">
     <link href="https://fonts.googleapis.com/css?family=Slabo+27px&display=swap" rel="stylesheet">
@@ -47,7 +48,8 @@
     <script src="/js/codemirror.js"></script>
     <script src="/js/Jquery.js"></script>
     <script src="/js/bootstrap.js"></script>
-    <script src="/Mode/javascript/javascript.js"></script>
+    <!-- <script src="/Mode/javascript/javascript.js"></script> -->
+    <script src="/Mode/python/python.js"></script>
     <script src="/Mode/pascal/pascal.js"></script>
     <script>
         function ejecutar() {
@@ -55,11 +57,11 @@
         }
         const editor = CodeMirror.fromTextArea(entrada, {
             lineNumbers: true,
-            mode: "javascript",
-            theme: "dracula"
+            mode: "python",
+            theme: "material-darker"
         });
 
-        editor.setSize(500, 700);
+        editor.setSize(500, 400);
     </script>
 </body>
 

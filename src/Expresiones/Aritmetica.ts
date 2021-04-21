@@ -38,13 +38,13 @@ export class Aritmetica extends Nodo {
 
             if (this.operador === '+') {
                 //ENTERO + 
-                if (this.operadorIzq.tipo.tipo === tipos.NUMERO && esEntero(resultadoIzq)) {
+                if (this.operadorIzq.tipo.tipo === tipos.ENTERO) {
                     //ENTERO + ENTERO = ENTERO
-                    if (this.operadorDer.tipo.tipo === tipos.NUMERO && esEntero(resultadoDerecho)) {
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
                         this.tipo = new Tipo(tipos.ENTERO);
                         return resultadoIzq + resultadoDerecho;
                         //ENTERO + DECIMAL = DECIMAL
-                    } else if (this.operadorDer.tipo.tipo === tipos.NUMERO && !esEntero(resultadoDerecho)) {
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
                         this.tipo = new Tipo(tipos.DECIMAL);
                         return resultadoIzq + resultadoDerecho;
                         //ENTERO + BOOLEAN = ENTERO
@@ -67,13 +67,13 @@ export class Aritmetica extends Nodo {
                     }
 
                     //DOUBLE + 
-                } else if (this.operadorIzq.tipo.tipo === tipos.NUMERO && !esEntero(resultadoIzq)) {
+                } else if (this.operadorIzq.tipo.tipo === tipos.DECIMAL) {
                     //DOUBLE + ENTERO = DOUBLE
-                    if (this.operadorDer.tipo.tipo === tipos.NUMERO && esEntero(resultadoDerecho)) {
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
                         this.tipo = new Tipo(tipos.DECIMAL);
                         return resultadoIzq + resultadoDerecho;
                         //DOUBLE + DOUBLE = DOUBLE
-                    } else if (this.operadorDer.tipo.tipo === tipos.NUMERO && !esEntero(resultadoDerecho)) {
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
                         this.tipo = new Tipo(tipos.DECIMAL);
                         return resultadoIzq + resultadoDerecho;
                         //DOUBLE + BOOLEANO = DOUBLE
@@ -97,7 +97,7 @@ export class Aritmetica extends Nodo {
                     //BOOLEAN +
                 } else if (this.operadorIzq.tipo.tipo === tipos.BOOLEANO) {
                     //BOOL + ENTERO = ENTERO
-                    if (this.operadorDer.tipo.tipo === tipos.NUMERO && esEntero(resultadoDerecho)) {
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
                         if (resultadoIzq === true) {
                             this.tipo = new Tipo(tipos.ENTERO);
                             return resultadoDerecho + 1;
@@ -106,7 +106,7 @@ export class Aritmetica extends Nodo {
                             return resultadoDerecho;
                         }
                         //BOOL + DOUBLE = DOUBLE
-                    } else if (this.operadorDer.tipo.tipo === tipos.NUMERO && !esEntero(resultadoDerecho)) {
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
                         if (resultadoIzq === true) {
                             this.tipo = new Tipo(tipos.DECIMAL);
                             return resultadoDerecho + 1;
@@ -120,7 +120,7 @@ export class Aritmetica extends Nodo {
                         return resultadoIzq + resultadoDerecho;
                     } else {
                         const error = new Excepcion('Semantico',
-                            `No se pueden operar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            `No se pueden Sumar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
                             this.line, this.column);
                         tree.excepciones.push(error);
                         // tree.consola.push(error.toString());
@@ -129,11 +129,11 @@ export class Aritmetica extends Nodo {
                     //CHAR +
                 } else if (this.operadorIzq.tipo.tipo === tipos.CARACTER) {
                     //CHAR + ENTERO = ENTERO
-                    if (this.operadorDer.tipo.tipo === tipos.NUMERO && esEntero(resultadoDerecho)) {
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
                         this.tipo = new Tipo(tipos.ENTERO);
                         return resultadoIzq.charCodeAt(0) + resultadoDerecho;
                         //CHAR + DOUBLE = DOUBLE
-                    } else if (this.operadorDer.tipo.tipo === tipos.NUMERO && !esEntero(resultadoDerecho)) {
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
                         this.tipo = new Tipo(tipos.DECIMAL);
                         return resultadoIzq.charCodeAt(0) + resultadoDerecho;
                         //CHAR + CHAR = STRING
@@ -145,7 +145,7 @@ export class Aritmetica extends Nodo {
                         return resultadoIzq + resultadoDerecho;
                     } else {
                         const error = new Excepcion('Semantico',
-                            `No se pueden operar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            `No se pueden Sumar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
                             this.line, this.column);
                         tree.excepciones.push(error);
                         // tree.consola.push(error.toString());
@@ -154,11 +154,11 @@ export class Aritmetica extends Nodo {
                     //STRING
                 } else if (this.operadorIzq.tipo.tipo === tipos.STRING) {
                     //STRING + ENTERO = ENTERO
-                    if (this.operadorDer.tipo.tipo === tipos.NUMERO && esEntero(resultadoDerecho)) {
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
                         this.tipo = new Tipo(tipos.STRING);
                         return resultadoIzq + resultadoDerecho;
                         //STRING + DOUBLE = DOUBLE
-                    } else if (this.operadorDer.tipo.tipo === tipos.NUMERO && !esEntero(resultadoDerecho)) {
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
                         this.tipo = new Tipo(tipos.STRING);
                         return resultadoIzq + resultadoDerecho;
                         //STRING + CHAR = STRING
@@ -175,67 +175,289 @@ export class Aritmetica extends Nodo {
                         return resultadoIzq + resultadoDerecho;
                     } else {
                         const error = new Excepcion('Semantico',
-                            `No se pueden operar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            `No se pueden Sumar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
                             this.line, this.column);
                         tree.excepciones.push(error);
                         // tree.consola.push(error.toString());
                         return error;
                     }
+                } else {
+                    const error = new Excepcion('Semantico',
+                        `No se pueden Sumar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                        this.line, this.column);
+                    tree.excepciones.push(error);
+                    // tree.consola.push(error.toString());
+                    return error;
+                }
+            } else if (this.operador === '-') {
+                //ENTERO - 
+                if (this.operadorIzq.tipo.tipo === tipos.ENTERO) {
+                    //ENTERO - ENTERO = ENTERO
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.ENTERO);
+                        return resultadoIzq - resultadoDerecho;
+                        //ENTERO - DECIMAL = DECIMAL
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq - resultadoDerecho;
+                        //ENTERO - BOOLEAN = ENTERO
+                    } else if (this.operadorDer.tipo.tipo === tipos.BOOLEANO) {
+                        if (resultadoDerecho === true) {
+                            this.tipo = new Tipo(tipos.ENTERO);
+                            return resultadoIzq - 1;
+                        } else {
+                            this.tipo = new Tipo(tipos.ENTERO);
+                            return resultadoIzq;
+                        }
+                        //ENTERO - CHAR = ENTERO
+                    } else if (this.operadorDer.tipo.tipo === tipos.CARACTER) {
+                        this.tipo = new Tipo(tipos.ENTERO);
+                        return resultadoIzq - resultadoDerecho.charCodeAt(0);
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se pueden Restar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+
+                    //DOUBLE -
+                } else if (this.operadorIzq.tipo.tipo === tipos.DECIMAL) {
+                    //DOUBLE - ENTERO = DOUBLE
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq - resultadoDerecho;
+                        //DOUBLE - DOUBLE = DOUBLE
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq - resultadoDerecho;
+                        //DOUBLE - BOOLEANO = DOUBLE
+                    } else if (this.operadorDer.tipo.tipo === tipos.BOOLEANO) {
+                        if (resultadoDerecho === true) {
+                            this.tipo = new Tipo(tipos.DECIMAL);
+                            return resultadoIzq - 1;
+                        } else {
+                            this.tipo = new Tipo(tipos.DECIMAL);
+                            return resultadoIzq;
+                        }
+                        //DOUBLE - CARACTER = DOUBLE
+                    } else if (this.operadorDer.tipo.tipo === tipos.CARACTER) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq - resultadoDerecho.charCodeAt(0);
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se pueden Restar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                    //BOOLEAN -
+                } else if (this.operadorIzq.tipo.tipo === tipos.BOOLEANO) {
+                    //BOOL - ENTERO = ENTERO
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        if (resultadoIzq === true) {
+                            this.tipo = new Tipo(tipos.ENTERO);
+                            return 1 - resultadoDerecho;
+                        } else {
+                            this.tipo = new Tipo(tipos.ENTERO);
+                            return 0 - resultadoDerecho;
+                        }
+                        //BOOL - DOUBLE = DOUBLE
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        if (resultadoIzq === true) {
+                            this.tipo = new Tipo(tipos.DECIMAL);
+                            return 1 - resultadoDerecho;
+                        } else {
+                            this.tipo = new Tipo(tipos.DECIMAL);
+                            return 0 - resultadoDerecho;
+                        }
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se pueden Restar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                    //CHAR -
+                } else if (this.operadorIzq.tipo.tipo === tipos.CARACTER) {
+                    //CHAR - ENTERO = ENTERO
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.ENTERO);
+                        return resultadoIzq.charCodeAt(0) - resultadoDerecho;
+                        //CHAR - DOUBLE = DOUBLE
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq.charCodeAt(0) - resultadoDerecho;
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se pueden Restar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                } else {
+                    const error = new Excepcion('Semantico',
+                        `No se pueden Restar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                        this.line, this.column);
+                    tree.excepciones.push(error);
+                    // tree.consola.push(error.toString());
+                    return error;
+                }
+            } else if (this.operador === '*') {
+                //ENTERO * 
+                if (this.operadorIzq.tipo.tipo === tipos.ENTERO) {
+                    //ENTERO * ENTERO = ENTERO
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.ENTERO);
+                        return resultadoIzq * resultadoDerecho;
+                        //ENTERO * DECIMAL = DECIMAL
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq * resultadoDerecho;
+                        //ENTERO * CHAR = ENTERO
+                    } else if (this.operadorDer.tipo.tipo === tipos.CARACTER) {
+                        this.tipo = new Tipo(tipos.ENTERO);
+                        return resultadoIzq * resultadoDerecho.charCodeAt(0);
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se pueden Multiplicar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                    //DOUBLE *
+                } else if (this.operadorIzq.tipo.tipo === tipos.DECIMAL) {
+                    //DOUBLE * ENTERO = DOUBLE
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq * resultadoDerecho;
+                        //DOUBLE * DOUBLE = DOUBLE
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq * resultadoDerecho;
+                        //DOUBLE * CHAR = DOUBLE
+                    } else if (this.operadorDer.tipo.tipo === tipos.CARACTER) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq * resultadoDerecho.charCodeAt(0);
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se pueden Multiplicar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                    //CHAR *
+                } else if (this.operadorIzq.tipo.tipo === tipos.CARACTER) {
+                    //CHAR * ENTERO = ENTERO
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.ENTERO);
+                        return resultadoIzq.charCodeAt(0) * resultadoDerecho;
+                        //CHAR * DOUBLE = DOUBLE
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq.charCodeAt(0) * resultadoDerecho;
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se pueden Multiplicar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                } else {
+                    const error = new Excepcion('Semantico',
+                        `No se pueden Multiplicar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                        this.line, this.column);
+                    tree.excepciones.push(error);
+                    // tree.consola.push(error.toString());
+                    return error;
+                }
+            } else if (this.operador === '/') {
+                //DIVISION SOBRE 0
+                if (resultadoDerecho === 0) {
+                    const error = new Excepcion('Semantico',
+                        `Error aritmetico, La division con cero no esta permitida`,
+                        this.line, this.column);
+                    tree.excepciones.push(error);
+                    return error;
+                }
+                //ENTERO / 
+                if (this.operadorIzq.tipo.tipo === tipos.ENTERO) {
+                    //ENTERO / ENTERO = DOUBLE
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq / resultadoDerecho;
+                        //DECIMAL / DECIMAL = DECIMAL
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq / resultadoDerecho;
+                        //ENTERO / CHAR = DECIMAL
+                    } else if (this.operadorDer.tipo.tipo === tipos.CARACTER) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq / resultadoDerecho.charCodeAt(0);
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se pueden Dividir los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                    //DOUBLE /
+                } else if (this.operadorIzq.tipo.tipo === tipos.DECIMAL) {
+                    //DOUBLE / ENTERO = DOUBLE
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq / resultadoDerecho;
+                        //DOUBLE / DOUBLE = DOUBLE
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq / resultadoDerecho;
+                        //DOUBLE / CHAR = DOUBLE
+                    } else if (this.operadorDer.tipo.tipo === tipos.CARACTER) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq / resultadoDerecho.charCodeAt(0);
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se pueden Dividir los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                    //CHAR /
+                } else if (this.operadorIzq.tipo.tipo === tipos.CARACTER) {
+                    //CHAR / ENTERO = DECIMAL
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq.charCodeAt(0) / resultadoDerecho;
+                        //CHAR / DOUBLE = DECIMAL
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq.charCodeAt(0) / resultadoDerecho;
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se pueden Dividir los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                } else {
+                    const error = new Excepcion('Semantico',
+                        `No se pueden Dividir los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                        this.line, this.column);
+                    tree.excepciones.push(error);
+                    // tree.consola.push(error.toString());
+                    return error;
                 }
             }
-            //  else if (this.operador === '-') {
-            //     if (this.operadorIzq.tipo.tipo === tipos.NUMERIC && this.operadorDer.tipo.tipo === tipos.NUMERIC) {
-            //         this.tipo = new Tipo(tipos.NUMERIC);
-            //         return resultadoIzq - resultadoDerecho;
-            //     } else {
-            //         console.log(this.operadorIzq)
-            //         const error = new Excepcion('Semantico',
-            //             `Error de tipos en la resta se esta tratando de operar ${this.operadorIzq.tipo.tipo} y ${this.operadorDer.tipo.tipo}`,
-            //             this.line, this.column);
-            //         tree.excepciones.push(error);
-            //         tree.console.push(error.toString());
-            //         return error;
-            //     }
-            // } else if (this.operador === '*') {
-            //     if (this.operadorIzq.tipo.tipo === tipos.NUMERIC && this.operadorDer.tipo.tipo === tipos.NUMERIC) {
-            //         this.tipo = new Tipo(tipos.NUMERIC);
-            //         return resultadoIzq * resultadoDerecho;
-            //     } else {
-            //         const error = new Excepcion('Semantico',
-            //             `Error de tipos en la multiplicacion se esta tratando de operar ${this.operadorIzq.tipo.tipo} y ${this.operadorDer.tipo.tipo}`,
-            //             this.line, this.column);
-            //         tree.excepciones.push(error);
-            //         tree.console.push(error.toString());
-            //         return error;
-            //     }
-            // } else if (this.operador === '/') {
-            //     if (this.operadorIzq.tipo.tipo === tipos.NUMERIC && this.operadorDer.tipo.tipo === tipos.NUMERIC) {
-            //         this.tipo = new Tipo(tipos.NUMERIC);
-            //         if (resultadoDerecho === 0) {
-            //             const error = new Excepcion('Semantico',
-            //                 `Error aritmetico, La division con cero no esta permitida`,
-            //                 this.line, this.column);
-            //             tree.excepciones.push(error);
-            //             tree.console.push(error.toString());
-            //             return error;
-            //         }
-            //         return resultadoIzq / resultadoDerecho;
-            //     } else {
-            //         const error = new Excepcion('Semantico',
-            //             `Error de tipos en la division se esta tratando de operar ${this.operadorIzq.tipo.tipo} y ${this.operadorDer.tipo.tipo}`,
-            //             this.line, this.column);
-            //         tree.excepciones.push(error);
-            //         tree.console.push(error.toString());
-            //         return error;
-            //     }
-            // } else {
-            //     const error = new Excepcion('Semantico',
-            //         `Error, Operador desconocido`,
-            //         this.line, this.column);
-            //     tree.excepciones.push(error);
-            //     tree.console.push(error.toString());
-            //     return error;
-            // }
         } else {
             const resultadoIzq = this.operadorIzq.execute(table, tree);
             if (resultadoIzq instanceof Excepcion) {

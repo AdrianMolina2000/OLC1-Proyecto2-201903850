@@ -11,6 +11,14 @@ export enum tipos {
     VOID
 }
 
+export function esEntero(numero: number) {
+    if (numero % 1 == 0) {
+        return tipos.ENTERO;
+    } else {
+        return tipos.DECIMAL;
+    }
+}
+
 export class Tipo {
     tipo: tipos;
 
