@@ -16,6 +16,11 @@ export class Primitivo extends Nodo{
     }
 
     execute(table: Table, tree: Tree) {
+        if(typeof(this.valor) === "string"){
+            this.valor = this.valor.replace(/\\n/g,"\n");
+            this.valor = (<string>this.valor).replace(/\\t/g,"\t");
+            this.valor = (<string>this.valor).replace(/\\\'/g,"\'");
+        }
         return this.valor;
     }
 }

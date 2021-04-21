@@ -26,7 +26,7 @@ export class Aritmetica extends Nodo {
     }
 
     execute(table: Table, tree: Tree) {
-        if (this.operadorDer !== null) {
+        if (this.operadorIzq !== null) {
             const resultadoIzq = this.operadorIzq.execute(table, tree);
             if (resultadoIzq instanceof Excepcion) {
                 return resultadoIzq;
@@ -457,19 +457,109 @@ export class Aritmetica extends Nodo {
                     // tree.consola.push(error.toString());
                     return error;
                 }
+            } else if (this.operador === '^') {
+                //ENTERO ^ 
+                if (this.operadorIzq.tipo.tipo === tipos.ENTERO) {
+                    //ENTERO ^ ENTERO = ENTERO
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.ENTERO);
+                        return Math.pow(resultadoIzq, resultadoDerecho);
+                        //ENTERO ^ DECIMAL = DECIMAL
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return Math.pow(resultadoIzq, resultadoDerecho);
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se pueden Potenciar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                    //DOUBLE ^
+                } else if (this.operadorIzq.tipo.tipo === tipos.DECIMAL) {
+                    //DOUBLE ^ ENTERO = DOUBLE
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return Math.pow(resultadoIzq, resultadoDerecho);
+                        //DOUBLE ^ DOUBLE = DOUBLE
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return Math.pow(resultadoIzq, resultadoDerecho);
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se pueden Potenciar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                } else {
+                    const error = new Excepcion('Semantico',
+                        `No se pueden Potenciar los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                        this.line, this.column);
+                    tree.excepciones.push(error);
+                    // tree.consola.push(error.toString());
+                    return error;
+                }
+            } else if (this.operador === '%') {
+                //ENTERO % 
+                if (this.operadorIzq.tipo.tipo === tipos.ENTERO) {
+                    //ENTERO % ENTERO = DOUBLE
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq % resultadoDerecho;
+                        //ENTERO ^ DECIMAL = DECIMAL
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq % resultadoDerecho;
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se puede aplicar modulo con los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                    //DOUBLE ^
+                } else if (this.operadorIzq.tipo.tipo === tipos.DECIMAL) {
+                    //DOUBLE % ENTERO = DOUBLE
+                    if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq % resultadoDerecho;
+                        //DOUBLE % DOUBLE = DOUBLE
+                    } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
+                        this.tipo = new Tipo(tipos.DECIMAL);
+                        return resultadoIzq % resultadoDerecho;
+                    } else {
+                        const error = new Excepcion('Semantico',
+                            `No se puede aplicar modulo los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        // tree.consola.push(error.toString());
+                        return error;
+                    }
+                } else {
+                    const error = new Excepcion('Semantico',
+                        `No se puede aplicar modulo los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`,
+                        this.line, this.column);
+                    tree.excepciones.push(error);
+                    // tree.consola.push(error.toString());
+                    return error;
+                }
             }
         } else {
-            const resultadoIzq = this.operadorIzq.execute(table, tree);
-            if (resultadoIzq instanceof Excepcion) {
-                return resultadoIzq;
+            const resultadoDerecho = this.operadorDer.execute(table, tree);
+            if (resultadoDerecho instanceof Excepcion) {
+                return resultadoDerecho;
             }
             if (this.operador === '-') {
-                if (this.operadorIzq.tipo.tipo === tipos.ENTERO) {
+                if (this.operadorDer.tipo.tipo === tipos.ENTERO) {
                     this.tipo = new Tipo(tipos.ENTERO);
-                    return -1 * resultadoIzq;
-                } else if (this.operadorIzq.tipo.tipo === tipos.DECIMAL) {
+                    return -1 * resultadoDerecho;
+                } else if (this.operadorDer.tipo.tipo === tipos.DECIMAL) {
                     this.tipo = new Tipo(tipos.DECIMAL);
-                    return -1 * resultadoIzq;
+                    return -1 * resultadoDerecho;
                 }
             } else {
                 const error = new Excepcion('Semantico',

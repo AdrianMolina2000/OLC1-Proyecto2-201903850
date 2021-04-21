@@ -102,7 +102,7 @@
 [0-9]+("."[0-9]+)?\b  	return 'DECIMAL';
 [0-9]+\b 	            return 'ENTERO';
 ([a-zA-Z])[a-zA-Z0-9_]*	return 'ID';
-\"[^"]*\"               return 'CADENA';
+\"([^"]|\")*\"               return 'CADENA';
 (\'[^']\')            	return 'CARACTER';
 
 
@@ -250,14 +250,14 @@ declaracionVar
 ;
 
 expresion 
-	:MENOS expresion %prec UMENOS	 	{$$ = $1+$2;}		
+	:MENOS expresion %prec UMENOS	 	{$$ = new Aritmetica(null, $2, '-', @1.first_line, @1.first_column);}		
     |NOT expresion	               		{$$ = $1+$2;}	
     |expresion MAS expresion      		{$$ = new Aritmetica($1, $3, '+', @1.first_line, @1.first_column);}	
     |expresion MENOS expresion      	{$$ = new Aritmetica($1, $3, '-', @1.first_line, @1.first_column);}		
     |expresion POR expresion      		{$$ = new Aritmetica($1, $3, '*', @1.first_line, @1.first_column);}		
     |expresion DIVIDIDO expresion		{$$ = new Aritmetica($1, $3, '/', @1.first_line, @1.first_column);}		
-    |expresion MOD expresion			{$$ = $1+$2+$3;}
-    |expresion POT expresion			{$$ = $1+$2+$3;}
+    |expresion MOD expresion			{$$ = new Aritmetica($1, $3, '%', @1.first_line, @1.first_column);}	
+    |expresion POT expresion			{$$ = new Aritmetica($1, $3, '^', @1.first_line, @1.first_column);}	
 	|expresion MENORQ expresion	 		{$$ = $1+$2+$3;}	
     |expresion MAYORA expresion         {$$ = $1+$2+$3;}			
     |expresion MAYORIGUALQ expresion	{$$ = $1+$2+$3;}			  

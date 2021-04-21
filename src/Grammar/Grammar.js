@@ -200,7 +200,10 @@ break;
 case 59:
 console.log('Asignar {' + $$[$0-1] + '} a la posicion {' + $$[$0-5] + '} de la lista {'+$$[$0-8]+'}');
 break;
-case 60: case 61:
+case 60:
+this.$ = new Aritmetica(null, $$[$0], '-', _$[$0-1].first_line, _$[$0-1].first_column);
+break;
+case 61:
 this.$ = $$[$0-1]+$$[$0];
 break;
 case 62:
@@ -215,8 +218,11 @@ break;
 case 65:
 this.$ = new Aritmetica($$[$0-2], $$[$0], '/', _$[$0-2].first_line, _$[$0-2].first_column);
 break;
-case 66: case 67: case 68: case 69: case 70: case 71: case 72: case 73: case 74: case 75: case 84: case 96: case 97: case 98:
+case 66: case 68: case 69: case 70: case 71: case 72: case 73: case 74: case 75: case 84: case 96: case 97: case 98:
 this.$ = $$[$0-2]+$$[$0-1]+$$[$0];
+break;
+case 67:
+this.$ = new Aritmetica($$[$0-2], $$[$0], '^', _$[$0-2].first_line, _$[$0-2].first_column);
 break;
 case 77:
 this.$ = new Primitivo(new Tipo(esEntero(Number($$[$0]))), Number($$[$0]), _$[$0].first_line, _$[$0].first_column);
