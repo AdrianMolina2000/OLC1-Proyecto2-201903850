@@ -1,21 +1,68 @@
 import express from 'express';
-import routeJPR from './routes/principal.route';
-import cors from 'cors';
+import { Table } from './Simbols/Table';
+import { Break } from './Expresiones/Break';
+import { Continue } from './Expresiones/Continue';
+import { Excepcion } from './other/Excepcion';
 
+const parser = require('./Grammar/Grammar.js');
+const cors = require('cors');
 const app = express();
-
-app.set('port', process.env.PORT || 3000);
-
+const port = 4003;
 app.use(cors());
-app.use(express.json({limit:'50mb'}));
-app.use(express.urlencoded({limit:'50mb', extended: false}));
 
-app.use('/', routeJPR);
+app.use(express.static(__dirname + '/public'));
+app.set('view engine', 'ejs');
 
-app.get('**',(req,res)=>{
-    res.send("Aqui no hay nada");
-})
+app.set('views', __dirname);
+app.use(express.urlencoded());
+app.use(express.json());
 
-app.listen(app.get('port'), () => {
-    console.log(`Server on port ${app.get('port')}`);
+app.get('/', (req, res) => {
+  res.render('views/index', {
+    entrada: '',
+    consola: [],
+    errores: []
+  });
+}).get('/analizar', (req, res) => {
+  res.render('views/index', {
+    entrada: '',
+    consola: [],
+    errores: []
+  });
+});
+
+app.post('/analizar', (req, res) => {
+  const { entrada, consola } = req.body;
+  if (!entrada) {
+    return res.redirect('/');
+  }
+  const tree = parser.parse(entrada);
+  const tabla = new Table(null);
+
+  tree.instrucciones.map((m: any) => {
+    const res = m.execute(tabla, tree);
+    if (res instanceof Break) {
+      const error = new Excepcion('Semantico',
+        `Sentencia break fuera de un ciclo`,
+        res.line, res.column);
+      tree.excepciones.push(error);
+      tree.consola.push(error.toString());
+    } else if (res instanceof Continue) {
+      const error = new Excepcion('Semantico',
+        `Sentencia continue fuera de un ciclo`,
+        res.line, res.column);
+      tree.excepciones.push(error);
+      tree.consola.push(error.toString());
+    }
+  });
+  
+  res.render('views/index', {
+    entrada,
+    consola: tree.consola,
+    errores: tree.excepciones
+  });
+});
+
+app.listen(port, err => {
+  return console.log(`server is listening on ${port}`);
 });

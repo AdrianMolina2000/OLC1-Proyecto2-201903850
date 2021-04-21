@@ -5,6 +5,7 @@
     const {Excepcion} = require('../other/Excepcion');
     const {Tipo, tipos} = require('../other/tipo');
     const {Tree} = require('../Simbols/Tree');
+    const {Aritmetica} = require('../Expresiones/Aritmetica');
 %}
 /* Definición Léxica */
 %lex
@@ -125,7 +126,6 @@ ini
 ;
 
 instrucciones
-	// :instruccion instrucciones      {$1.push($2);}
 	:instrucciones instruccion      {$$ = $1; $1.push($2);}
 	|instruccion                    {$$=[$1];}
 ;
@@ -226,7 +226,7 @@ for_increment
 ;
 
 sentencia_print
-    :PRINT PARIZQ expresion PARDER PTCOMA           { $$ = new Print($3, _$.first_line, _$.first_column);}
+    :PRINT PARIZQ expresion PARDER PTCOMA           { $$ = new Print($3, @1.first_line, @1.first_column);}
 ;
 
 sentencia_return
@@ -249,7 +249,7 @@ declaracionVar
 expresion 
 	:MENOS expresion %prec UMENOS	 	{$$ = $1+$2;}		
     |NOT expresion	               		{$$ = $1+$2;}	
-    |expresion MAS expresion      		{$$ = $1+$2+$3;}	
+    |expresion MAS expresion      		{$$ = new Aritmetica($1, $3, '+', @1.first_line, @1.first_column);}	
     |expresion MENOS expresion      	{$$ = $1+$2+$3;}		
     |expresion POR expresion      		{$$ = $1+$2+$3;}	
     |expresion DIVIDIDO expresion		{$$ = $1+$2+$3;}	
@@ -264,12 +264,12 @@ expresion
     |expresion OR expresion	  			{$$ = $1+$2+$3;}
     |expresion AND expresion			{$$ = $1+$2+$3;}
     |ID				                    
-    |ENTERO                             {$$ = new Primitivo(new Tipo(tipos.ENTERO), Number($1), _$.first_line, _$.first_column);}                                                 
-    |DECIMAL                            {$$ = new Primitivo(new Tipo(tipos.DECIMAL), Number($1), _$.first_line, _$.first_column);}                                                  
-    |TRUE			                    {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), true, _$.first_line, _$.first_column);} 
-    |FALSE				                {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), false, _$.first_line, _$.first_column);}
-    |CADENA		                        {$$ = new Primitivo(new Tipo(tipos.STRING), $1.replace(/\"/g,""), _$.first_line, _$.first_column);} 
-    |CARACTER                           {$$ = new Primitivo(new Tipo(tipos.CARACTER), $1.replace(/\'/g,""), _$.first_line, _$.first_column);} 
+//  |ENTERO                             {$$ = new Primitivo(new Tipo(tipos.ENTERO), Number($1), _$.first_line, _$.first_column);}                                                 
+    |DECIMAL                            {$$ = new Primitivo(new Tipo(tipos.NUMERO), Number($1), @1.first_line, @1.first_column);}                                                  
+    |TRUE			                    {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), true, @1.first_line, @1.first_column);} 
+    |FALSE				                {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), false, @1.first_line, @1.first_column);}
+    |CADENA		                        {$$ = new Primitivo(new Tipo(tipos.STRING), $1.replace(/\"/g,""), @1.first_line, @1.first_column);} 
+    |CARACTER                           {$$ = new Primitivo(new Tipo(tipos.CARACTER), $1.replace(/\'/g,""), @1.first_line, @1.first_column);} 
     |ID CORIZQ CORIZQ ENTERO CORDER CORDER  {$$ = $1+$2+$3+$4+$5+$6;}	
     |ID CORIZQ ENTERO CORDER                {$$ = $1+$2+$3+$4;}	
     |PARIZQ expresion PARDER			    {$$ = $1+$2+$3;}	

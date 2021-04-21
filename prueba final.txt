@@ -1,0 +1,362 @@
+//Comentario mamalon unilinea
+int nUm;
+int var1;
+int var11 = 5;
+double var2;
+boolean var3;
+boolean var4 = false;
+char var5 = '0';
+string var6 = "Nice";
+print("Declaracion esperada 0    :"+var1);
+print("Declaracion esperada 5    :"+var11);
+print("Declaracion esperada 0.0  :"+var2);
+print("Declaracion esperada true :"+var3);
+print("Declaracion esperada false:"+var4);
+print("Declaracion esperada 0    :"+var5);
+print("Declaracion esperada Nice :"+var6);
+print("Probando recuperación con errores semánticos");
+int entero = 4.5;
+print("Declaracion esperada $error$:"+entero);
+/* Comentario mamalon multilinea en una linea por si los gatos */
+print("");
+
+NUM = 15;
+print("Asignacion esperada 15    :"+num);
+var1 = num++;
+print("Asignacion esperada 16    :"+var1);
+var1 = 8 - 2+++1;
+print("Asignacion esperada 6     :"+var1);
+var4 = 2++==3;
+print("Asignacion esperada true  :"+var4);
+char v;
+var6 = "Ver" + "gon"+v;
+print("Asignacion esperada Vergon:"+var6);
+print("Probando errores semánticos");
+var1 = 1/2;
+print("Asignacion esperada 6   :"+var1);
+/* Comentario mamalon multilinea
+ahora si en varias lineas
+pa que no jodan */
+print("");
+/****Probando if**/
+num=5;
+if(num==5){
+    print("El if normal está chingon en verdadero");
+}else{
+    print("Incorrecto");
+}
+if(num<5){
+    print("Incorrecto");
+}else{
+    print("El if normal está chingon en falso");
+}
+print("Probando if sin nada adentro, si truena es porque está malo we");
+if(num==5){}
+num = 0;
+if(NUM<3){
+    print("El if anidado está chingon en la primera condicion");
+}else if(num<5){
+    print("Incorrecto");
+}else if(num<9){
+    print("Incorrecto");
+}else if(num<15){
+    print("Incorrecto");
+}else{
+    print("Incorrecto");
+}
+num=15;
+if(NUM<3){
+    print("Incorrecto");
+}else if(num<5){
+    print("Incorrecto");
+}else if(num<9){
+    print("Incorrecto");
+}else if(num<15){
+    print("Incorrecto");
+}else{
+    print("El if anidado está chingon en el else");
+}
+num = 10;
+if(NUM<3){
+    print("Incorrecto");
+}else if(num<5){
+    print("Incorrecto");
+}else if(num<9){
+    print("Incorrecto");
+}else if(num<15){
+    print("El if anidado está chingon en el la anidacion");
+}else{
+    print("Incorrecto");
+}
+print("");
+string nombre = "El Brayan";
+//Probando switch
+switch(nombre){
+    case "Nombre1":
+        print("Incorrecto");
+        break;
+    case "Nombre2":
+        print("Incorrecto");
+        break;
+    case "El brayan":
+        print("Incorrecto");
+        break;
+        case "El Brayan":
+            print("Switch funciona correctamente con break");
+            break;
+    default:
+        print("No encontrado");
+        break;
+}
+switch(nombre){
+    default:
+        print("Solo default funciona correctamente con break");
+        break;
+}
+switch(nombre){
+    case "El Brayan":
+        print("Sin default funciona correctamente con break");
+        break;
+}switch(nombre){
+    case "El Brayan":
+        print("Switch funciona correctamente sin break contando de 1 a 3:");
+    case "Nombre1":
+        print("1");
+    case "Nombre2":
+        print("2");
+    case "El brayan":
+        print("3");
+    default:
+        print("No encontrado");
+}
+switch(nombre){
+    default:
+        print("Solo default funciona correctamente sin break");
+}
+switch(nombre){
+    case "El Brayan":
+        print("Sin default funciona correctamente sin break");
+}
+print("");
+/*****Ciclos****/
+print("Probando coincidencias de números para valuar ciclos");
+WHILE(TRue){
+    PRINT ("10:"+ nuM );
+    nUM = nUm-1;
+    if(NUm<13){
+        if(num == 9){
+            break;
+        }
+    }
+}
+num=15;
+WHILE(num>12){
+    PRINT ("Contando de 15 a 13: "+ nuM );
+    nUM--;
+}
+print("Saltandose el numero 3");
+num = 5;
+while(num>=1){
+    if(num==3){
+        num--;
+        continue;
+    }
+    print(num);
+    num--;
+}
+print("");
+print("Probando do while");
+do{
+    print("Ejecutado una vez");
+}while(FALSE);
+print("Contando hasta 3");
+int n;
+do{
+    n++;
+    print(n);
+    if(n>2){
+        break;
+    }
+}while(true);
+print("Contando hasta 3 otra vez");
+n=0;
+do{
+    n++;
+    print(n);
+}while(n<3);
+print("");
+num=5;
+print("Saltandose 7");
+do{
+    if(num==7){
+        num++;
+        continue;
+    }
+    print(num);
+    num++;
+}while(num<10);
+print("");
+num = 0;
+print("0 :"+num);
+num = num++;
+print("1 :"+num);
+num = num--;
+print ("0 :"+num);
+num = 5;
+print("-4:"+-num++);
+num++;
+num++;
+print("7 :"+num);
+num--;
+print("6 :"+num);
+print("Contando de 1 a 3");
+for(int a=1;a<=5;a++){
+    print("Iteracion "+a);
+    if(a==3){
+        break;
+    }
+}
+for(int i = 0; i < 9; i++){
+    if(i==5){
+        print("Me salte el numero " + i);
+        continue;
+    }
+    print(i);
+}
+print("");
+print("Probando errores de sentencias de transferencia");
+print("Probando error con break");
+break;
+print("Probando error con continue");
+continue;
+print("Probando error con return");
+return;
+print("");
+print("Probando el operador ternario");
+a=5;
+int b=6;
+boolean c=a+b>10?!(true==false):!(true!=false);
+print(a+"+"+b+" > 10  resultado  "+c);
+c=a+b<10?!(true==false):!(true!=false);
+print(a+"+"+b+" < 10  resultado  "+c);
+print("");
+print("Probando cadenas");
+print("Hola Mundo");
+print("C:\\carpeta\\Contenido");
+print("\tEsto es una tabulación");
+print("\rEsto es un retorno");
+print("\'Apostrofes\'");
+//print("\"Esto es una cadena de texto\"");
+//print('\'');
+print("");
+print("Probando funciones");
+print(suma(3,4));
+int suma(int num1,int num2){
+    return num1+num2;
+}
+int suma2(int num1,int num2){
+    int res = num1+num2;
+}
+void metodo(){
+    return 4;
+}
+print("Probando funciones sin retorno");
+suma2(3,4);
+print("Probando metodo con retorno");
+metodo();
+print("Funcion  7   :"+suma(3,4));
+void mi_metodo(){
+    int i;
+    for(i = 0; i < 9; i++){
+        if(i==5){
+            print("Saliendo del for");
+            return;
+        }
+    print(i);
+    }
+}
+print("Saliendo del for en 5");
+mi_metodo();
+int sumar(int n1, int n2){
+    int n3;
+    n3 = n1+n2;//retorno el valor
+    return n3; 
+}
+print("5+5 = " + sumar(5,5));
+double conversion(double pies, string tipo){
+    if (tipo == "metros"){
+        return pies/3.281;
+    }else{
+        return -1;
+    }
+}
+print("10 pies a metros   3.047851264858275:"+conversion(10,"metros")+" metros");
+print("Cualquier otro -1:"+conversion(10,"otro"));
+double v1 = (double)(INT)(-(int)2.5/0.5);
+print("-4  :"+v1);
+char[ ] vector1 = NEW char[4+1];
+print(vector1);
+int[ ] vector2 = {5+93, (int)5.38}; 
+char tmp = (char)vector2[0+0];
+print("b:"+tmp);
+string[ ] vector3 = {"hola", "Mundo"}; //creamos un vector de 2 posiciones de tipo string
+string valorPosicion = vector3[0]; //posición 0, valorPosicion = “hola”
+print("hola:"+valorPosicion);
+print("Error semántico:");
+int[ ] vectorNumero = {2020,2021,2022};
+vector3[0*1] = true;
+vector3[1+0] = "1er Semestre "+vectorNumero[1];
+print("1er Semestre 2021:"+vector3[1*1]);
+lIST<int> lISTa1 = NEW lIST<int>; //se crea una lISTa vacía de tipo entero
+print("Error semántico:");
+lIST<char> lIsTa2 = NEW lIST<int>;
+list<double> lista2 =new list<double>; 
+print(lista2);
+lista2.add(5);
+lista2.add(4.5);
+print("Error semántico:");
+lista2.add(true);
+print("5,4.5 : "+lista2);
+print("5 : "+lista2[0]);
+vector3[0*1] = (string)lista2[0];
+print("5 : "+vector3[0]);
+lista2[0]=vectorNumero[0*1];
+print("2020,4.5 : "+lista2);
+print("");
+string texto = "Texto de Prueba";
+print("Funciones nativas:");
+print("Probando la funcion lower con "+texto+"     Lower: "+toLower(texto)+"     Upper: "+TOUPPER(texto));
+print("Longitud de cadena   4:"+LENGTH("hola"));
+print("Longitud de vector   2:"+LENGTH(vector3));
+print("Longitud de lista   2:"+LENGTH(lista2));
+print("Truncando 5.99 a 5:"+TRUNCATE(5.99));
+print("Truncando 3 a 3:"+TRUNCATE(3));
+print("Redondeando 5.99 a 6:"+ROUND(5.99));
+print("Redondeando 3 a 3:"+ROUND(3));
+print("Tipo de 5  int:"+TYPEOF(5));
+print("Tipo de 5.1  double:"+TYPEOF(5.1));
+print("Tipo de true  boolean:"+TYPEOF(true));
+print("Tipo de 'a'  char:"+TYPEOF('a'));
+print("Tipo de texto  string:"+TYPEOF("texto"));
+print("Tipo de vector3  vector:"+TYPEOF(vector3));
+print("Tipo de lista2  lista:"+TYPEOF(lista2));
+print("To string  1:"+ TOSTRING(1));
+print("To string  1.5:"+ TOSTRING(1.5));
+print("To string  false:"+ TOSTRING(false));
+list<char> caracteres = TOCHARARRAY("Hola");
+print(caracteres);
+print("");
+print("Probando errores semánticos");
+print("Ingresando numero dentro de lower:");
+print(tolower(5));
+print("Ingresando numero dentro de upper:");
+print(toupper(5));
+print("Ingresando numero dentro de length:");
+print(length(5));
+print("Ingresando string dentro de truncate:");
+print(truncate("hola"));
+print("Ingresando string dentro de round:");
+print(round("hola"));
+print("Ingresando string dentro de toString:");
+print(tostring("hola"));
+exec mi_metodo();

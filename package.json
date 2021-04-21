@@ -1,25 +1,34 @@
 {
-  "name": "compi",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "tsc && node dist/index.js",
-    "jison": "jison src/controllers/analizador/principal.jison",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/cors": "^2.8.10",
-    "@types/express": "^4.16.1",
-    "tslint": "^5.12.1",
-    "typescript": "^3.3.3"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "jison": "^0.4.18"
-  }
+    "name": "proyecto2",
+    "version": "1.0.0",
+    "description": "Proyecto de OLC1",
+    "main": "index.js",
+    "scripts": {
+        "ts:node": "ts-node src/",
+        "build": "rimraf ./build && tsc && cpx \"./src/views/**\" ./build/views &&  cpx \"./src/public/**\" ./build/public",
+        "dev": "nodemon",
+        "start": "npm run build && node build/index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AdrianMolina2000/OLC1-Proyecto2-201903850"
+    },
+    "devDependencies": {
+        "tslint": "^6.1.1",
+        "typescript": "^3.8.3"
+    },
+    "dependencies": {
+        "@types/express": "^4.17.6",
+        "@types/node": "^13.13.2",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "cpx": "^1.5.0",
+        "ejs": "^3.0.2",
+        "express": "^4.17.1",
+        "jison": "^0.4.18",
+        "nodemon": "^2.0.3",
+        "rimraf": "^3.0.2",
+        "ts-node": "^8.9.0"
+    }
 }
