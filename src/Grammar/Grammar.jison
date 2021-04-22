@@ -7,6 +7,7 @@
     const {Tree} = require('../Simbols/Tree');
     const {Aritmetica} = require('../Expresiones/Aritmetica');
     const {Logico} = require('../Expresiones/Logico');
+    const {Relacional} = require('../Expresiones/Relacional');
 
 
 
@@ -251,32 +252,32 @@ declaracionVar
 ;
 
 expresion 
-	:MENOS expresion %prec UMENOS	 	{$$ = new Aritmetica(null, $2, '-', @1.first_line, @1.first_column);}		
-    |NOT expresion	               		{$$ = new Logico(null, $2, '!', @1.first_line, @1.first_column);}	
-    |expresion MAS expresion      		{$$ = new Aritmetica($1, $3, '+', @1.first_line, @1.first_column);}	
-    |expresion MENOS expresion      	{$$ = new Aritmetica($1, $3, '-', @1.first_line, @1.first_column);}		
-    |expresion POR expresion      		{$$ = new Aritmetica($1, $3, '*', @1.first_line, @1.first_column);}		
-    |expresion DIVIDIDO expresion		{$$ = new Aritmetica($1, $3, '/', @1.first_line, @1.first_column);}		
-    |expresion MOD expresion			{$$ = new Aritmetica($1, $3, '%', @1.first_line, @1.first_column);}	
-    |expresion POT expresion			{$$ = new Aritmetica($1, $3, '^', @1.first_line, @1.first_column);}	
-	|expresion MENORQ expresion	 		{$$ = $1+$2+$3;}	
-    |expresion MAYORA expresion         {$$ = $1+$2+$3;}			
-    |expresion MAYORIGUALQ expresion	{$$ = $1+$2+$3;}			  
-    |expresion MENORIGUALQ expresion	{$$ = $1+$2+$3;}			   
-    |expresion IGUALA expresion	  		{$$ = $1+$2+$3;}			
-    |expresion DIFERENTED expresion	   	{$$ = $1+$2+$3;}
-    |expresion OR expresion	  			{$$ = new Logico($1, $3, '||', @1.first_line, @1.first_column);}
-    |expresion AND expresion			{$$ = new Logico($1, $3, '&&', @1.first_line, @1.first_column);}
+	:MENOS expresion %prec UMENOS	 	    {$$ = new Aritmetica(null, $2, '-', @1.first_line, @1.first_column);}		
+    |NOT expresion	               		    {$$ = new Logico(null, $2, '!', @1.first_line, @1.first_column);}	
+    |expresion MAS expresion      		    {$$ = new Aritmetica($1, $3, '+', @1.first_line, @1.first_column);}	
+    |expresion MENOS expresion      	    {$$ = new Aritmetica($1, $3, '-', @1.first_line, @1.first_column);}		
+    |expresion POR expresion      		    {$$ = new Aritmetica($1, $3, '*', @1.first_line, @1.first_column);}		
+    |expresion DIVIDIDO expresion		    {$$ = new Aritmetica($1, $3, '/', @1.first_line, @1.first_column);}		
+    |expresion MOD expresion			    {$$ = new Aritmetica($1, $3, '%', @1.first_line, @1.first_column);}	
+    |expresion POT expresion			    {$$ = new Aritmetica($1, $3, '^', @1.first_line, @1.first_column);}	
+    |expresion MENORIGUALQ expresion	    {$$ = new Relacional($1, $3, '<=', @1.first_line, @1.first_column);}			   
+	|expresion MENORQ expresion	 		    {$$ = new Relacional($1, $3, '<', @1.first_line, @1.first_column);}	
+    |expresion MAYORIGUALQ expresion	    {$$ = new Relacional($1, $3, '>=', @1.first_line, @1.first_column);}			  
+    |expresion MAYORA expresion             {$$ = new Relacional($1, $3, '>', @1.first_line, @1.first_column);}			
+    |expresion IGUALA expresion	  		    {$$ = new Relacional($1, $3, '==', @1.first_line, @1.first_column);}			
+    |expresion DIFERENTED expresion	   	    {$$ = new Relacional($1, $3, '!=', @1.first_line, @1.first_column);}
+    |expresion OR expresion	  			    {$$ = new Logico($1, $3, '||', @1.first_line, @1.first_column);}
+    |expresion AND expresion			    {$$ = new Logico($1, $3, '&&', @1.first_line, @1.first_column);}
     |ID				                    
-//  |ENTERO                             {$$ = new Primitivo(new Tipo(tipos.ENTERO), Number($1), _$.first_line, _$.first_column);}                                                 
-    |DECIMAL                            {$$ = new Primitivo(new Tipo(esEntero(Number($1))), Number($1), @1.first_line, @1.first_column);}                                                  
-    |TRUE			                    {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), true, @1.first_line, @1.first_column);} 
-    |FALSE				                {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), false, @1.first_line, @1.first_column);}
-    |CADENA		                        {$$ = new Primitivo(new Tipo(tipos.STRING), $1.replace(/\"/g,""), @1.first_line, @1.first_column);} 
-    |CARACTER                           {$$ = new Primitivo(new Tipo(tipos.CARACTER), $1.replace(/\'/g,""), @1.first_line, @1.first_column);} 
+//  |ENTERO                                 {$$ = new Primitivo(new Tipo(tipos.ENTERO), Number($1), _$.first_line, _$.first_column);}                                                 
+    |DECIMAL                                {$$ = new Primitivo(new Tipo(esEntero(Number($1))), Number($1), @1.first_line, @1.first_column);}                                                  
+    |TRUE			                        {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), true, @1.first_line, @1.first_column);} 
+    |FALSE				                    {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), false, @1.first_line, @1.first_column);}
+    |CADENA		                            {$$ = new Primitivo(new Tipo(tipos.STRING), $1.replace(/\"/g,""), @1.first_line, @1.first_column);} 
+    |CARACTER                               {$$ = new Primitivo(new Tipo(tipos.CARACTER), $1.replace(/\'/g,""), @1.first_line, @1.first_column);} 
     |ID CORIZQ CORIZQ ENTERO CORDER CORDER  {$$ = $1+$2+$3+$4+$5+$6;}	
     |ID CORIZQ ENTERO CORDER                {$$ = $1+$2+$3+$4;}	
-    |PARIZQ expresion PARDER			    {$$ = $1+$2+$3;}	
+    |PARIZQ expresion PARDER			    {$$ = $2;}	
     |PARIZQ tipos PARDER expresion  	    {$$ = $1+$2+$3+$4;}	
     |increment_decrement
 	|expresion INTERROGACION expresion DPUNTOS expresion {$$ = $1+$2+$3+$4+$5;}
