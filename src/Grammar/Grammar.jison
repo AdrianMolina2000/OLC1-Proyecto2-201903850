@@ -8,7 +8,9 @@
     const {Aritmetica} = require('../Expresiones/Aritmetica');
     const {Logico} = require('../Expresiones/Logico');
     const {Relacional} = require('../Expresiones/Relacional');
-
+    const {Declaracion, defal} = require('../Instrucciones/Declaracion');
+    const {Asignacion} = require('../Instrucciones/Asignacion');
+    const {Identificador} = require('../Expresiones/Identificador');
 
 
 %}
@@ -104,8 +106,8 @@
 [0-9]+("."[0-9]+)?\b  	return 'DECIMAL';
 [0-9]+\b 	            return 'ENTERO';
 ([a-zA-Z])[a-zA-Z0-9_]*	return 'ID';
-\"([^"]|\")*\"               return 'CADENA';
-(\'[^']\')            	return 'CARACTER';
+(\"[^"]*\")             return 'CADENA';
+(\'[^']?\')            	return 'CARACTER';
 
 
 <<EOF>>                 return 'EOF';
@@ -136,7 +138,7 @@ instrucciones
 ;
 
 instruccion
-	:declaracionVar
+	:declaracionVar                 {$$ = $1;}       
     |funciones
     |metodos
     |llamada
@@ -156,16 +158,16 @@ instruccion
 ;
 
 exe
-    :EXEC ID PARIZQ PARDER PTCOMA {console.log('se ejecuta {' + $2 + '}');}
-    |EXEC ID PARIZQ listaValores PARDER PTCOMA {console.log('se ejecuta {' + $2 + '} con parametros {'+$4+'}');}
+    :EXEC ID PARIZQ PARDER PTCOMA
+    |EXEC ID PARIZQ listaValores PARDER PTCOMA 
 ;
 
 metodos
-    :VOID ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER{console.log('metodo llamada {'+$2+'} con parametros{'+$4+'}');}
+    :VOID ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER
 ;
 
 funciones
-    :tipos ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER{console.log('funcion llamada {'+$2+'} del tipo {' +$1+'} con parametros{'+$4+'}');}
+    :tipos ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER
 ;
 
 llamada
@@ -173,61 +175,61 @@ llamada
 ;
 
 llamar
-    :ID PARIZQ parametros_llamada PARDER {$$ = $1+$2+$3+$4}
-    |ID PARIZQ PARDER  {$$ = $1+$2+$3}
+    :ID PARIZQ parametros_llamada PARDER
+    |ID PARIZQ PARDER  
 ;
 
 parametros_llamada
-    :parametros_llamada COMA expresion {$$ = $1+' '+$2+' '+$3}
+    :parametros_llamada COMA expresion 
     |expresion
 ;
 parametros
-    :parametros COMA tipos ID   {$$ = $1+' '+$2+' '+$3+' '+$4}
-    |tipos ID                   {$$ = $1+' '+$2}
+    :parametros COMA tipos ID   
+    |tipos ID                   
     |                           {$$ = 'Sin parametros'}
 ;
 
 sentencia_if
-    :IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER {console.log('IF');}
-    |IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER ELSE LLAIZQ instruccion LLADER {console.log('IF ELSE');}
-    |IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER ELSE sentencia_if {console.log('ELIF');}
+    :IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER
+    |IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER ELSE LLAIZQ instruccion LLADER
+    |IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER ELSE sentencia_if
 ;
 
 sentencia_switch
-    :SWITCH PARIZQ expresion PARDER LLAIZQ caseList defaultList LLADER {console.log('SWITCH');}
-    |SWITCH PARIZQ expresion PARDER LLAIZQ caseList LLADER {console.log('SWITCH');}
-    |SWITCH PARIZQ expresion PARDER LLAIZQ defaultList LLADER {console.log('SWITCH');}
+    :SWITCH PARIZQ expresion PARDER LLAIZQ caseList defaultList LLADER
+    |SWITCH PARIZQ expresion PARDER LLAIZQ caseList LLADER
+    |SWITCH PARIZQ expresion PARDER LLAIZQ defaultList LLADER
 ;
 
 caseList
     :caseList CASE expresion DPUNTOS instrucciones 
-    |CASE expresion DPUNTOS instrucciones {console.log('CASE');}
+    |CASE expresion DPUNTOS instrucciones 
 ;
 
 defaultList
-    :DEFAULT DPUNTOS instrucciones {console.log('DEFAULT');}
+    :DEFAULT DPUNTOS instrucciones
 ;
 
 sentencia_while
-    :WHILE PARIZQ expresion PARDER LLAIZQ instrucciones LLADER {console.log('WHILE');}
+    :WHILE PARIZQ expresion PARDER LLAIZQ instrucciones LLADER 
 ;
 
 sentencia_dowhile
-    :DO LLAIZQ instrucciones LLADER WHILE PARIZQ expresion PARDER PTCOMA {console.log('DO WHILE');}
+    :DO LLAIZQ instrucciones LLADER WHILE PARIZQ expresion PARDER PTCOMA 
 ;
 
 sentencia_for
-    :FOR PARIZQ forVar PTCOMA expresion PTCOMA for_increment PARDER LLAIZQ instrucciones LLADER {console.log('FOR');}
+    :FOR PARIZQ forVar PTCOMA expresion PTCOMA for_increment PARDER LLAIZQ instrucciones LLADER 
 ;
 
 forVar
-    :iD ASIGNAR expresion{console.log('se asigna {' + $3 + '} a la variable {' +$1+ '}');}
-    |TINT ID ASIGNAR ENTERO{console.log('se declaró la variable {' + $2 + '} del tipo {int} con valor: '+ $4);}
+    :iD ASIGNAR expresion
+    |TINT ID ASIGNAR ENTERO
 ;
 
 for_increment
-    :increment_decrement {console.log('se incrementa: ' + $1);}
-    |ID ASIGNAR expresion {console.log('se incrementa: ' + $3);}
+    :increment_decrement 
+    |ID ASIGNAR expresion 
 ;
 
 sentencia_print
@@ -235,20 +237,20 @@ sentencia_print
 ;
 
 sentencia_return
-    :RETURN expresion PTCOMA{console.log('return: ' + $2);}
+    :RETURN expresion PTCOMA
 ;
 
 declaracionVar
-	:tipos ID PTCOMA {console.log('se declaró la variable {' + $2 + '} del tipo {' + $1 + '}');}
-	|tipos ID ASIGNAR expresion PTCOMA {console.log('se declaró la variable {' + $2 + '} del tipo {' + $1 + '} con valor: '+ $4.contenido);}
-    |ID ASIGNAR expresion PTCOMA {console.log('Se asigno {' + $3 + '} a la variable {' + $1 + '}');}
-    |tipos CORIZQ CORDER ID ASIGNAR TNEW tipos CORIZQ ENTERO CORDER PTCOMA{console.log('declaración de arreglo {' + $4 + '} de tipo {'+ $1 + '} de {' + $9 + '} posiciones');}
-    |tipos CORIZQ CORDER ID ASIGNAR LLAIZQ listaValores LLADER PTCOMA{console.log('declaración de arreglo {' + $4 + '} de tipo {'+ $1 + '} con valores {' + $7 + '}');}
-    |ID CORIZQ ENTERO CORDER ASIGNAR expresion PTCOMA{console.log('Asignar {' + $6 + '} a la posicion {' + $3 + '} del arreglo {'+$1+'}');}
-    |LIST MENORQ tipos MAYORA ID ASIGNAR NEW LIST MENORQ tipos MAYORA PTCOMA{console.log('declaración de lista {' + $5 + '} del tipo {' + $3 + '}');}
-    |LIST MENORQ tipos MAYORA ID ASIGNAR tocha PTCOMA{console.log('declaración de lista {' + $5 + '} del tipo {' + $7 + '}');}
-    |ID PUNTO ADD PARIZQ expresion PARDER PTCOMA{console.log('agregar a lista {' + $1 + '} el valor {' + $5 + '}');}
-    |ID CORIZQ CORIZQ ENTERO CORDER CORDER ASIGNAR expresion PTCOMA{console.log('Asignar {' + $8 + '} a la posicion {' + $4 + '} de la lista {'+$1+'}');}
+	:tipos ID PTCOMA                        {$$ = new Declaracion($1, $2, defal($1), @1.first_line, @1.first_column);}
+	|tipos ID ASIGNAR expresion PTCOMA      {$$ = new Declaracion($1, $2, $4, @1.first_line, @1.first_column);}
+    |ID ASIGNAR expresion PTCOMA            {$$ = new Asignacion($1, $3, @1.first_line, @1.first_column);}
+    |tipos CORIZQ CORDER ID ASIGNAR TNEW tipos CORIZQ ENTERO CORDER PTCOMA
+    |tipos CORIZQ CORDER ID ASIGNAR LLAIZQ listaValores LLADER PTCOMA
+    |ID CORIZQ ENTERO CORDER ASIGNAR expresion PTCOMA
+    |LIST MENORQ tipos MAYORA ID ASIGNAR NEW LIST MENORQ tipos MAYORA PTCOMA
+    |LIST MENORQ tipos MAYORA ID ASIGNAR tocha PTCOMA
+    |ID PUNTO ADD PARIZQ expresion PARDER PTCOMA
+    |ID CORIZQ CORIZQ ENTERO CORDER CORDER ASIGNAR expresion PTCOMA
 ;
 
 expresion 
@@ -268,42 +270,42 @@ expresion
     |expresion DIFERENTED expresion	   	    {$$ = new Relacional($1, $3, '!=', @1.first_line, @1.first_column);}
     |expresion OR expresion	  			    {$$ = new Logico($1, $3, '||', @1.first_line, @1.first_column);}
     |expresion AND expresion			    {$$ = new Logico($1, $3, '&&', @1.first_line, @1.first_column);}
-    |ID				                    
+    |ID                                     {$$ = new Identificador($1, @1.first_line, @1.first_column); }				                    
 //  |ENTERO                                 {$$ = new Primitivo(new Tipo(tipos.ENTERO), Number($1), _$.first_line, _$.first_column);}                                                 
     |DECIMAL                                {$$ = new Primitivo(new Tipo(esEntero(Number($1))), Number($1), @1.first_line, @1.first_column);}                                                  
     |TRUE			                        {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), true, @1.first_line, @1.first_column);} 
     |FALSE				                    {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), false, @1.first_line, @1.first_column);}
     |CADENA		                            {$$ = new Primitivo(new Tipo(tipos.STRING), $1.replace(/\"/g,""), @1.first_line, @1.first_column);} 
     |CARACTER                               {$$ = new Primitivo(new Tipo(tipos.CARACTER), $1.replace(/\'/g,""), @1.first_line, @1.first_column);} 
-    |ID CORIZQ CORIZQ ENTERO CORDER CORDER  {$$ = $1+$2+$3+$4+$5+$6;}	
-    |ID CORIZQ ENTERO CORDER                {$$ = $1+$2+$3+$4;}	
-    |PARIZQ expresion PARDER			    {$$ = $2;}	
-    |PARIZQ tipos PARDER expresion  	    {$$ = $1+$2+$3+$4;}	
+    |ID CORIZQ CORIZQ ENTERO CORDER CORDER  	
+    |ID CORIZQ ENTERO CORDER                	
+    |PARIZQ expresion PARDER			   	
+    |PARIZQ tipos PARDER expresion  	    	
     |increment_decrement
-	|expresion INTERROGACION expresion DPUNTOS expresion {$$ = $1+$2+$3+$4+$5;}
+	|expresion INTERROGACION expresion DPUNTOS expresion 
     |llamar
-    |TOLOWER PARIZQ expresion PARDER        {$$ = $1+$2+$3+$4;}
-    |TOUPPER PARIZQ expresion PARDER        {$$ = $1+$2+$3+$4;}
-    |LENGTH PARIZQ expresion PARDER         {$$ = $1+$2+$3+$4;}
-    |TRUNCATE PARIZQ expresion PARDER       {$$ = $1+$2+$3+$4;}
-    |ROUND PARIZQ expresion PARDER          {$$ = $1+$2+$3+$4;}
-    |TYPEOF PARIZQ expresion PARDER         {$$ = $1+$2+$3+$4;}
-    |TOSTRING PARIZQ expresion PARDER       {$$ = $1+$2+$3+$4;}
+    |TOLOWER PARIZQ expresion PARDER        
+    |TOUPPER PARIZQ expresion PARDER        
+    |LENGTH PARIZQ expresion PARDER         
+    |TRUNCATE PARIZQ expresion PARDER       
+    |ROUND PARIZQ expresion PARDER          
+    |TYPEOF PARIZQ expresion PARDER         
+    |TOSTRING PARIZQ expresion PARDER       
 ;
 
 
 increment_decrement
-	:ID MAS MAS 						    {$$ = $1+$2+$3;}
-	|ID MENOS MENOS 					    {$$ = $1+$2+$3;}
+	:ID MAS MAS 						    
+	|ID MENOS MENOS 					    
 ;
 
 listaValores
-    :listaValores COMA expresion {$$ = $1+$2+$3;}
+    :listaValores COMA expresion
     |expresion
 ;
 
 tocha
-    :TOCHARARRAY PARIZQ expresion PARDER  {$$ = $1+$2+$3+$4;}
+    :TOCHARARRAY PARIZQ expresion PARDER  
 ;
 
 // numeroD
@@ -312,9 +314,9 @@ tocha
 // ;
 
 tipos
-	:TINT
-	|TDOUBLE
-	|TBOOLEAN
-	|TCHAR
-	|TSTRING
+	:TINT           {$$ = new Tipo(tipos.ENTERO);}
+	|TDOUBLE        {$$ = new Tipo(tipos.DECIMAL);}
+	|TBOOLEAN       {$$ = new Tipo(tipos.BOOLEANO);}
+	|TCHAR          {$$ = new Tipo(tipos.CARACTER);}
+	|TSTRING        {$$ = new Tipo(tipos.STRING);}
 ;

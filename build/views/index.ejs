@@ -7,23 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Compilador</title>
     <link rel="stylesheet" href="/css/codemirror.css">
-    <!-- <link rel="stylesheet" href="/css/dracula.css"> -->
     <link rel="stylesheet" href="/css/material-darker.css">
-    <link rel="stylesheet" href="/css/bootstrap.css">
+    <!-- <link rel="stylesheet" href="/css/bootstrap.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="/css/main.css">
     <link href="https://fonts.googleapis.com/css?family=Slabo+27px&display=swap" rel="stylesheet">
 </head>
 
 <body style="background-color: rgb(22, 22, 22);">
     <center>
-        <hr>
-        <h1 style="color: beige;">Proyecto 2 de compiladores 1</h1>
-        <hr>
+        <h3 style="color: beige;">Proyecto 2 de compiladores 1</h3>
     </center>
     <form method="post" action="/analizar" id="form">
         <div style="display: flex; width: 1000px; margin: auto;">
             <div style="width: 50%; margin-right: 20px;">
-                <h3 style="color: beige;">Input</h3>
+                <h5 style="color: beige;">Input</h5>
                 <% if (entrada) { %>
                     <textarea id="entrada" name="entrada"><%= entrada %></textarea>
                     <% } else {%>
@@ -31,7 +29,7 @@
                         <%}%>
             </div>
             <div style="width: 500px; margin-right: 20px; height: 400px;">
-                <h3 style="color: beige;">Output</h3>
+                <h5 style="color: beige;">Output</h5>
                 <% if (consola) { %>
                     <textarea class="consola" id="consola" name="consola" readonly><%=consola.join('\n')%></textarea>
                     <% } else {%>
