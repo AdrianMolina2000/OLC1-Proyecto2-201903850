@@ -1,16 +1,20 @@
 
 %{
-    const {Primitivo} = require('../Expresiones/Primitivo');
-    const {Print} = require('../Instrucciones/Print');
-    const {Excepcion} = require('../other/Excepcion');
-    const {Tipo, tipos, esEntero} = require('../other/tipo');
+    //Tipos
     const {Tree} = require('../Simbols/Tree');
-    const {Aritmetica} = require('../Expresiones/Aritmetica');
-    const {Logico} = require('../Expresiones/Logico');
-    const {Relacional} = require('../Expresiones/Relacional');
+    const {Tipo, tipos, esEntero} = require('../other/tipo');
+    const {Primitivo} = require('../Expresiones/Primitivo');
+    const {Excepcion} = require('../other/Excepcion');
+    const {Identificador} = require('../Expresiones/Identificador');
+    //Instrucciones
+    const {Print} = require('../Instrucciones/Print');
     const {Declaracion, defal} = require('../Instrucciones/Declaracion');
     const {Asignacion} = require('../Instrucciones/Asignacion');
-    const {Identificador} = require('../Expresiones/Identificador');
+    //Expresion
+    const {Aritmetica} = require('../Expresiones/Aritmetica');
+    const {Relacional} = require('../Expresiones/Relacional');
+    const {Logico} = require('../Expresiones/Logico');
+    const {Ternario} = require('../Expresiones/Ternario');
 
 
 %}
@@ -254,35 +258,35 @@ declaracionVar
 ;
 
 expresion 
-	:MENOS expresion %prec UMENOS	 	    {$$ = new Aritmetica(null, $2, '-', @1.first_line, @1.first_column);}		
-    |NOT expresion	               		    {$$ = new Logico(null, $2, '!', @1.first_line, @1.first_column);}	
-    |expresion MAS expresion      		    {$$ = new Aritmetica($1, $3, '+', @1.first_line, @1.first_column);}	
-    |expresion MENOS expresion      	    {$$ = new Aritmetica($1, $3, '-', @1.first_line, @1.first_column);}		
-    |expresion POR expresion      		    {$$ = new Aritmetica($1, $3, '*', @1.first_line, @1.first_column);}		
-    |expresion DIVIDIDO expresion		    {$$ = new Aritmetica($1, $3, '/', @1.first_line, @1.first_column);}		
-    |expresion MOD expresion			    {$$ = new Aritmetica($1, $3, '%', @1.first_line, @1.first_column);}	
-    |expresion POT expresion			    {$$ = new Aritmetica($1, $3, '^', @1.first_line, @1.first_column);}	
-    |expresion MENORIGUALQ expresion	    {$$ = new Relacional($1, $3, '<=', @1.first_line, @1.first_column);}			   
-	|expresion MENORQ expresion	 		    {$$ = new Relacional($1, $3, '<', @1.first_line, @1.first_column);}	
-    |expresion MAYORIGUALQ expresion	    {$$ = new Relacional($1, $3, '>=', @1.first_line, @1.first_column);}			  
-    |expresion MAYORA expresion             {$$ = new Relacional($1, $3, '>', @1.first_line, @1.first_column);}			
-    |expresion IGUALA expresion	  		    {$$ = new Relacional($1, $3, '==', @1.first_line, @1.first_column);}			
-    |expresion DIFERENTED expresion	   	    {$$ = new Relacional($1, $3, '!=', @1.first_line, @1.first_column);}
-    |expresion OR expresion	  			    {$$ = new Logico($1, $3, '||', @1.first_line, @1.first_column);}
-    |expresion AND expresion			    {$$ = new Logico($1, $3, '&&', @1.first_line, @1.first_column);}
-    |ID                                     {$$ = new Identificador($1, @1.first_line, @1.first_column); }				                    
-//  |ENTERO                                 {$$ = new Primitivo(new Tipo(tipos.ENTERO), Number($1), _$.first_line, _$.first_column);}                                                 
-    |DECIMAL                                {$$ = new Primitivo(new Tipo(esEntero(Number($1))), Number($1), @1.first_line, @1.first_column);}                                                  
-    |TRUE			                        {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), true, @1.first_line, @1.first_column);} 
-    |FALSE				                    {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), false, @1.first_line, @1.first_column);}
-    |CADENA		                            {$$ = new Primitivo(new Tipo(tipos.STRING), $1.replace(/\"/g,""), @1.first_line, @1.first_column);} 
-    |CARACTER                               {$$ = new Primitivo(new Tipo(tipos.CARACTER), $1.replace(/\'/g,""), @1.first_line, @1.first_column);} 
+	:MENOS expresion %prec UMENOS	 	                    {$$ = new Aritmetica(null, $2, '-', @1.first_line, @1.first_column);}		
+    |NOT expresion	               		                    {$$ = new Logico(null, $2, '!', @1.first_line, @1.first_column);}	
+    |expresion MAS expresion      		                    {$$ = new Aritmetica($1, $3, '+', @1.first_line, @1.first_column);}	
+    |expresion MENOS expresion      	                    {$$ = new Aritmetica($1, $3, '-', @1.first_line, @1.first_column);}		
+    |expresion POR expresion      		                    {$$ = new Aritmetica($1, $3, '*', @1.first_line, @1.first_column);}		
+    |expresion DIVIDIDO expresion		                    {$$ = new Aritmetica($1, $3, '/', @1.first_line, @1.first_column);}		
+    |expresion MOD expresion			                    {$$ = new Aritmetica($1, $3, '%', @1.first_line, @1.first_column);}	
+    |expresion POT expresion			                    {$$ = new Aritmetica($1, $3, '^', @1.first_line, @1.first_column);}	
+    |expresion MENORIGUALQ expresion	                    {$$ = new Relacional($1, $3, '<=', @1.first_line, @1.first_column);}			   
+	|expresion MENORQ expresion	 		                    {$$ = new Relacional($1, $3, '<', @1.first_line, @1.first_column);}	
+    |expresion MAYORIGUALQ expresion	                    {$$ = new Relacional($1, $3, '>=', @1.first_line, @1.first_column);}			  
+    |expresion MAYORA expresion                             {$$ = new Relacional($1, $3, '>', @1.first_line, @1.first_column);}			
+    |expresion IGUALA expresion	  		                    {$$ = new Relacional($1, $3, '==', @1.first_line, @1.first_column);}			
+    |expresion DIFERENTED expresion	   	                    {$$ = new Relacional($1, $3, '!=', @1.first_line, @1.first_column);}
+    |expresion OR expresion	  			                    {$$ = new Logico($1, $3, '||', @1.first_line, @1.first_column);}
+    |expresion AND expresion			                    {$$ = new Logico($1, $3, '&&', @1.first_line, @1.first_column);}
+    |ID                                                     {$$ = new Identificador($1, @1.first_line, @1.first_column); }				                    
+//  |ENTERO                                                 {$$ = new Primitivo(new Tipo(tipos.ENTERO), Number($1), _$.first_line, _$.first_column);}                                                 
+    |DECIMAL                                                {$$ = new Primitivo(new Tipo(esEntero(Number($1))), Number($1), @1.first_line, @1.first_column);}                                                  
+    |TRUE			                                        {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), true, @1.first_line, @1.first_column);} 
+    |FALSE				                                    {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), false, @1.first_line, @1.first_column);}
+    |CADENA		                                            {$$ = new Primitivo(new Tipo(tipos.STRING), $1.replace(/\"/g,""), @1.first_line, @1.first_column);} 
+    |CARACTER                                               {$$ = new Primitivo(new Tipo(tipos.CARACTER), $1.replace(/\'/g,""), @1.first_line, @1.first_column);} 
     |ID CORIZQ CORIZQ ENTERO CORDER CORDER  	
     |ID CORIZQ ENTERO CORDER                	
     |PARIZQ expresion PARDER			   	
     |PARIZQ tipos PARDER expresion  	    	
     |increment_decrement
-	|expresion INTERROGACION expresion DPUNTOS expresion 
+	|expresion INTERROGACION expresion DPUNTOS expresion    {$$ = new Ternario($1, $3, $5, @1.first_line, @1.first_column);}
     |llamar
     |TOLOWER PARIZQ expresion PARDER        
     |TOUPPER PARIZQ expresion PARDER        

@@ -82,6 +82,17 @@ class Relacional extends Nodo_1.Nodo {
                     return error;
                 }
             }
+            else if (this.operadorIzq.tipo.tipo === Tipo_1.tipos.STRING) {
+                if (this.operadorDer.tipo.tipo === Tipo_1.tipos.STRING) {
+                    return resultadoIzq < resultadoDer;
+                }
+                else {
+                    const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional MENOR QUE se esta tratando de operar con los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
+                    tree.excepciones.push(error);
+                    // tree.consola.push(error.toString());
+                    return error;
+                }
+            }
             else {
                 const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional MENOR QUE se esta tratando de operar con los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
                 tree.excepciones.push(error);
@@ -101,7 +112,7 @@ class Relacional extends Nodo_1.Nodo {
                     return resultadoIzq <= resultadoDer.charCodeAt(0);
                 }
                 else {
-                    const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional MENOR IGUAL QUE se esta tratando de operar con los tipos${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
+                    const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional MENOR IGUAL QUE se esta tratando de operar con los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
                     tree.excepciones.push(error);
                     // tree.consola.push(error.toString());
                     return error;
@@ -143,6 +154,17 @@ class Relacional extends Nodo_1.Nodo {
             }
             else if (this.operadorIzq.tipo.tipo === Tipo_1.tipos.BOOLEANO) {
                 if (this.operadorDer.tipo.tipo === Tipo_1.tipos.BOOLEANO) {
+                    return resultadoIzq <= resultadoDer;
+                }
+                else {
+                    const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional MENOR IGUAL QUE se esta tratando de operar con los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
+                    tree.excepciones.push(error);
+                    // tree.consola.push(error.toString());
+                    return error;
+                }
+            }
+            else if (this.operadorIzq.tipo.tipo === Tipo_1.tipos.STRING) {
+                if (this.operadorDer.tipo.tipo === Tipo_1.tipos.STRING) {
                     return resultadoIzq <= resultadoDer;
                 }
                 else {
@@ -222,6 +244,17 @@ class Relacional extends Nodo_1.Nodo {
                     return error;
                 }
             }
+            else if (this.operadorIzq.tipo.tipo === Tipo_1.tipos.STRING) {
+                if (this.operadorDer.tipo.tipo === Tipo_1.tipos.STRING) {
+                    return resultadoIzq > resultadoDer;
+                }
+                else {
+                    const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional MAYOR QUE se esta tratando de operar con los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
+                    tree.excepciones.push(error);
+                    // tree.consola.push(error.toString());
+                    return error;
+                }
+            }
             else {
                 const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional MAYOR QUE se esta tratando de operar con los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
                 tree.excepciones.push(error);
@@ -283,6 +316,17 @@ class Relacional extends Nodo_1.Nodo {
             }
             else if (this.operadorIzq.tipo.tipo === Tipo_1.tipos.BOOLEANO) {
                 if (this.operadorDer.tipo.tipo === Tipo_1.tipos.BOOLEANO) {
+                    return resultadoIzq >= resultadoDer;
+                }
+                else {
+                    const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional MAYOR IGUAL QUE se esta tratando de operar con los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
+                    tree.excepciones.push(error);
+                    // tree.consola.push(error.toString());
+                    return error;
+                }
+            }
+            else if (this.operadorIzq.tipo.tipo === Tipo_1.tipos.STRING) {
+                if (this.operadorDer.tipo.tipo === Tipo_1.tipos.STRING) {
                     return resultadoIzq >= resultadoDer;
                 }
                 else {
@@ -362,6 +406,17 @@ class Relacional extends Nodo_1.Nodo {
                     return error;
                 }
             }
+            else if (this.operadorIzq.tipo.tipo === Tipo_1.tipos.STRING) {
+                if (this.operadorDer.tipo.tipo === Tipo_1.tipos.STRING) {
+                    return resultadoIzq != resultadoDer;
+                }
+                else {
+                    const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional DIFERENTE DE se esta tratando de operar con los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
+                    tree.excepciones.push(error);
+                    // tree.consola.push(error.toString());
+                    return error;
+                }
+            }
             else {
                 const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional DIFERENTE DE se esta tratando de operar con los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
                 tree.excepciones.push(error);
@@ -381,7 +436,7 @@ class Relacional extends Nodo_1.Nodo {
                     return resultadoIzq == resultadoDer.charCodeAt(0);
                 }
                 else {
-                    const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional IGUAL A se esta tratando de operar con los tipos${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
+                    const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional IGUAL A se esta tratando de operar con los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
                     tree.excepciones.push(error);
                     // tree.consola.push(error.toString());
                     return error;
@@ -423,6 +478,17 @@ class Relacional extends Nodo_1.Nodo {
             }
             else if (this.operadorIzq.tipo.tipo === Tipo_1.tipos.BOOLEANO) {
                 if (this.operadorDer.tipo.tipo === Tipo_1.tipos.BOOLEANO) {
+                    return resultadoIzq == resultadoDer;
+                }
+                else {
+                    const error = new Excepcion_1.Excepcion('Semantico', `El operador relacional IGUAL A se esta tratando de operar con los tipos ${this.operadorIzq.tipo} y ${this.operadorDer.tipo}`, this.line, this.column);
+                    tree.excepciones.push(error);
+                    // tree.consola.push(error.toString());
+                    return error;
+                }
+            }
+            else if (this.operadorIzq.tipo.tipo === Tipo_1.tipos.STRING) {
+                if (this.operadorDer.tipo.tipo === Tipo_1.tipos.STRING) {
                     return resultadoIzq == resultadoDer;
                 }
                 else {

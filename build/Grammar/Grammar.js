@@ -101,80 +101,11 @@ var Grammar = (function () {
                 case 19:
                     console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column);
                     break;
-                case 20:
-                    console.log('se ejecuta {' + $$[$0 - 3] + '}');
-                    break;
-                case 21:
-                    console.log('se ejecuta {' + $$[$0 - 4] + '} con parametros {' + $$[$0 - 2] + '}');
-                    break;
-                case 22:
-                    console.log('metodo llamada {' + $$[$0 - 6] + '} con parametros{' + $$[$0 - 4] + '}');
-                    break;
-                case 23:
-                    console.log('funcion llamada {' + $$[$0 - 6] + '} del tipo {' + $$[$0 - 7] + '} con parametros{' + $$[$0 - 4] + '}');
-                    break;
-                case 25:
-                    this.$ = $$[$0 - 3] + $$[$0 - 2] + $$[$0 - 1] + $$[$0];
-                    break;
-                case 26:
-                    this.$ = $$[$0 - 2] + $$[$0 - 1] + $$[$0];
-                    break;
-                case 27:
-                    this.$ = $$[$0 - 2] + ' ' + $$[$0 - 1] + ' ' + $$[$0];
-                    break;
-                case 29:
-                    this.$ = $$[$0 - 3] + ' ' + $$[$0 - 2] + ' ' + $$[$0 - 1] + ' ' + $$[$0];
-                    break;
-                case 30:
-                    this.$ = $$[$0 - 1] + ' ' + $$[$0];
-                    break;
                 case 31:
                     this.$ = 'Sin parametros';
                     break;
-                case 32:
-                    console.log('IF');
-                    break;
-                case 33:
-                    console.log('IF ELSE');
-                    break;
-                case 34:
-                    console.log('ELIF');
-                    break;
-                case 35:
-                case 36:
-                case 37:
-                    console.log('SWITCH');
-                    break;
-                case 39:
-                    console.log('CASE');
-                    break;
-                case 40:
-                    console.log('DEFAULT');
-                    break;
-                case 41:
-                    console.log('WHILE');
-                    break;
-                case 42:
-                    console.log('DO WHILE');
-                    break;
-                case 43:
-                    console.log('FOR');
-                    break;
-                case 44:
-                    console.log('se asigna {' + $$[$0] + '} a la variable {' + $$[$0 - 2] + '}');
-                    break;
-                case 45:
-                    console.log('se declaró la variable {' + $$[$0 - 2] + '} del tipo {int} con valor: ' + $$[$0]);
-                    break;
-                case 46:
-                case 47:
-                    console.log('se incrementa: ' + $$[$0]);
-                    break;
                 case 48:
                     this.$ = new Print($$[$0 - 2], _$[$0 - 4].first_line, _$[$0 - 4].first_column);
-                    break;
-                case 49:
-                    console.log('return: ' + $$[$0 - 1]);
                     break;
                 case 50:
                     this.$ = new Declaracion($$[$0 - 2], $$[$0 - 1], defal($$[$0 - 2]), _$[$0 - 2].first_line, _$[$0 - 2].first_column);
@@ -251,31 +182,8 @@ var Grammar = (function () {
                 case 81:
                     this.$ = new Primitivo(new Tipo(tipos.CARACTER), $$[$0].replace(/\'/g, ""), _$[$0].first_line, _$[$0].first_column);
                     break;
-                case 82:
-                    this.$ = $$[$0 - 5] + $$[$0 - 4] + $$[$0 - 3] + $$[$0 - 2] + $$[$0 - 1] + $$[$0];
-                    break;
-                case 83:
-                case 85:
-                case 89:
-                case 90:
-                case 91:
-                case 92:
-                case 93:
-                case 94:
-                case 95:
-                case 100:
-                    this.$ = $$[$0 - 3] + $$[$0 - 2] + $$[$0 - 1] + $$[$0];
-                    break;
-                case 84:
-                    this.$ = $$[$0 - 1];
-                    break;
                 case 87:
-                    this.$ = $$[$0 - 4] + $$[$0 - 3] + $$[$0 - 2] + $$[$0 - 1] + $$[$0];
-                    break;
-                case 96:
-                case 97:
-                case 98:
-                    this.$ = $$[$0 - 2] + $$[$0 - 1] + $$[$0];
+                    this.$ = new Ternario($$[$0 - 4], $$[$0 - 2], $$[$0], _$[$0 - 4].first_line, _$[$0 - 4].first_column);
                     break;
                 case 101:
                     this.$ = new Tipo(tipos.ENTERO);
@@ -509,17 +417,21 @@ var Grammar = (function () {
             }
             return true;
         } };
-    const { Primitivo } = require('../Expresiones/Primitivo');
-    const { Print } = require('../Instrucciones/Print');
-    const { Excepcion } = require('../other/Excepcion');
-    const { Tipo, tipos, esEntero } = require('../other/tipo');
+    //Tipos
     const { Tree } = require('../Simbols/Tree');
-    const { Aritmetica } = require('../Expresiones/Aritmetica');
-    const { Logico } = require('../Expresiones/Logico');
-    const { Relacional } = require('../Expresiones/Relacional');
+    const { Tipo, tipos, esEntero } = require('../other/tipo');
+    const { Primitivo } = require('../Expresiones/Primitivo');
+    const { Excepcion } = require('../other/Excepcion');
+    const { Identificador } = require('../Expresiones/Identificador');
+    //Instrucciones
+    const { Print } = require('../Instrucciones/Print');
     const { Declaracion, defal } = require('../Instrucciones/Declaracion');
     const { Asignacion } = require('../Instrucciones/Asignacion');
-    const { Identificador } = require('../Expresiones/Identificador');
+    //Expresion
+    const { Aritmetica } = require('../Expresiones/Aritmetica');
+    const { Relacional } = require('../Expresiones/Relacional');
+    const { Logico } = require('../Expresiones/Logico');
+    const { Ternario } = require('../Expresiones/Ternario');
     /* generated by jison-lex 0.3.4 */
     var lexer = (function () {
         var lexer = ({
@@ -1036,7 +948,7 @@ var Grammar = (function () {
                         break;
                 }
             },
-            rules: [/^(?:\s+)/i, /^(?:[ \t\r\n\f])/i, /^(?:\n)/i, /^(?:\/\/.*)/i, /^(?:[/][*][^*/]*[*][/])/i, /^(?:Int\b)/i, /^(?:Double\b)/i, /^(?:Boolean\b)/i, /^(?:Char\b)/i, /^(?:String\b)/i, /^(?:True\b)/i, /^(?:False\b)/i, /^(?:List\b)/i, /^(?:New\b)/i, /^(?:Add\b)/i, /^(?:\+)/i, /^(?:-)/i, /^(?:\*)/i, /^(?:\/)/i, /^(?:\^)/i, /^(?:%)/i, /^(?:==)/i, /^(?:!=)/i, /^(?:<=)/i, /^(?:<)/i, /^(?:>=)/i, /^(?:>)/i, /^(?:=)/i, /^(?:\?)/i, /^(?::)/i, /^(?:;)/i, /^(?:\.)/i, /^(?:,)/i, /^(?:\|\|)/i, /^(?:&&)/i, /^(?:!)/i, /^(?:\()/i, /^(?:\))/i, /^(?:\{)/i, /^(?:\})/i, /^(?:\[)/i, /^(?:\])/i, /^(?:if\b)/i, /^(?:else\b)/i, /^(?:switch\b)/i, /^(?:case\b)/i, /^(?:default\b)/i, /^(?:Break\b)/i, /^(?:while\b)/i, /^(?:do\b)/i, /^(?:print\b)/i, /^(?:for\b)/i, /^(?:continue\b)/i, /^(?:return\b)/i, /^(?:void\b)/i, /^(?:toLower\b)/i, /^(?:toUpper\b)/i, /^(?:length\b)/i, /^(?:truncate\b)/i, /^(?:round\b)/i, /^(?:typeof\b)/i, /^(?:tostring\b)/i, /^(?:tochararray\b)/i, /^(?:exec\b)/i, /^(?:[0-9]+(\.[0-9]+)?\b)/i, /^(?:[0-9]+\b)/i, /^(?:([a-zA-Z])[a-zA-Z0-9_]*)/i, /^(?:("[^"]*"))/i, /^(?:('[^']'))/i, /^(?:$)/i, /^(?:.)/i],
+            rules: [/^(?:\s+)/i, /^(?:[ \t\r\n\f])/i, /^(?:\n)/i, /^(?:\/\/.*)/i, /^(?:[/][*][^*/]*[*][/])/i, /^(?:Int\b)/i, /^(?:Double\b)/i, /^(?:Boolean\b)/i, /^(?:Char\b)/i, /^(?:String\b)/i, /^(?:True\b)/i, /^(?:False\b)/i, /^(?:List\b)/i, /^(?:New\b)/i, /^(?:Add\b)/i, /^(?:\+)/i, /^(?:-)/i, /^(?:\*)/i, /^(?:\/)/i, /^(?:\^)/i, /^(?:%)/i, /^(?:==)/i, /^(?:!=)/i, /^(?:<=)/i, /^(?:<)/i, /^(?:>=)/i, /^(?:>)/i, /^(?:=)/i, /^(?:\?)/i, /^(?::)/i, /^(?:;)/i, /^(?:\.)/i, /^(?:,)/i, /^(?:\|\|)/i, /^(?:&&)/i, /^(?:!)/i, /^(?:\()/i, /^(?:\))/i, /^(?:\{)/i, /^(?:\})/i, /^(?:\[)/i, /^(?:\])/i, /^(?:if\b)/i, /^(?:else\b)/i, /^(?:switch\b)/i, /^(?:case\b)/i, /^(?:default\b)/i, /^(?:Break\b)/i, /^(?:while\b)/i, /^(?:do\b)/i, /^(?:print\b)/i, /^(?:for\b)/i, /^(?:continue\b)/i, /^(?:return\b)/i, /^(?:void\b)/i, /^(?:toLower\b)/i, /^(?:toUpper\b)/i, /^(?:length\b)/i, /^(?:truncate\b)/i, /^(?:round\b)/i, /^(?:typeof\b)/i, /^(?:tostring\b)/i, /^(?:tochararray\b)/i, /^(?:exec\b)/i, /^(?:[0-9]+(\.[0-9]+)?\b)/i, /^(?:[0-9]+\b)/i, /^(?:([a-zA-Z])[a-zA-Z0-9_]*)/i, /^(?:("[^"]*"))/i, /^(?:('[^']?'))/i, /^(?:$)/i, /^(?:.)/i],
             conditions: { "INITIAL": { "rules": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70], "inclusive": true } }
         });
         return lexer;
