@@ -177,7 +177,7 @@ var Grammar = (function () {
                     this.$ = new Primitivo(new Tipo(tipos.BOOLEANO), false, _$[$0].first_line, _$[$0].first_column);
                     break;
                 case 80:
-                    this.$ = new Primitivo(new Tipo(tipos.STRING), $$[$0].replace(/\"/g, ""), _$[$0].first_line, _$[$0].first_column);
+                    this.$ = new Primitivo(new Tipo(tipos.STRING), $$[$0], _$[$0].first_line, _$[$0].first_column);
                     break;
                 case 81:
                     this.$ = new Primitivo(new Tipo(tipos.CARACTER), $$[$0].replace(/\'/g, ""), _$[$0].first_line, _$[$0].first_column);
@@ -417,6 +417,7 @@ var Grammar = (function () {
             }
             return true;
         } };
+    let txt = "";
     //Tipos
     const { Tree } = require('../Simbols/Tree');
     const { Tipo, tipos, esEntero } = require('../other/tipo');
@@ -749,207 +750,231 @@ var Grammar = (function () {
                     case 4:
                         break;
                     case 5:
-                        return 52;
+                        txt = "";
+                        this.begin("CADENA");
                         break;
                     case 6:
-                        return 93;
+                        txt += yy_.yytext;
                         break;
                     case 7:
-                        return 94;
+                        txt += '\n';
                         break;
                     case 8:
-                        return 95;
+                        txt += '\t';
                         break;
                     case 9:
-                        return 96;
+                        txt += '\"';
                         break;
                     case 10:
-                        return 80;
+                        txt += '\'';
                         break;
                     case 11:
-                        return 81;
+                        txt += '\\';
                         break;
                     case 12:
-                        return 59;
-                        break;
-                    case 13:
-                        return 62;
-                        break;
-                    case 14:
-                        return 65;
-                        break;
-                    case 15:
-                        return 68;
-                        break;
-                    case 16:
-                        return 66;
-                        break;
-                    case 17:
-                        return 69;
-                        break;
-                    case 18:
-                        return 70;
-                        break;
-                    case 19:
-                        return 72;
-                        break;
-                    case 20:
-                        return 71;
-                        break;
-                    case 21:
-                        return 75;
-                        break;
-                    case 22:
-                        return 76;
-                        break;
-                    case 23:
-                        return 73;
-                        break;
-                    case 24:
-                        return 60;
-                        break;
-                    case 25:
-                        return 74;
-                        break;
-                    case 26:
-                        return 61;
-                        break;
-                    case 27:
-                        return 51;
-                        break;
-                    case 28:
-                        return 84;
-                        break;
-                    case 29:
-                        return 43;
-                        break;
-                    case 30:
-                        return 18;
-                        break;
-                    case 31:
-                        return 64;
-                        break;
-                    case 32:
-                        return 35;
-                        break;
-                    case 33:
-                        return 77;
-                        break;
-                    case 34:
-                        return 78;
-                        break;
-                    case 35:
-                        return 67;
-                        break;
-                    case 36:
-                        return 25;
-                        break;
-                    case 37:
-                        return 26;
-                        break;
-                    case 38:
-                        return 30;
-                        break;
-                    case 39:
-                        return 31;
-                        break;
-                    case 40:
-                        return 56;
-                        break;
-                    case 41:
-                        return 57;
-                        break;
-                    case 42:
-                        return 37;
-                        break;
-                    case 43:
-                        return 38;
-                        break;
-                    case 44:
-                        return 39;
-                        break;
-                    case 45:
-                        return 42;
-                        break;
-                    case 46:
-                        return 44;
-                        break;
-                    case 47:
-                        return 19;
-                        break;
-                    case 48:
-                        return 45;
-                        break;
-                    case 49:
-                        return 46;
-                        break;
-                    case 50:
-                        return 54;
-                        break;
-                    case 51:
-                        return 47;
-                        break;
-                    case 52:
-                        return 20;
-                        break;
-                    case 53:
-                        return 55;
-                        break;
-                    case 54:
-                        return 28;
-                        break;
-                    case 55:
-                        return 85;
-                        break;
-                    case 56:
-                        return 86;
-                        break;
-                    case 57:
-                        return 87;
-                        break;
-                    case 58:
-                        return 88;
-                        break;
-                    case 59:
-                        return 89;
-                        break;
-                    case 60:
-                        return 90;
-                        break;
-                    case 61:
-                        return 91;
-                        break;
-                    case 62:
-                        return 92;
-                        break;
-                    case 63:
-                        return 23;
-                        break;
-                    case 64:
-                        return 79;
-                        break;
-                    case 65:
-                        return 53;
-                        break;
-                    case 66:
-                        return 24;
-                        break;
-                    case 67:
+                        yy_.yytext = txt;
+                        this.popState();
                         return 82;
                         break;
+                    case 13:
+                        return 52;
+                        break;
+                    case 14:
+                        return 93;
+                        break;
+                    case 15:
+                        return 94;
+                        break;
+                    case 16:
+                        return 95;
+                        break;
+                    case 17:
+                        return 96;
+                        break;
+                    case 18:
+                        return 80;
+                        break;
+                    case 19:
+                        return 81;
+                        break;
+                    case 20:
+                        return 59;
+                        break;
+                    case 21:
+                        return 62;
+                        break;
+                    case 22:
+                        return 65;
+                        break;
+                    case 23:
+                        return 68;
+                        break;
+                    case 24:
+                        return 66;
+                        break;
+                    case 25:
+                        return 69;
+                        break;
+                    case 26:
+                        return 70;
+                        break;
+                    case 27:
+                        return 72;
+                        break;
+                    case 28:
+                        return 71;
+                        break;
+                    case 29:
+                        return 75;
+                        break;
+                    case 30:
+                        return 76;
+                        break;
+                    case 31:
+                        return 73;
+                        break;
+                    case 32:
+                        return 60;
+                        break;
+                    case 33:
+                        return 74;
+                        break;
+                    case 34:
+                        return 61;
+                        break;
+                    case 35:
+                        return 51;
+                        break;
+                    case 36:
+                        return 84;
+                        break;
+                    case 37:
+                        return 43;
+                        break;
+                    case 38:
+                        return 18;
+                        break;
+                    case 39:
+                        return 64;
+                        break;
+                    case 40:
+                        return 35;
+                        break;
+                    case 41:
+                        return 77;
+                        break;
+                    case 42:
+                        return 78;
+                        break;
+                    case 43:
+                        return 67;
+                        break;
+                    case 44:
+                        return 25;
+                        break;
+                    case 45:
+                        return 26;
+                        break;
+                    case 46:
+                        return 30;
+                        break;
+                    case 47:
+                        return 31;
+                        break;
+                    case 48:
+                        return 56;
+                        break;
+                    case 49:
+                        return 57;
+                        break;
+                    case 50:
+                        return 37;
+                        break;
+                    case 51:
+                        return 38;
+                        break;
+                    case 52:
+                        return 39;
+                        break;
+                    case 53:
+                        return 42;
+                        break;
+                    case 54:
+                        return 44;
+                        break;
+                    case 55:
+                        return 19;
+                        break;
+                    case 56:
+                        return 45;
+                        break;
+                    case 57:
+                        return 46;
+                        break;
+                    case 58:
+                        return 54;
+                        break;
+                    case 59:
+                        return 47;
+                        break;
+                    case 60:
+                        return 20;
+                        break;
+                    case 61:
+                        return 55;
+                        break;
+                    case 62:
+                        return 28;
+                        break;
+                    case 63:
+                        return 85;
+                        break;
+                    case 64:
+                        return 86;
+                        break;
+                    case 65:
+                        return 87;
+                        break;
+                    case 66:
+                        return 88;
+                        break;
+                    case 67:
+                        return 89;
+                        break;
                     case 68:
-                        return 83;
+                        return 90;
                         break;
                     case 69:
-                        return 5;
+                        return 91;
                         break;
                     case 70:
+                        return 92;
+                        break;
+                    case 71:
+                        return 23;
+                        break;
+                    case 72:
+                        return 79;
+                        break;
+                    case 73:
+                        return 53;
+                        break;
+                    case 74:
+                        return 24;
+                        break;
+                    case 75:
+                        return 83;
+                        break;
+                    case 76:
+                        return 5;
+                        break;
+                    case 77:
                         console.error('Este es un error léxico: ' + yy_.yytext + ', en la linea: ' + yy_.yylloc.first_line + ', en la columna: ' + yy_.yylloc.first_column);
                         break;
                 }
             },
-            rules: [/^(?:\s+)/i, /^(?:[ \t\r\n\f])/i, /^(?:\n)/i, /^(?:\/\/.*)/i, /^(?:[/][*][^*/]*[*][/])/i, /^(?:Int\b)/i, /^(?:Double\b)/i, /^(?:Boolean\b)/i, /^(?:Char\b)/i, /^(?:String\b)/i, /^(?:True\b)/i, /^(?:False\b)/i, /^(?:List\b)/i, /^(?:New\b)/i, /^(?:Add\b)/i, /^(?:\+)/i, /^(?:-)/i, /^(?:\*)/i, /^(?:\/)/i, /^(?:\^)/i, /^(?:%)/i, /^(?:==)/i, /^(?:!=)/i, /^(?:<=)/i, /^(?:<)/i, /^(?:>=)/i, /^(?:>)/i, /^(?:=)/i, /^(?:\?)/i, /^(?::)/i, /^(?:;)/i, /^(?:\.)/i, /^(?:,)/i, /^(?:\|\|)/i, /^(?:&&)/i, /^(?:!)/i, /^(?:\()/i, /^(?:\))/i, /^(?:\{)/i, /^(?:\})/i, /^(?:\[)/i, /^(?:\])/i, /^(?:if\b)/i, /^(?:else\b)/i, /^(?:switch\b)/i, /^(?:case\b)/i, /^(?:default\b)/i, /^(?:Break\b)/i, /^(?:while\b)/i, /^(?:do\b)/i, /^(?:print\b)/i, /^(?:for\b)/i, /^(?:continue\b)/i, /^(?:return\b)/i, /^(?:void\b)/i, /^(?:toLower\b)/i, /^(?:toUpper\b)/i, /^(?:length\b)/i, /^(?:truncate\b)/i, /^(?:round\b)/i, /^(?:typeof\b)/i, /^(?:tostring\b)/i, /^(?:tochararray\b)/i, /^(?:exec\b)/i, /^(?:[0-9]+(\.[0-9]+)?\b)/i, /^(?:[0-9]+\b)/i, /^(?:([a-zA-Z])[a-zA-Z0-9_]*)/i, /^(?:("[^"]*"))/i, /^(?:('[^']?'))/i, /^(?:$)/i, /^(?:.)/i],
-            conditions: { "INITIAL": { "rules": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70], "inclusive": true } }
+            rules: [/^(?:\s+)/i, /^(?:[ \t\r\n\f])/i, /^(?:\n)/i, /^(?:\/\/.*)/i, /^(?:[/][*][^*/]*[*][/])/i, /^(?:["])/i, /^(?:[^"\\]+)/i, /^(?:\\n)/i, /^(?:\\t)/i, /^(?:\\")/i, /^(?:\\\\')/i, /^(?:\\\\)/i, /^(?:["])/i, /^(?:Int\b)/i, /^(?:Double\b)/i, /^(?:Boolean\b)/i, /^(?:Char\b)/i, /^(?:String\b)/i, /^(?:True\b)/i, /^(?:False\b)/i, /^(?:List\b)/i, /^(?:New\b)/i, /^(?:Add\b)/i, /^(?:\+)/i, /^(?:-)/i, /^(?:\*)/i, /^(?:\/)/i, /^(?:\^)/i, /^(?:%)/i, /^(?:==)/i, /^(?:!=)/i, /^(?:<=)/i, /^(?:<)/i, /^(?:>=)/i, /^(?:>)/i, /^(?:=)/i, /^(?:\?)/i, /^(?::)/i, /^(?:;)/i, /^(?:\.)/i, /^(?:,)/i, /^(?:\|\|)/i, /^(?:&&)/i, /^(?:!)/i, /^(?:\()/i, /^(?:\))/i, /^(?:\{)/i, /^(?:\})/i, /^(?:\[)/i, /^(?:\])/i, /^(?:if\b)/i, /^(?:else\b)/i, /^(?:switch\b)/i, /^(?:case\b)/i, /^(?:default\b)/i, /^(?:Break\b)/i, /^(?:while\b)/i, /^(?:do\b)/i, /^(?:print\b)/i, /^(?:for\b)/i, /^(?:continue\b)/i, /^(?:return\b)/i, /^(?:void\b)/i, /^(?:toLower\b)/i, /^(?:toUpper\b)/i, /^(?:length\b)/i, /^(?:truncate\b)/i, /^(?:round\b)/i, /^(?:typeof\b)/i, /^(?:tostring\b)/i, /^(?:tochararray\b)/i, /^(?:exec\b)/i, /^(?:[0-9]+(\.[0-9]+)?\b)/i, /^(?:[0-9]+\b)/i, /^(?:([a-zA-Z])[a-zA-Z0-9_]*)/i, /^(?:('[^']?'))/i, /^(?:$)/i, /^(?:.)/i],
+            conditions: { "CADENA": { "rules": [6, 7, 8, 9, 10, 11, 12], "inclusive": false }, "INITIAL": { "rules": [0, 1, 2, 3, 4, 5, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77], "inclusive": true } }
         });
         return lexer;
     })();

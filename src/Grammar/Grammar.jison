@@ -1,5 +1,6 @@
 
 %{
+    let txt = "";
     //Tipos
     const {Tree} = require('../Simbols/Tree');
     const {Tipo, tipos, esEntero} = require('../other/tipo');
@@ -22,7 +23,7 @@
 %lex
 
 %options case-insensitive
-
+%x CADENA
 %%
 
 /* Espacios en blanco */
@@ -31,6 +32,16 @@
 \n                  {}
 "/""/".*            {}
 [/][*][^*/]*[*][/]  {}
+
+["]                 {txt=""; this.begin("CADENA");}
+<CADENA>[^"\\]+     {txt+=yytext;}
+<CADENA>"\\n"       {txt+='\n';}
+<CADENA>"\\t"       {txt+='\t';}
+<CADENA>"\\\""      {txt+='\"';}
+<CADENA>"\\\'"      {txt+='\'';}
+<CADENA>"\\\\"      {txt+='\\';}
+<CADENA>["]         {yytext = txt; this.popState(); return 'CADENA';}
+
 
 /* TIPOS */
 "Int"           return 'TINT'
@@ -110,7 +121,7 @@
 [0-9]+("."[0-9]+)?\b  	return 'DECIMAL';
 [0-9]+\b 	            return 'ENTERO';
 ([a-zA-Z])[a-zA-Z0-9_]*	return 'ID';
-(\"[^"]*\")             return 'CADENA';
+// (\"[^"]*\")             return 'CADENA';
 (\'[^']?\')            	return 'CARACTER';
 
 
@@ -279,7 +290,7 @@ expresion
     |DECIMAL                                                {$$ = new Primitivo(new Tipo(esEntero(Number($1))), Number($1), @1.first_line, @1.first_column);}                                                  
     |TRUE			                                        {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), true, @1.first_line, @1.first_column);} 
     |FALSE				                                    {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), false, @1.first_line, @1.first_column);}
-    |CADENA		                                            {$$ = new Primitivo(new Tipo(tipos.STRING), $1.replace(/\"/g,""), @1.first_line, @1.first_column);} 
+    |CADENA		                                            {$$ = new Primitivo(new Tipo(tipos.STRING), $1, @1.first_line, @1.first_column);} 
     |CARACTER                                               {$$ = new Primitivo(new Tipo(tipos.CARACTER), $1.replace(/\'/g,""), @1.first_line, @1.first_column);} 
     |ID CORIZQ CORIZQ ENTERO CORDER CORDER  	
     |ID CORIZQ ENTERO CORDER                	
