@@ -57,7 +57,7 @@ export class Declaracion extends Nodo {
                 res,
                 this.line, this.column);
             tree.excepciones.push(error);
-            // tree.consola.push(error.toString());
+            tree.consola.push(error.toString());
         }
         return null;
     }

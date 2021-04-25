@@ -51,7 +51,7 @@ class Declaracion extends Nodo_1.Nodo {
         if (res != null) {
             const error = new Excepcion_1.Excepcion('Semantico', res, this.line, this.column);
             tree.excepciones.push(error);
-            // tree.consola.push(error.toString());
+            tree.consola.push(error.toString());
         }
         return null;
     }

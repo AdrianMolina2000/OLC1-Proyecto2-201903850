@@ -16,6 +16,7 @@
     const {Relacional} = require('../Expresiones/Relacional');
     const {Logico} = require('../Expresiones/Logico');
     const {Ternario} = require('../Expresiones/Ternario');
+    const {Casteo} = require('../Expresiones/Casteo');
 
 
 %}
@@ -295,7 +296,7 @@ expresion
     |ID CORIZQ CORIZQ ENTERO CORDER CORDER  	
     |ID CORIZQ ENTERO CORDER                	
     |PARIZQ expresion PARDER			   	
-    |PARIZQ tipos PARDER expresion  	    	
+    |PARIZQ tipos PARDER expresion                          {$$ = new Casteo($2, $4, @1.first_line, @1.first_column);}  	    	
     |increment_decrement
 	|expresion INTERROGACION expresion DPUNTOS expresion    {$$ = new Ternario($1, $3, $5, @1.first_line, @1.first_column);}
     |llamar
