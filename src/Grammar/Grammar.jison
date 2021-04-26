@@ -11,6 +11,10 @@
     const {Print} = require('../Instrucciones/Print');
     const {Declaracion, defal} = require('../Instrucciones/Declaracion');
     const {Asignacion} = require('../Instrucciones/Asignacion');
+    const {If} = require('../Instrucciones/If');
+    const {While} = require('../Instrucciones/While');
+    const {Continue} = require('../Expresiones/Continue');
+    const {Break} = require('../Expresiones/Break');
     //Expresion
     const {Aritmetica} = require('../Expresiones/Aritmetica');
     const {Relacional} = require('../Expresiones/Relacional');
@@ -161,17 +165,16 @@ instruccion
     |funciones
     |metodos
     |llamada
-    |sentencia_if
+    |sentencia_if                   {$$ = $1;}
     |sentencia_switch
-    |sentencia_while
+    |sentencia_while                {$$ = $1;}
     |sentencia_for
-    |sentencia_dowhile
+    |sentencia_dowhile              
     |sentencia_print                {$$ = $1;}
-    // |increment_decrement PTCOMA     {$$ = $1;}
     |ID INC PTCOMA 	                {$$ = new InDecrement($1, "++", @1.first_line, @1.first_column);}					    
 	|ID DEC PTCOMA 	                {$$ = new InDecrement($1, "--", @1.first_line, @1.first_column);}
-    |BREAK PTCOMA
-    |CONTINUE PTCOMA
+    |CONTINUE PTCOMA                {$$ = new Continue(@1.first_line, @1.first_column)}
+    |BREAK PTCOMA                   {$$ = new Break(@1.first_line, @1.first_column)}
     |sentencia_return
     |exe
   	|error PTCOMA{ console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); }
@@ -211,9 +214,9 @@ parametros
 ;
 
 sentencia_if
-    :IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER
-    |IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER ELSE LLAIZQ instruccion LLADER
-    |IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER ELSE sentencia_if
+    :IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER {$$ = new If($3, $6, [], @1.first_line, @1.first_column);}
+    |IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER ELSE LLAIZQ instrucciones LLADER {$$ = new If($3, $6, $10, @1.first_line, @1.first_column);}
+    |IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER ELSE sentencia_if {$$ = new If($3, $6, [$9], @1.first_line, @1.first_column);}
 ;
 
 sentencia_switch
@@ -232,7 +235,7 @@ defaultList
 ;
 
 sentencia_while
-    :WHILE PARIZQ expresion PARDER LLAIZQ instrucciones LLADER 
+    :WHILE PARIZQ expresion PARDER LLAIZQ instrucciones LLADER {$$ = new While($3, $6, @1.first_line, @1.first_column);}
 ;
 
 sentencia_dowhile
