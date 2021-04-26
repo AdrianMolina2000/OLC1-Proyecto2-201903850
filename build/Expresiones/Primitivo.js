@@ -8,11 +8,6 @@ class Primitivo extends Nodo_1.Nodo {
         this.valor = valor;
     }
     execute(table, tree) {
-        // if(typeof(this.valor) === "string"){
-        //     this.valor = this.valor.replace(/\\n/g,"\n");
-        //     this.valor = (<string>this.valor).replace(/\\t/g,"\t");
-        //     this.valor = (<string>this.valor).replace(/\\\'/g,"\'");
-        // }
         return this.valor;
     }
 }

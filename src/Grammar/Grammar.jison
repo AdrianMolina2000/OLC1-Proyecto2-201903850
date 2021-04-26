@@ -17,6 +17,7 @@
     const {Logico} = require('../Expresiones/Logico');
     const {Ternario} = require('../Expresiones/Ternario');
     const {Casteo} = require('../Expresiones/Casteo');
+    const {InDecrement} = require('../Expresiones/InDecrement');
 
 
 %}
@@ -57,7 +58,9 @@
 "Add"           return 'ADD'
 
 /* OPERADORES ARITMETICOS */
+"++"            return 'INC'
 "+"             return 'MAS'
+"--"            return 'DEC'
 "-"             return 'MENOS'
 "*"             return 'POR'
 "/"             return 'DIVIDIDO'
@@ -133,10 +136,10 @@
 
 //PRECEDENCIA
 %left   'OR', 'INTERROGACION', 'tipos'
-%left   'AND'
+%left   'AND',
 %right  'NOT'
 %left   'IGUALA','DIFERENTED','MENORQ','MENORIGUALQ','MAYORA', 'MAYORIGUALQ'
-%left   'MAS', 'MENOS'
+%left   'INC', 'MAS',  'DEC', 'MENOS'
 %left   'POR', 'DIVIDIDO', 'POT', 'MOD', 'ID'
 %left    UMENOS
 
@@ -164,7 +167,9 @@ instruccion
     |sentencia_for
     |sentencia_dowhile
     |sentencia_print                {$$ = $1;}
-    |increment_decrement PTCOMA
+    // |increment_decrement PTCOMA     {$$ = $1;}
+    |ID INC PTCOMA 	                {$$ = new InDecrement($1, "++", @1.first_line, @1.first_column);}					    
+	|ID DEC PTCOMA 	                {$$ = new InDecrement($1, "--", @1.first_line, @1.first_column);}
     |BREAK PTCOMA
     |CONTINUE PTCOMA
     |sentencia_return
@@ -270,9 +275,11 @@ declaracionVar
 ;
 
 expresion 
-	:MENOS expresion %prec UMENOS	 	                    {$$ = new Aritmetica(null, $2, '-', @1.first_line, @1.first_column);}		
+	:MENOS expresion %prec UMENOS	 	                    {$$ = new Aritmetica(null, $2, '-', @1.first_line, @1.first_column);}	
     |NOT expresion	               		                    {$$ = new Logico(null, $2, '!', @1.first_line, @1.first_column);}	
+    |ID INC 	                                            {$$ = new InDecrement($1, "++", @1.first_line, @1.first_column);}					    
     |expresion MAS expresion      		                    {$$ = new Aritmetica($1, $3, '+', @1.first_line, @1.first_column);}	
+	|ID DEC 					                            {$$ = new InDecrement($1, "--", @1.first_line, @1.first_column);}	
     |expresion MENOS expresion      	                    {$$ = new Aritmetica($1, $3, '-', @1.first_line, @1.first_column);}		
     |expresion POR expresion      		                    {$$ = new Aritmetica($1, $3, '*', @1.first_line, @1.first_column);}		
     |expresion DIVIDIDO expresion		                    {$$ = new Aritmetica($1, $3, '/', @1.first_line, @1.first_column);}		
@@ -297,7 +304,6 @@ expresion
     |ID CORIZQ ENTERO CORDER                	
     |PARIZQ expresion PARDER			   	
     |PARIZQ tipos PARDER expresion                          {$$ = new Casteo($2, $4, @1.first_line, @1.first_column);}  	    	
-    |increment_decrement
 	|expresion INTERROGACION expresion DPUNTOS expresion    {$$ = new Ternario($1, $3, $5, @1.first_line, @1.first_column);}
     |llamar
     |TOLOWER PARIZQ expresion PARDER        
@@ -310,10 +316,11 @@ expresion
 ;
 
 
-increment_decrement
-	:ID MAS MAS 						    
-	|ID MENOS MENOS 					    
-;
+// increment_decrement
+	// :ID MAS MAS 	                                         {$$ = new InDecrement($1, "++", @1.first_line, @1.first_column);}					    
+	// |ID MAS MAS 	                                         {$$ = new InDecrement($1, "++", @1.first_line, @1.first_column);}					    
+	// |ID MENOS MENOS 					                     {$$ = new InDecrement($1, "--", @1.first_line, @1.first_column);}
+// ;
 
 listaValores
     :listaValores COMA expresion
