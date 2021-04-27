@@ -52,13 +52,13 @@ export class Declaracion extends Nodo {
         let simbolo: Simbolo;
         simbolo = new Simbolo(this.tipo, this.id, result);
         const res = table.setVariable(simbolo);
-        if (res != null) {
-            const error = new Excepcion('Semantico',
-                res,
-                this.line, this.column);
-            tree.excepciones.push(error);
-            tree.consola.push(error.toString());
-        }
+        // if (res != null) {
+            // const error = new Excepcion('Semantico',
+                // res,
+                // this.line, this.column);
+            // tree.excepciones.push(error);
+            // tree.consola.push(error.toString());
+        // }
         return null;
     }
 }

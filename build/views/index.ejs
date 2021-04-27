@@ -20,6 +20,7 @@
     </center>
     <form method="post" action="/analizar" id="form">
         <div style="display: flex; width: 1000px; margin: auto;">
+           
             <div style="width: 50%; margin-right: 20px;">
                 <h5 style="color: beige;">Input</h5>
                 <% if (entrada) { %>
@@ -28,7 +29,7 @@
                         <textarea id="entrada" name="entrada"></textarea>
                         <%}%>
             </div>
-            <div style="width: 500px; margin-right: 20px; height: 400px;">
+            <div style="width: 50%; margin-right: 20px;">
                 <h5 style="color: beige;">Output</h5>
                 <% if (consola) { %>
                     <textarea class="consola" id="consola" name="consola" readonly><%=consola.join('\n')%></textarea>
@@ -56,10 +57,23 @@
         const editor = CodeMirror.fromTextArea(entrada, {
             lineNumbers: true,
             mode: "python",
-            theme: "material-darker"
+            theme: "material-darker",
+            smartIndent: true,
+            tabSize: 2,
         });
 
         editor.setSize(500, 400);
+        
+        const editor2 = CodeMirror.fromTextArea(consola, {
+            lineNumbers: true,
+            mode: "python",
+            theme: "material-darker",
+            readOnly:"nocursor"
+            
+
+        });
+
+        editor2.setSize(500, 400);
     </script>
 </body>
 

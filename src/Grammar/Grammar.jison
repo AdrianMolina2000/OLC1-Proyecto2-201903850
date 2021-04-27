@@ -13,6 +13,7 @@
     const {Asignacion} = require('../Instrucciones/Asignacion');
     const {If} = require('../Instrucciones/If');
     const {While} = require('../Instrucciones/While');
+    const {For} = require('../Instrucciones/For');
     const {Continue} = require('../Expresiones/Continue');
     const {Break} = require('../Expresiones/Break');
     //Expresion
@@ -168,7 +169,7 @@ instruccion
     |sentencia_if                   {$$ = $1;}
     |sentencia_switch
     |sentencia_while                {$$ = $1;}
-    |sentencia_for
+    |sentencia_for                  {$$ = $1;}
     |sentencia_dowhile              
     |sentencia_print                {$$ = $1;}
     |ID INC PTCOMA 	                {$$ = new InDecrement($1, "++", @1.first_line, @1.first_column);}					    
@@ -177,8 +178,6 @@ instruccion
     |BREAK PTCOMA                   {$$ = new Break(@1.first_line, @1.first_column)}
     |sentencia_return
     |exe
-  	|error PTCOMA{ console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); }
-
 ;
 
 exe
@@ -243,17 +242,18 @@ sentencia_dowhile
 ;
 
 sentencia_for
-    :FOR PARIZQ forVar PTCOMA expresion PTCOMA for_increment PARDER LLAIZQ instrucciones LLADER 
+    :FOR PARIZQ forVar PTCOMA expresion PTCOMA for_increment PARDER LLAIZQ instrucciones LLADER {$$ = new For($3, $5, $7, $10, @1.first_line, @1.first_column);}
 ;
 
 forVar
-    :iD ASIGNAR expresion
-    |TINT ID ASIGNAR ENTERO
+    :tipos ID ASIGNAR expresion {$$ = new Declaracion($1, $2, $4, @1.first_line, @1.first_column);}
+    |ID ASIGNAR expresion       {$$ = new Asignacion($1, $3, @1.first_line, @1.first_column);}
 ;
 
 for_increment
-    :increment_decrement 
-    |ID ASIGNAR expresion 
+    :ID INC 	                {$$ = new InDecrement($1, "++", @1.first_line, @1.first_column);}					    
+	|ID DEC 	                {$$ = new InDecrement($1, "--", @1.first_line, @1.first_column);}	 
+    |ID ASIGNAR expresion       {$$ = new Asignacion($1, $3, @1.first_line, @1.first_column);}
 ;
 
 sentencia_print
@@ -305,7 +305,7 @@ expresion
     |CARACTER                                               {$$ = new Primitivo(new Tipo(tipos.CARACTER), $1.replace(/\'/g,""), @1.first_line, @1.first_column);} 
     |ID CORIZQ CORIZQ ENTERO CORDER CORDER  	
     |ID CORIZQ ENTERO CORDER                	
-    |PARIZQ expresion PARDER			   	
+    |PARIZQ expresion PARDER			                    {$$ = $2;}   	
     |PARIZQ tipos PARDER expresion                          {$$ = new Casteo($2, $4, @1.first_line, @1.first_column);}  	    	
 	|expresion INTERROGACION expresion DPUNTOS expresion    {$$ = new Ternario($1, $3, $5, @1.first_line, @1.first_column);}
     |llamar
@@ -315,7 +315,7 @@ expresion
     |TRUNCATE PARIZQ expresion PARDER       
     |ROUND PARIZQ expresion PARDER          
     |TYPEOF PARIZQ expresion PARDER         
-    |TOSTRING PARIZQ expresion PARDER       
+    |TOSTRING PARIZQ expresion PARDER   
 ;
 
 
