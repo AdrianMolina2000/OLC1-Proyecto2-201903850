@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Nodo_1 = require("../Abstract/Nodo");
 const Excepcion_1 = require("../other/Excepcion");
 const Tipo_1 = require("../other/Tipo");
+const NodoAST_1 = require("../Abstract/NodoAST");
 class Asignacion extends Nodo_1.Nodo {
     constructor(id, valor, line, column) {
         super(null, line, column);
@@ -35,6 +36,13 @@ class Asignacion extends Nodo_1.Nodo {
         }
         variable.valor = result;
         return null;
+    }
+    getNodo() {
+        var nodo = new NodoAST_1.NodoAST("ASIGNACION");
+        nodo.agregarHijo(this.id);
+        nodo.agregarHijo("=");
+        nodo.agregarHijo(this.valor.getNodo());
+        return nodo;
     }
 }
 exports.Asignacion = Asignacion;

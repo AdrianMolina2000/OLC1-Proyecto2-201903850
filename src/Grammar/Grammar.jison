@@ -13,6 +13,7 @@
     const {Asignacion} = require('../Instrucciones/Asignacion');
     const {If} = require('../Instrucciones/If');
     const {While} = require('../Instrucciones/While');
+    const {DoWhile} = require('../Instrucciones/DoWhile');
     const {For} = require('../Instrucciones/For');
     const {Continue} = require('../Expresiones/Continue');
     const {Break} = require('../Expresiones/Break');
@@ -238,7 +239,7 @@ sentencia_while
 ;
 
 sentencia_dowhile
-    :DO LLAIZQ instrucciones LLADER WHILE PARIZQ expresion PARDER PTCOMA 
+    :DO LLAIZQ instrucciones LLADER WHILE PARIZQ expresion PARDER PTCOMA  {$$ = new DoWhile($7, $3, @1.first_line, @1.first_column);}
 ;
 
 sentencia_for

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Nodo_1 = require("../Abstract/Nodo");
 const Excepcion_1 = require("../other/Excepcion");
+const NodoAST_1 = require("../Abstract/NodoAST");
 class Ternario extends Nodo_1.Nodo {
     constructor(operadorTop, operadorMid, operadorBot, line, column) {
         super(null, line, column);
@@ -29,6 +30,15 @@ class Ternario extends Nodo_1.Nodo {
             this.tipo = this.operadorBot.tipo;
         }
         return resultadoTop ? resultadoMid : resultadoBot;
+    }
+    getNodo() {
+        var nodo = new NodoAST_1.NodoAST("TERNARIO");
+        nodo.agregarHijo(this.operadorBot.getNodo());
+        nodo.agregarHijo("?");
+        nodo.agregarHijo(this.operadorMid.getNodo());
+        nodo.agregarHijo(":");
+        nodo.agregarHijo(this.operadorTop.getNodo());
+        return nodo;
     }
 }
 exports.Ternario = Ternario;

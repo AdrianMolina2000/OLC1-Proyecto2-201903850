@@ -5,6 +5,7 @@ import { Excepcion } from "../other/Excepcion";
 import { Tipo, tipos } from "../other/Tipo";
 import { Simbolo } from "../Simbols/Simbolo";
 import { Primitivo } from "../Expresiones/Primitivo";
+import { NodoAST } from "../Abstract/NodoAST";
 
 export function defal(tipo: Tipo, line: Number, column: Number) {
     if (tipo.tipo == tipos.ENTERO) {
@@ -60,5 +61,19 @@ export class Declaracion extends Nodo {
             // tree.consola.push(error.toString());
         // }
         return null;
+    }
+
+    getNodo() {
+        var nodo:NodoAST  = new NodoAST("DECLARACION");
+        nodo.agregarHijo(this.tipo+"");
+        nodo.agregarHijo(this.id);
+        
+        if(this.valor != null)
+        {
+            nodo.agregarHijo("=");
+            nodo.agregarHijo(this.valor.getNodo());
+        }
+        
+        return nodo;
     }
 }

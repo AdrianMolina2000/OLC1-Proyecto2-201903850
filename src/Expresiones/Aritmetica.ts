@@ -1,4 +1,5 @@
 import { Nodo } from "../Abstract/Nodo";
+import { NodoAST } from "../Abstract/NodoAST";
 import { Table } from "../Simbols/Table";
 import { Tree } from "../Simbols/Tree";
 import { Excepcion } from "../other/Excepcion";
@@ -577,5 +578,19 @@ export class Aritmetica extends Nodo {
                 return error;
             }
         }
+    }
+
+    getNodo(){
+        var nodo:NodoAST = new NodoAST("ARITMETICA");
+        if(this.operadorIzq != null){
+            nodo.agregarHijo(this.operadorIzq.getNodo());
+            nodo.agregarHijo(this.operador + "");
+            nodo.agregarHijo(this.operadorDer.getNodo());
+            
+        }else{
+            nodo.agregarHijo(this.operador + "");
+            nodo.agregarHijo(this.operadorDer.getNodo());
+        } 
+        return nodo;
     }
 }

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Nodo_1 = require("../Abstract/Nodo");
 const Excepcion_1 = require("../other/Excepcion");
 const Tipo_1 = require("../other/Tipo");
+const NodoAST_1 = require("../Abstract/NodoAST");
 class Casteo extends Nodo_1.Nodo {
     constructor(tipo, expresion, line, column) {
         super(tipo, line, column);
@@ -65,6 +66,14 @@ class Casteo extends Nodo_1.Nodo {
             tree.consola.push(error.toString());
             return error;
         }
+    }
+    getNodo() {
+        var nodo = new NodoAST_1.NodoAST("CASTEO");
+        nodo.agregarHijo("(");
+        nodo.agregarHijo(this.tipo.tipo);
+        nodo.agregarHijo(")");
+        nodo.agregarHijo(this.expresion.getNodo());
+        return nodo;
     }
 }
 exports.Casteo = Casteo;

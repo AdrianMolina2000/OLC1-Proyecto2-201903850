@@ -7,7 +7,7 @@ const Tipo_1 = require("../other/Tipo");
 const Continue_1 = require("../Expresiones/Continue");
 const Break_1 = require("../Expresiones/Break");
 const NodoAST_1 = require("../Abstract/NodoAST");
-class While extends Nodo_1.Nodo {
+class DoWhile extends Nodo_1.Nodo {
     constructor(condicion, List, line, column) {
         super(null, line, column);
         this.condicion = condicion;
@@ -42,11 +42,8 @@ class While extends Nodo_1.Nodo {
         return null;
     }
     getNodo() {
-        var nodo = new NodoAST_1.NodoAST("WHILE");
-        nodo.agregarHijo("while");
-        nodo.agregarHijo("(");
-        nodo.agregarHijo(this.condicion.getNodo());
-        nodo.agregarHijo(")");
+        var nodo = new NodoAST_1.NodoAST("DO WHILE");
+        nodo.agregarHijo("do");
         nodo.agregarHijo("{");
         var nodo2 = new NodoAST_1.NodoAST("INSTRUCCIONES");
         for (let i = 0; i < this.List.length; i++) {
@@ -54,7 +51,12 @@ class While extends Nodo_1.Nodo {
         }
         nodo.agregarHijo(nodo2);
         nodo.agregarHijo("}");
+        nodo.agregarHijo("while");
+        nodo.agregarHijo("(");
+        nodo.agregarHijo(this.condicion.getNodo());
+        nodo.agregarHijo(")");
+        nodo.agregarHijo(";");
         return nodo;
     }
 }
-exports.While = While;
+exports.DoWhile = DoWhile;

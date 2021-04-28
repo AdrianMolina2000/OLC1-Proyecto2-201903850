@@ -4,6 +4,7 @@ import { Tree } from "../Simbols/Tree";
 import { Excepcion } from "../other/Excepcion";
 import { Simbolo } from "../Simbols/Simbolo";
 import { Tipo, tipos } from "../other/Tipo";
+import { NodoAST } from "../Abstract/NodoAST";
 
 
 export class InDecrement extends Nodo {
@@ -69,5 +70,12 @@ export class InDecrement extends Nodo {
             tree.consola.push(error.toString());
             return error;
         }
+    }
+
+    getNodo() {
+        var nodo:NodoAST  = new NodoAST("Incremento/Decremento");
+        nodo.agregarHijo(this.id);
+        nodo.agregarHijo(this.operador);
+        return nodo;
     }
 }

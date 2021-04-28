@@ -5,6 +5,7 @@ const Excepcion_1 = require("../other/Excepcion");
 const Tipo_1 = require("../other/Tipo");
 const Simbolo_1 = require("../Simbols/Simbolo");
 const Primitivo_1 = require("../Expresiones/Primitivo");
+const NodoAST_1 = require("../Abstract/NodoAST");
 function defal(tipo, line, column) {
     if (tipo.tipo == Tipo_1.tipos.ENTERO) {
         return new Primitivo_1.Primitivo(tipo, 0, line, column);
@@ -56,6 +57,16 @@ class Declaracion extends Nodo_1.Nodo {
         // tree.consola.push(error.toString());
         // }
         return null;
+    }
+    getNodo() {
+        var nodo = new NodoAST_1.NodoAST("DECLARACION");
+        nodo.agregarHijo(this.tipo + "");
+        nodo.agregarHijo(this.id);
+        if (this.valor != null) {
+            nodo.agregarHijo("=");
+            nodo.agregarHijo(this.valor.getNodo());
+        }
+        return nodo;
     }
 }
 exports.Declaracion = Declaracion;

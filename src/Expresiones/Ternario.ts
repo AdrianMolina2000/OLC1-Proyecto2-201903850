@@ -2,6 +2,7 @@ import { Nodo } from "../Abstract/Nodo";
 import { Table } from "../Simbols/Table";
 import { Tree } from "../Simbols/Tree";
 import { Excepcion } from "../other/Excepcion";
+import { NodoAST } from "../Abstract/NodoAST";
 
 export class Ternario extends Nodo {
     operadorTop: Nodo;
@@ -36,5 +37,15 @@ export class Ternario extends Nodo {
             this.tipo = this.operadorBot.tipo;
         }
         return resultadoTop ? resultadoMid : resultadoBot; 
+    }
+
+    getNodo() {
+        var nodo:NodoAST  = new NodoAST("TERNARIO");
+        nodo.agregarHijo(this.operadorBot.getNodo());
+        nodo.agregarHijo("?");
+        nodo.agregarHijo(this.operadorMid.getNodo());
+        nodo.agregarHijo(":");
+        nodo.agregarHijo(this.operadorTop.getNodo());
+        return nodo;
     }
 }

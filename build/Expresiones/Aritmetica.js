@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Nodo_1 = require("../Abstract/Nodo");
+const NodoAST_1 = require("../Abstract/NodoAST");
 const Excepcion_1 = require("../other/Excepcion");
 const Tipo_1 = require("../other/Tipo");
 function esEntero(numero) {
@@ -607,6 +608,19 @@ class Aritmetica extends Nodo_1.Nodo {
                 return error;
             }
         }
+    }
+    getNodo() {
+        var nodo = new NodoAST_1.NodoAST("ARITMETICA");
+        if (this.operadorIzq != null) {
+            nodo.agregarHijo(this.operadorIzq.getNodo());
+            nodo.agregarHijo(this.operador + "");
+            nodo.agregarHijo(this.operadorDer.getNodo());
+        }
+        else {
+            nodo.agregarHijo(this.operador + "");
+            nodo.agregarHijo(this.operadorDer.getNodo());
+        }
+        return nodo;
     }
 }
 exports.Aritmetica = Aritmetica;

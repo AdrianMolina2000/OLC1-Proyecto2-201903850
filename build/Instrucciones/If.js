@@ -6,6 +6,7 @@ const Excepcion_1 = require("../other/Excepcion");
 const Tipo_1 = require("../other/Tipo");
 const Continue_1 = require("../Expresiones/Continue");
 const Break_1 = require("../Expresiones/Break");
+const NodoAST_1 = require("../Abstract/NodoAST");
 class If extends Nodo_1.Nodo {
     constructor(condicion, listaIf, listaElse, line, column) {
         super(null, line, column);
@@ -43,6 +44,31 @@ class If extends Nodo_1.Nodo {
             }
         }
         return null;
+    }
+    getNodo() {
+        var nodo = new NodoAST_1.NodoAST("IF");
+        nodo.agregarHijo("if");
+        nodo.agregarHijo("(");
+        nodo.agregarHijo(this.condicion.getNodo());
+        nodo.agregarHijo(")");
+        nodo.agregarHijo("{");
+        var nodo2 = new NodoAST_1.NodoAST("INSTRUCCIONES IF");
+        for (let i = 0; i < this.listaIf.length; i++) {
+            nodo2.agregarHijo(this.listaIf[i].getNodo());
+        }
+        nodo.agregarHijo(nodo2);
+        nodo.agregarHijo("}");
+        if (this.listaElse != null) { // ELSE
+            nodo.agregarHijo("else");
+            nodo.agregarHijo("{");
+            var nodo3 = new NodoAST_1.NodoAST("INSTRUCCIONES ELSE");
+            for (let i = 0; i < this.listaElse.length; i++) {
+                nodo3.agregarHijo(this.listaElse[i].getNodo());
+            }
+            nodo.agregarHijo(nodo3);
+            nodo.agregarHijo("}");
+        }
+        return nodo;
     }
 }
 exports.If = If;

@@ -29,6 +29,7 @@
         "jison": "^0.4.18",
         "nodemon": "^2.0.3",
         "rimraf": "^3.0.2",
+        "ts-linked-list": "^1.0.5",
         "ts-node": "^8.9.0"
     }
 }

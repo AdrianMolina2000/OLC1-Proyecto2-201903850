@@ -1,4 +1,5 @@
 import { Nodo } from "../Abstract/Nodo";
+import { NodoAST } from "../Abstract/NodoAST";
 import { Table } from "../Simbols/Table";
 import { Tree } from "../Simbols/Tree";
 
@@ -10,4 +11,9 @@ export class Break extends Nodo {
     execute(table: Table, tree: Tree){
         return this;
     }
+        
+    getNodo() {
+        var nodo:NodoAST  = new NodoAST("BREAK");
+        return nodo;
+    }    
 }

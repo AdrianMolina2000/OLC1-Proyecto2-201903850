@@ -3,6 +3,7 @@ import { Table } from "../Simbols/Table";
 import { Tree } from "../Simbols/Tree";
 import { Excepcion } from "../other/Excepcion";
 import { tipos, Tipo } from "../other/Tipo";
+import { NodoAST } from "../Abstract/NodoAST";
 
 export class Casteo extends Nodo {
     tipo: Tipo;
@@ -70,4 +71,14 @@ export class Casteo extends Nodo {
             return error;
         }
     }
+
+    getNodo() {
+        var nodo:NodoAST  = new NodoAST("CASTEO");
+        nodo.agregarHijo("(");
+        nodo.agregarHijo(this.tipo.tipo);
+        nodo.agregarHijo(")");
+        nodo.agregarHijo(this.expresion.getNodo());
+        return nodo;
+    }
+
 }

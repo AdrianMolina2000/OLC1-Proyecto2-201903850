@@ -3,6 +3,9 @@ import { Table } from './Simbols/Table';
 import { Break } from './Expresiones/Break';
 import { Continue } from './Expresiones/Continue';
 import { Excepcion } from './other/Excepcion';
+import { NodoAST } from './Abstract/NodoAST';
+import { Nodo } from './Abstract/Nodo';
+import { graphAST } from './Graficar';
 
 const parser = require('./Grammar/Grammar.js');
 const cors = require('cors');
@@ -55,7 +58,16 @@ app.post('/analizar', (req, res) => {
       tree.consola.push(error.toString());
     }
   });
+
   
+  var init:NodoAST = new NodoAST("RAIZ");
+  var instr:NodoAST = new NodoAST("INSTRUCCIONES");
+  tree.instrucciones.map((m: Nodo) => {
+    instr.agregarHijo(m.getNodo());
+  });
+  init.agregarHijo(instr);
+  graphAST(init);
+
   res.render('views/index', {
     entrada,
     consola: tree.consola,

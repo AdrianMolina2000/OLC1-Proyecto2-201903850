@@ -5,6 +5,7 @@ import { Excepcion } from "../other/Excepcion";
 import { tipos } from "../other/Tipo";
 import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
+import { NodoAST } from "../Abstract/NodoAST";
 
 export class If extends Nodo {
     condicion: Nodo;
@@ -38,19 +39,45 @@ export class If extends Nodo {
         if (result) {
             for (let i = 0; i < this.listaIf.length; i++) {
                 const res = this.listaIf[i].execute(newtable, tree);
-                if(res instanceof Continue || res instanceof Break){
+                if (res instanceof Continue || res instanceof Break) {
                     return res;
                 }
             }
         } else {
             for (let i = 0; i < this.listaElse.length; i++) {
                 const res = this.listaElse[i].execute(newtable, tree);
-                if(res instanceof Continue || res instanceof Break){
+                if (res instanceof Continue || res instanceof Break) {
                     return res;
                 }
             }
         }
 
         return null;
+    }
+
+    getNodo() {
+        var nodo: NodoAST = new NodoAST("IF");
+        nodo.agregarHijo("if");
+        nodo.agregarHijo("(");
+        nodo.agregarHijo(this.condicion.getNodo());
+        nodo.agregarHijo(")");
+        nodo.agregarHijo("{");
+        var nodo2: NodoAST = new NodoAST("INSTRUCCIONES IF");
+        for (let i = 0; i < this.listaIf.length; i++) {
+            nodo2.agregarHijo(this.listaIf[i].getNodo());
+        }
+        nodo.agregarHijo(nodo2);
+        nodo.agregarHijo("}");
+        if (this.listaElse != null) { // ELSE
+            nodo.agregarHijo("else");
+            nodo.agregarHijo("{");
+            var nodo3: NodoAST = new NodoAST("INSTRUCCIONES ELSE");
+            for (let i = 0; i < this.listaElse.length; i++) {
+                nodo3.agregarHijo(this.listaElse[i].getNodo());
+            }
+            nodo.agregarHijo(nodo3);
+            nodo.agregarHijo("}");
+        }
+        return nodo;
     }
 }

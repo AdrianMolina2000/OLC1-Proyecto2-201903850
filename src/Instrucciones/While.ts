@@ -5,6 +5,7 @@ import { Excepcion } from "../other/Excepcion";
 import { tipos } from "../other/Tipo";
 import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
+import { NodoAST } from "../Abstract/NodoAST";
 
 export class While extends Nodo {
     condicion: Nodo;
@@ -45,5 +46,22 @@ export class While extends Nodo {
             }
         } while (result);
         return null;
+    }
+
+    getNodo() {
+        var nodo:NodoAST  = new NodoAST("WHILE");
+        nodo.agregarHijo("while");
+        nodo.agregarHijo("(");
+        nodo.agregarHijo(this.condicion.getNodo());
+        nodo.agregarHijo(")");
+        nodo.agregarHijo("{");
+        var nodo2:NodoAST  = new NodoAST("INSTRUCCIONES");
+
+        for(let i = 0; i<this.List.length; i++){
+            nodo2.agregarHijo(this.List[i].getNodo());
+        }
+        nodo.agregarHijo(nodo2);
+        nodo.agregarHijo("}");
+        return nodo;
     }
 }

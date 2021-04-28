@@ -3,6 +3,7 @@ import { Table } from "../Simbols/Table";
 import { Tree } from "../Simbols/Tree";
 import { Simbolo } from "../Simbols/Simbolo";
 import { Excepcion } from "../other/Excepcion";
+import { NodoAST } from "../Abstract/NodoAST";
 
 export class Identificador extends Nodo {
     id: String;
@@ -24,5 +25,11 @@ export class Identificador extends Nodo {
         }
         this.tipo = variable.tipo;
         return variable.valor;
+    }
+
+    getNodo() {
+        var nodo:NodoAST  = new NodoAST("IDENTIFICADOR");
+        nodo.agregarHijo(this.id);
+        return nodo;
     }
 }

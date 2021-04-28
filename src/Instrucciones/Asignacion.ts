@@ -4,6 +4,7 @@ import { Tree } from "../Simbols/Tree";
 import { Excepcion } from "../other/Excepcion";
 import { Simbolo } from "../Simbols/Simbolo";
 import { tipos } from "../other/Tipo";
+import { NodoAST } from "../Abstract/NodoAST";
 
 
 export class Asignacion extends Nodo {
@@ -47,5 +48,13 @@ export class Asignacion extends Nodo {
         }
         variable.valor = result;
         return null;
+    }
+
+    getNodo() {
+        var nodo:NodoAST  = new NodoAST("ASIGNACION");
+        nodo.agregarHijo(this.id);
+        nodo.agregarHijo("=");
+        nodo.agregarHijo(this.valor.getNodo());
+        return nodo;
     }
 }

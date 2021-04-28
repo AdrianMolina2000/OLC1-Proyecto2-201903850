@@ -3,6 +3,7 @@ import { Table } from "../Simbols/Table";
 import { Tree } from "../Simbols/Tree";
 import { Excepcion } from "../other/Excepcion";
 import { tipos, Tipo } from "../other/Tipo";
+import { NodoAST } from "../Abstract/NodoAST";
 
 export class Logico extends Nodo {
     operadorIzq: Nodo;
@@ -82,5 +83,19 @@ export class Logico extends Nodo {
                 return error;
             }
         }
+    }
+
+    getNodo() {
+        var nodo: NodoAST  = new NodoAST("LOGICO");
+        if(this.operadorIzq != null){
+            nodo.agregarHijo(this.operadorIzq.getNodo());
+            nodo.agregarHijo(this.operador + "");
+            nodo.agregarHijo(this.operadorDer.getNodo());
+            
+        }else{
+            nodo.agregarHijo(this.operador + "");
+            nodo.agregarHijo(this.operadorDer.getNodo());
+        } 
+        return nodo;
     }
 }

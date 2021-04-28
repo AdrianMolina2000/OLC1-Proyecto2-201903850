@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Nodo_1 = require("../Abstract/Nodo");
 const Excepcion_1 = require("../other/Excepcion");
+const NodoAST_1 = require("../Abstract/NodoAST");
 class Identificador extends Nodo_1.Nodo {
     constructor(id, line, column) {
         super(null, line, column);
@@ -17,6 +18,11 @@ class Identificador extends Nodo_1.Nodo {
         }
         this.tipo = variable.tipo;
         return variable.valor;
+    }
+    getNodo() {
+        var nodo = new NodoAST_1.NodoAST("IDENTIFICADOR");
+        nodo.agregarHijo(this.id);
+        return nodo;
     }
 }
 exports.Identificador = Identificador;

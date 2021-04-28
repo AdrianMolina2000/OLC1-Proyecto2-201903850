@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Nodo_1 = require("../Abstract/Nodo");
 const Excepcion_1 = require("../other/Excepcion");
 const Tipo_1 = require("../other/Tipo");
+const NodoAST_1 = require("../Abstract/NodoAST");
 class Relacional extends Nodo_1.Nodo {
     constructor(operadorIzq, operadorDer, operador, line, column) {
         super(new Tipo_1.Tipo(Tipo_1.tipos.BOOLEANO), line, column);
@@ -511,6 +512,13 @@ class Relacional extends Nodo_1.Nodo {
             // tree.consola.push(error.toString());
             return error;
         }
+    }
+    getNodo() {
+        var nodo = new NodoAST_1.NodoAST("RELACIONAL");
+        nodo.agregarHijo(this.operadorIzq.getNodo());
+        nodo.agregarHijo(this.operador + "");
+        nodo.agregarHijo(this.operadorDer.getNodo());
+        return nodo;
     }
 }
 exports.Relacional = Relacional;

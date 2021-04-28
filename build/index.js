@@ -8,6 +8,8 @@ const Table_1 = require("./Simbols/Table");
 const Break_1 = require("./Expresiones/Break");
 const Continue_1 = require("./Expresiones/Continue");
 const Excepcion_1 = require("./other/Excepcion");
+const NodoAST_1 = require("./Abstract/NodoAST");
+const Graficar_1 = require("./Graficar");
 const parser = require('./Grammar/Grammar.js');
 const cors = require('cors');
 const app = express_1.default();
@@ -51,6 +53,13 @@ app.post('/analizar', (req, res) => {
             tree.consola.push(error.toString());
         }
     });
+    var init = new NodoAST_1.NodoAST("RAIZ");
+    var instr = new NodoAST_1.NodoAST("INSTRUCCIONES");
+    tree.instrucciones.map((m) => {
+        instr.agregarHijo(m.getNodo());
+    });
+    init.agregarHijo(instr);
+    Graficar_1.graphAST(init);
     res.render('views/index', {
         entrada,
         consola: tree.consola,

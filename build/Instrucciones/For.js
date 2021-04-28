@@ -6,6 +6,7 @@ const Excepcion_1 = require("../other/Excepcion");
 const Tipo_1 = require("../other/Tipo");
 const Continue_1 = require("../Expresiones/Continue");
 const Break_1 = require("../Expresiones/Break");
+const NodoAST_1 = require("../Abstract/NodoAST");
 class For extends Nodo_1.Nodo {
     constructor(inicio, fin, paso, expresion, line, column) {
         super(null, line, column);
@@ -43,6 +44,10 @@ class For extends Nodo_1.Nodo {
             }
         } while (result);
         return null;
+    }
+    getNodo() {
+        var nodo = new NodoAST_1.NodoAST("FOR");
+        return nodo;
     }
 }
 exports.For = For;

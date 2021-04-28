@@ -3,6 +3,7 @@ import { Table } from "../Simbols/Table";
 import { Tree } from "../Simbols/Tree";
 import { Excepcion } from "../other/Excepcion";
 import { tipos, Tipo } from "../other/Tipo";
+import { NodoAST } from "../Abstract/NodoAST";
 
 export class Relacional extends Nodo {
     operadorIzq: Nodo;
@@ -490,5 +491,13 @@ export class Relacional extends Nodo {
             // tree.consola.push(error.toString());
             return error;
         }
+    }
+
+    getNodo() {
+        var nodo:NodoAST  = new NodoAST("RELACIONAL");
+        nodo.agregarHijo(this.operadorIzq.getNodo());
+        nodo.agregarHijo(this.operador + "");
+        nodo.agregarHijo(this.operadorDer.getNodo());
+        return nodo;
     }
 }
