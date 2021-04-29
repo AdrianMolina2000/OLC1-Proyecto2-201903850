@@ -12,6 +12,8 @@
     const {Declaracion, defal} = require('../Instrucciones/Declaracion');
     const {Asignacion} = require('../Instrucciones/Asignacion');
     const {If} = require('../Instrucciones/If');
+    const {Switch} = require('../Instrucciones/Switch');
+    const {Case} = require('../Instrucciones/Case');
     const {While} = require('../Instrucciones/While');
     const {DoWhile} = require('../Instrucciones/DoWhile');
     const {For} = require('../Instrucciones/For');
@@ -210,7 +212,6 @@ parametros_llamada
 parametros
     :parametros COMA tipos ID   
     |tipos ID                   
-    |                           {$$ = 'Sin parametros'}
 ;
 
 sentencia_if
@@ -220,18 +221,18 @@ sentencia_if
 ;
 
 sentencia_switch
-    :SWITCH PARIZQ expresion PARDER LLAIZQ caseList defaultList LLADER
-    |SWITCH PARIZQ expresion PARDER LLAIZQ caseList LLADER
-    |SWITCH PARIZQ expresion PARDER LLAIZQ defaultList LLADER
+    :SWITCH PARIZQ expresion PARDER LLAIZQ caseList defaultList LLADER  {$$ = new Switch($3, $6, $7, @1.first_line, @1.first_column);}
+    |SWITCH PARIZQ expresion PARDER LLAIZQ caseList LLADER              {$$ = new Switch($3, $6, null, @1.first_line, @1.first_column);}
+    |SWITCH PARIZQ expresion PARDER LLAIZQ defaultList LLADER           {$$ = new Switch($3, null, $6, @1.first_line, @1.first_column);}
 ;
 
 caseList
-    :caseList CASE expresion DPUNTOS instrucciones 
-    |CASE expresion DPUNTOS instrucciones 
+    :caseList CASE expresion DPUNTOS instrucciones    {$$ = $1; $$.push(new Case($3, $5, @1.first_line, @1.first_column));}
+    |CASE expresion DPUNTOS instrucciones             {$$ = []; $$.push(new Case($2, $4, @1.first_line, @1.first_column));}
 ;
 
 defaultList
-    :DEFAULT DPUNTOS instrucciones
+    :DEFAULT DPUNTOS instrucciones {$$ = $3}
 ;
 
 sentencia_while

@@ -59,6 +59,22 @@ export class For extends Nodo {
 
     getNodo() {
         var nodo:NodoAST  = new NodoAST("FOR");
+        nodo.agregarHijo("for");
+        nodo.agregarHijo("(");
+        nodo.agregarHijo(this.inicio.getNodo());
+        nodo.agregarHijo(";");
+        nodo.agregarHijo(this.fin.getNodo());
+        nodo.agregarHijo(";");
+        nodo.agregarHijo(this.paso.getNodo());
+        nodo.agregarHijo(")");
+        nodo.agregarHijo("{");
+        var nodo2:NodoAST  = new NodoAST("INSTRUCCIONES");
+
+        for(let i = 0; i<this.expresion.length; i++){
+            nodo2.agregarHijo(this.expresion[i].getNodo());
+        }
+        nodo.agregarHijo(nodo2);
+        nodo.agregarHijo("}");
         return nodo;
     }
 }

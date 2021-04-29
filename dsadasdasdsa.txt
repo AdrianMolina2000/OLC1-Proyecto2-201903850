@@ -1,0 +1,32 @@
+int edad = 18; 
+switch( edad ) { 
+    Case 10: 
+        Print("Tengo 10 anios."); 
+        // mas sentencias 
+        Break; 
+    Case 18: 
+        Print("Tengo 18 anios."); 
+        // mas sentencias 
+    Case 25: 
+        Print("Tengo 25 anios."); 
+        // mas sentencias 
+        Break; 
+    Default: 
+        Print("No se que edad tengo. :("); 
+    // mas sentencias 
+    Break; 
+    }
+
+
+
+
+
+int edad = 18; 
+switch( edad ) { 
+    Case 10: 
+        Print("Tengo 10 anios."); 
+        Break; 
+    Default: 
+        Print("No se que edad tengo. :("); 
+        Break; 
+}

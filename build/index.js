@@ -38,10 +38,17 @@ app.post('/analizar', (req, res) => {
     if (!entrada) {
         return res.redirect('/');
     }
+    // try {
     const tree = parser.parse(entrada);
     const tabla = new Table_1.Table(null);
     tree.instrucciones.map((m) => {
+        // try {
         const res = m.execute(tabla, tree);
+        // } catch (error) {
+        // const error2 = new Excepcion('Sintactico',
+        // `Irrecuperable`, 0, 0);
+        // tree.consola.push(error2.toString());
+        // }
         if (res instanceof Break_1.Break) {
             const error = new Excepcion_1.Excepcion('Semantico', `Sentencia break fuera de un ciclo`, res.line, res.column);
             tree.excepciones.push(error);
@@ -65,6 +72,24 @@ app.post('/analizar', (req, res) => {
         consola: tree.consola,
         errores: tree.excepciones
     });
+    // } catch (error) {
+    //   let consola2 = new Array<String>();
+    //   consola2.push("Ocurrio un Error sintactico Irrecuperable\n\n"); 
+    //   consola2.push("                   FFFFFFFFFFFFFFF\n"+
+    //                 "                   FFFFFFFFFFFFFFF\n"+
+    //                 "                   FFFFFF\n"+
+    //                 "                   FFFFFF\n"+
+    //                 "                   FFFFFFFFFFFFFFF\n"+
+    //                 "                   FFFFFFFFFFFFFFF\n"+
+    //                 "                   FFFFFFF\n"+
+    //                 "                   FFFFFFF\n"+
+    //                 "                   FFFFFFF\n"+
+    //                 "                   FFFFFFF");
+    //   res.render('views/index', {
+    //     entrada,
+    //     consola: consola2
+    //   });
+    // }
 });
 app.listen(port, err => {
     return console.log(`server is listening on ${port}`);

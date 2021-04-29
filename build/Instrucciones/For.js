@@ -47,6 +47,21 @@ class For extends Nodo_1.Nodo {
     }
     getNodo() {
         var nodo = new NodoAST_1.NodoAST("FOR");
+        nodo.agregarHijo("for");
+        nodo.agregarHijo("(");
+        nodo.agregarHijo(this.inicio.getNodo());
+        nodo.agregarHijo(";");
+        nodo.agregarHijo(this.fin.getNodo());
+        nodo.agregarHijo(";");
+        nodo.agregarHijo(this.paso.getNodo());
+        nodo.agregarHijo(")");
+        nodo.agregarHijo("{");
+        var nodo2 = new NodoAST_1.NodoAST("INSTRUCCIONES");
+        for (let i = 0; i < this.expresion.length; i++) {
+            nodo2.agregarHijo(this.expresion[i].getNodo());
+        }
+        nodo.agregarHijo(nodo2);
+        nodo.agregarHijo("}");
         return nodo;
     }
 }
