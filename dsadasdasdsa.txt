@@ -18,6 +18,9 @@ switch( edad ) {
     }
 
 
+    
+
+
 
 
 
@@ -30,3 +33,27 @@ switch( edad ) {
         Print("No se que edad tengo. :("); 
         Break; 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+void holaMundo(String n, int x){
+	print("Simon Puta " + (n + x)); 
+}
+
+void holaMundo2(int n, int x){
+	print("Simon Puta " + (n + x)); 
+}
+
+
+holaMundo("simon", 2);
+holaMundo2(22, 2);

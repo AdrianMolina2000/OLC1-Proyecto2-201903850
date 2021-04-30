@@ -17,6 +17,8 @@
     const {While} = require('../Instrucciones/While');
     const {DoWhile} = require('../Instrucciones/DoWhile');
     const {For} = require('../Instrucciones/For');
+    const {DeclaracionMetodo} = require('../Instrucciones/DeclaracionMetodo');
+    const {LlamadaMetodo} = require('../Instrucciones/LlamadaMetodo');
     const {Continue} = require('../Expresiones/Continue');
     const {Break} = require('../Expresiones/Break');
     //Expresion
@@ -167,18 +169,18 @@ instrucciones
 instruccion
 	:declaracionVar                 {$$ = $1;}       
     |funciones
-    |metodos
-    |llamada
+    |metodos                        {$$ = $1;}
+    |llamada                        {$$ = $1;}
     |sentencia_if                   {$$ = $1;}
-    |sentencia_switch
+    |sentencia_switch               {$$ = $1;}
     |sentencia_while                {$$ = $1;}
     |sentencia_for                  {$$ = $1;}
-    |sentencia_dowhile              
+    |sentencia_dowhile              {$$ = $1;}
     |sentencia_print                {$$ = $1;}
     |ID INC PTCOMA 	                {$$ = new InDecrement($1, "++", @1.first_line, @1.first_column);}					    
 	|ID DEC PTCOMA 	                {$$ = new InDecrement($1, "--", @1.first_line, @1.first_column);}
-    |CONTINUE PTCOMA                {$$ = new Continue(@1.first_line, @1.first_column)}
-    |BREAK PTCOMA                   {$$ = new Break(@1.first_line, @1.first_column)}
+    |CONTINUE PTCOMA                {$$ = new Continue(@1.first_line, @1.first_column);}
+    |BREAK PTCOMA                   {$$ = new Break(@1.first_line, @1.first_column);}
     |sentencia_return
     |exe
 ;
@@ -189,7 +191,8 @@ exe
 ;
 
 metodos
-    :VOID ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER
+    :VOID ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER {$$ = new DeclaracionMetodo($2, $4, $7, @1.first_line, @1.first_column);}
+    |VOID ID PARIZQ PARDER LLAIZQ instrucciones LLADER            {$$ = new DeclaracionMetodo($2, [], $6, @1.first_line, @1.first_column);}
 ;
 
 funciones
@@ -197,21 +200,21 @@ funciones
 ;
 
 llamada
-    :llamar PTCOMA
+    :llamar PTCOMA                          {$$ = $1;}
 ;
 
 llamar
-    :ID PARIZQ parametros_llamada PARDER
-    |ID PARIZQ PARDER  
+    :ID PARIZQ parametros_llamada PARDER    {$$ = new LlamadaMetodo($1, $3, @1.first_line, @1.first_column);}
+    |ID PARIZQ PARDER                       {$$ = new LlamadaMetodo($1, [], @1.first_line, @1.first_column);}
 ;
 
 parametros_llamada
-    :parametros_llamada COMA expresion 
-    |expresion
+    :parametros_llamada COMA expresion      { $$ = $1; $$.push($3);}
+    |expresion                              { $$ = []; $$.push($1);}
 ;
 parametros
-    :parametros COMA tipos ID   
-    |tipos ID                   
+    :parametros COMA tipos ID   {$$ = $1; $$.push(new Declaracion($3, $4, null,@1.first_line, @1.first_column));}
+    |tipos ID                   {$$ = []; $$.push(new Declaracion($1, $2, null,@1.first_line, @1.first_column));}         
 ;
 
 sentencia_if
