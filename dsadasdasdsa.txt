@@ -46,14 +46,23 @@ switch( edad ) {
 
 
 
-void holaMundo(String n, int x){
-	print("Simon Puta " + (n + x)); 
+void holaMundo(){
+	holaMundo2();
 }
 
-void holaMundo2(int n, int x){
-	print("Simon Puta " + (n + x)); 
+void holaMundo2(){
+	print("Simon Puta"); 
 }
 
 
+
+
+
+
+
+
+
+
+Exec holaMundo("simon", 2);
 holaMundo("simon", 2);
-holaMundo2(22, 2);
+

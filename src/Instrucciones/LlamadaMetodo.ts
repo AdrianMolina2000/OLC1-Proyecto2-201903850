@@ -33,7 +33,7 @@ export class LlamadaMetodo extends Nodo {
         } else {
             nombre += "SP";
         }
-        
+
 
         let simboloMetodo: Simbolo;
         simboloMetodo = table.getVariable(nombre);
@@ -47,13 +47,13 @@ export class LlamadaMetodo extends Nodo {
         }
 
         var parametros: Array<Nodo> = (<any>simboloMetodo).valor[0];
-            for (let i = 0; i < parametros.length; i++) {
-                var para: Declaracion;
-                var crear: Declaracion;
-                para = <Declaracion>parametros[i];
-                crear = para;
-                crear.valor = this.listaParams[i];
-                crear.execute(newtable, tree);
+        for (let i = 0; i < parametros.length; i++) {
+            var para: Declaracion;
+            var crear: Declaracion;
+            para = <Declaracion>parametros[i];
+            crear = para;
+            crear.valor = this.listaParams[i];
+            crear.execute(newtable, tree);
         }
 
         var result: Array<Nodo> = (<any>simboloMetodo).valor[1];
@@ -69,7 +69,27 @@ export class LlamadaMetodo extends Nodo {
     }
 
     getNodo() {
-        var nodo: NodoAST = new NodoAST("Llamada METODO");
+        var nodo: NodoAST = new NodoAST("LLAMADA METODO");
+        nodo.agregarHijo(this.id);
+        nodo.agregarHijo("(");
+        if (this.listaParams.length != 0) {
+            var nodo2: NodoAST = new NodoAST("Parametros");
+            var index = 1;
+            for (let i = 0; i < this.listaParams.length; i++) {
+                var param = <Declaracion>this.listaParams[i]
+                var nodo3: NodoAST = new NodoAST(param.tipo + "");
+                nodo3.agregarHijo(param.id + "");
+                nodo2.agregarHijo(nodo3);
+            }
+            nodo.agregarHijo(nodo2);
+        }
+
+        nodo.agregarHijo(")");
+        nodo.agregarHijo("{");
+
+        var nodo3: NodoAST = new NodoAST("INSTRUCCIONES");
+        nodo.agregarHijo(nodo3);
+        nodo.agregarHijo("}");
         return nodo;
     }
 }

@@ -182,13 +182,13 @@ instruccion
     |CONTINUE PTCOMA                {$$ = new Continue(@1.first_line, @1.first_column);}
     |BREAK PTCOMA                   {$$ = new Break(@1.first_line, @1.first_column);}
     |sentencia_return
-    |exe
+    |EXEC llamada                   {$$ = $2;}
 ;
 
-exe
-    :EXEC ID PARIZQ PARDER PTCOMA
-    |EXEC ID PARIZQ listaValores PARDER PTCOMA 
-;
+// exe
+//     :EXEC ID PARIZQ PARDER PTCOMA
+//     |EXEC ID PARIZQ listaValores PARDER PTCOMA 
+// ;
 
 metodos
     :VOID ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER {$$ = new DeclaracionMetodo($2, $4, $7, @1.first_line, @1.first_column);}

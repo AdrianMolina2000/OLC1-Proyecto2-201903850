@@ -53,7 +53,25 @@ class LlamadaMetodo extends Nodo_1.Nodo {
         }
     }
     getNodo() {
-        var nodo = new NodoAST_1.NodoAST("Llamada METODO");
+        var nodo = new NodoAST_1.NodoAST("LLAMADA METODO");
+        nodo.agregarHijo(this.id);
+        nodo.agregarHijo("(");
+        if (this.listaParams.length != 0) {
+            var nodo2 = new NodoAST_1.NodoAST("Parametros");
+            var index = 1;
+            for (let i = 0; i < this.listaParams.length; i++) {
+                var param = this.listaParams[i];
+                var nodo3 = new NodoAST_1.NodoAST(param.tipo + "");
+                nodo3.agregarHijo(param.id + "");
+                nodo2.agregarHijo(nodo3);
+            }
+            nodo.agregarHijo(nodo2);
+        }
+        nodo.agregarHijo(")");
+        nodo.agregarHijo("{");
+        var nodo3 = new NodoAST_1.NodoAST("INSTRUCCIONES");
+        nodo.agregarHijo(nodo3);
+        nodo.agregarHijo("}");
         return nodo;
     }
 }
