@@ -6,6 +6,7 @@ import { Excepcion } from './other/Excepcion';
 import { NodoAST } from './Abstract/NodoAST';
 import { Nodo } from './Abstract/Nodo';
 import { graphAST } from './Graficar';
+import { Retorno } from './Instrucciones/Retorno';
 
 const parser = require('./Grammar/Grammar.js');
 const cors = require('cors');
@@ -51,7 +52,7 @@ app.post('/analizar', (req, res) => {
           // `Irrecuperable`, 0, 0);
         // tree.consola.push(error2.toString());
       // }
-      if (res instanceof Break) {
+      if (res instanceof Break || res instanceof Retorno) {
         const error = new Excepcion('Semantico',
           `Sentencia break fuera de un ciclo`,
           res.line, res.column);
@@ -73,6 +74,7 @@ app.post('/analizar', (req, res) => {
       instr.agregarHijo(m.getNodo());
     });
     init.agregarHijo(instr);
+
     graphAST(init);
 
     res.render('views/index', {

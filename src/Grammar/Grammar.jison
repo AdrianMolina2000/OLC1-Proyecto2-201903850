@@ -21,6 +21,7 @@
     const {LlamadaMetodo} = require('../Instrucciones/LlamadaMetodo');
     const {Continue} = require('../Expresiones/Continue');
     const {Break} = require('../Expresiones/Break');
+    const {Retorno} = require('../Instrucciones/Retorno');
     //Expresion
     const {Aritmetica} = require('../Expresiones/Aritmetica');
     const {Relacional} = require('../Expresiones/Relacional');
@@ -60,6 +61,7 @@
 "Double"        return 'TDOUBLE'
 "Boolean"       return 'TBOOLEAN'
 "Char"          return 'TCHAR'
+"Void"          return 'TVOID'
 "String"        return 'TSTRING'
 "True"          return 'TRUE'
 "False"         return 'FALSE'
@@ -119,7 +121,7 @@
 "for"           return 'FOR'
 "continue"      return 'CONTINUE'
 "return"        return 'RETURN'
-"void"          return 'VOID'
+// "void"          return 'VOID'
 "toLower"       return 'TOLOWER'
 "toUpper"       return 'TOUPPER'
 "length"        return 'LENGTH'
@@ -181,7 +183,7 @@ instruccion
 	|ID DEC PTCOMA 	                {$$ = new InDecrement($1, "--", @1.first_line, @1.first_column);}
     |CONTINUE PTCOMA                {$$ = new Continue(@1.first_line, @1.first_column);}
     |BREAK PTCOMA                   {$$ = new Break(@1.first_line, @1.first_column);}
-    |sentencia_return
+    |sentencia_return               {$$ = $1;}
     |EXEC llamada                   {$$ = $2;}
 ;
 
@@ -191,13 +193,13 @@ instruccion
 // ;
 
 metodos
-    :VOID ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER {$$ = new DeclaracionMetodo($2, $4, $7, @1.first_line, @1.first_column);}
-    |VOID ID PARIZQ PARDER LLAIZQ instrucciones LLADER            {$$ = new DeclaracionMetodo($2, [], $6, @1.first_line, @1.first_column);}
+    :tipos ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER {$$ = new DeclaracionMetodo($1 ,$2, $4, $7, @1.first_line, @1.first_column);}
+    |tipos ID PARIZQ PARDER LLAIZQ instrucciones LLADER            {$$ = new DeclaracionMetodo($1 ,$2, [], $6, @1.first_line, @1.first_column);}
 ;
 
-funciones
-    :tipos ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER
-;
+// funciones
+    // :tipos ID PARIZQ parametros PARDER LLAIZQ instrucciones LLADER
+// ;
 
 llamada
     :llamar PTCOMA                          {$$ = $1;}
@@ -266,7 +268,8 @@ sentencia_print
 ;
 
 sentencia_return
-    :RETURN expresion PTCOMA
+    :RETURN expresion PTCOMA      {$$ = new Retorno($2, @1.first_line, @1.first_column);}
+    |RETURN PTCOMA                {$$ = new Retorno(null, @1.first_line, @1.first_column);}
 ;
 
 declaracionVar
@@ -313,7 +316,7 @@ expresion
     |PARIZQ expresion PARDER			                    {$$ = $2;}   	
     |PARIZQ tipos PARDER expresion                          {$$ = new Casteo($2, $4, @1.first_line, @1.first_column);}  	    	
 	|expresion INTERROGACION expresion DPUNTOS expresion    {$$ = new Ternario($1, $3, $5, @1.first_line, @1.first_column);}
-    |llamar
+    |llamar                                                 {$$ = $1}
     |TOLOWER PARIZQ expresion PARDER        
     |TOUPPER PARIZQ expresion PARDER        
     |LENGTH PARIZQ expresion PARDER         
@@ -350,4 +353,5 @@ tipos
 	|TBOOLEAN       {$$ = new Tipo(tipos.BOOLEANO);}
 	|TCHAR          {$$ = new Tipo(tipos.CARACTER);}
 	|TSTRING        {$$ = new Tipo(tipos.STRING);}
+	|TVOID          {$$ = new Tipo(tipos.VOID);}
 ;

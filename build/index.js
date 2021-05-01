@@ -10,6 +10,7 @@ const Continue_1 = require("./Expresiones/Continue");
 const Excepcion_1 = require("./other/Excepcion");
 const NodoAST_1 = require("./Abstract/NodoAST");
 const Graficar_1 = require("./Graficar");
+const Retorno_1 = require("./Instrucciones/Retorno");
 const parser = require('./Grammar/Grammar.js');
 const cors = require('cors');
 const app = express_1.default();
@@ -49,7 +50,7 @@ app.post('/analizar', (req, res) => {
         // `Irrecuperable`, 0, 0);
         // tree.consola.push(error2.toString());
         // }
-        if (res instanceof Break_1.Break) {
+        if (res instanceof Break_1.Break || res instanceof Retorno_1.Retorno) {
             const error = new Excepcion_1.Excepcion('Semantico', `Sentencia break fuera de un ciclo`, res.line, res.column);
             tree.excepciones.push(error);
             tree.consola.push(error.toString());

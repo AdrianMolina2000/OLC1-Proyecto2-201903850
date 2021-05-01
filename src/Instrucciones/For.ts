@@ -6,6 +6,7 @@ import { tipos } from "../other/Tipo";
 import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
 import { NodoAST } from "../Abstract/NodoAST";
+import { Retorno } from "./Retorno";
 
 export class For extends Nodo {
     inicio: Nodo;
@@ -47,7 +48,7 @@ export class For extends Nodo {
                     const res = this.expresion[i].execute(newtable, tree);
                     if (res instanceof Continue) {
                         break;
-                    } else if (res instanceof Break) {
+                    } else if (res instanceof Break || res instanceof Retorno) {
                         return;
                     }
                 }

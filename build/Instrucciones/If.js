@@ -7,6 +7,7 @@ const Tipo_1 = require("../other/Tipo");
 const Continue_1 = require("../Expresiones/Continue");
 const Break_1 = require("../Expresiones/Break");
 const NodoAST_1 = require("../Abstract/NodoAST");
+const Retorno_1 = require("./Retorno");
 class If extends Nodo_1.Nodo {
     constructor(condicion, listaIf, listaElse, line, column) {
         super(null, line, column);
@@ -30,7 +31,7 @@ class If extends Nodo_1.Nodo {
         if (result) {
             for (let i = 0; i < this.listaIf.length; i++) {
                 const res = this.listaIf[i].execute(newtable, tree);
-                if (res instanceof Continue_1.Continue || res instanceof Break_1.Break) {
+                if (res instanceof Continue_1.Continue || res instanceof Break_1.Break || res instanceof Retorno_1.Retorno) {
                     return res;
                 }
             }
@@ -38,7 +39,7 @@ class If extends Nodo_1.Nodo {
         else {
             for (let i = 0; i < this.listaElse.length; i++) {
                 const res = this.listaElse[i].execute(newtable, tree);
-                if (res instanceof Continue_1.Continue || res instanceof Break_1.Break) {
+                if (res instanceof Continue_1.Continue || res instanceof Break_1.Break || res instanceof Retorno_1.Retorno) {
                     return res;
                 }
             }

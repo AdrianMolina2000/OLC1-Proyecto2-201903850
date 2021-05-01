@@ -7,6 +7,7 @@ const Tipo_1 = require("../other/Tipo");
 const Continue_1 = require("../Expresiones/Continue");
 const Break_1 = require("../Expresiones/Break");
 const NodoAST_1 = require("../Abstract/NodoAST");
+const Retorno_1 = require("./Retorno");
 class DoWhile extends Nodo_1.Nodo {
     constructor(condicion, List, line, column) {
         super(null, line, column);
@@ -33,7 +34,7 @@ class DoWhile extends Nodo_1.Nodo {
                     if (res instanceof Continue_1.Continue) {
                         break;
                     }
-                    else if (res instanceof Break_1.Break) {
+                    else if (res instanceof Break_1.Break || res instanceof Retorno_1.Retorno) {
                         return;
                     }
                 }

@@ -44,7 +44,7 @@ export class Declaracion extends Nodo {
                 const error = new Excepcion('Semantico',
                     `La variable no puede ser declarada debido a que son de diferentes tipos`,
                     this.line, this.column);
-                tree.excepciones.push(error);
+                    tree.excepciones.push(error);
                 tree.consola.push(error.toString());
                 return error;
             }

@@ -13,8 +13,8 @@ export class DeclaracionMetodo extends Nodo {
     listaParams: Array<Nodo>;
     instrucciones: Array<Nodo>;
 
-    constructor(id: String, listaParams: Array<Nodo>, instrucciones: Array<Nodo>, line: Number, column: Number) {
-        super(new Tipo(tipos.VOID), line, column);
+    constructor(tipo:Tipo, id: String, listaParams: Array<Nodo>, instrucciones: Array<Nodo>, line: Number, column: Number) {
+        super(tipo, line, column);
         this.id = id;
         this.listaParams = listaParams;
         this.instrucciones = instrucciones;
@@ -47,7 +47,11 @@ export class DeclaracionMetodo extends Nodo {
 
     getNodo() {
         var nodo:NodoAST  = new NodoAST("DECLARACION METODO");
-        nodo.agregarHijo("Void");
+        if(this.tipo.tipo == tipos.VOID){
+            nodo.agregarHijo("Void");
+        }else{
+            nodo.agregarHijo(this.tipo + "");
+        }
         nodo.agregarHijo(this.id);
         nodo.agregarHijo("(");
         if(this.listaParams.length != 0){

@@ -8,6 +8,10 @@ import { NodoAST } from "../Abstract/NodoAST";
 import { Declaracion } from "./Declaracion";
 import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
+import { Retorno } from "./Retorno";
+import { Identificador } from "../Expresiones/identificador";
+import { Primitivo } from "../Expresiones/Primitivo";
+import { Print } from "./Print";
 
 
 export class LlamadaMetodo extends Nodo {
@@ -15,7 +19,7 @@ export class LlamadaMetodo extends Nodo {
     listaParams: Array<Nodo>;
 
     constructor(id: String, listaParams: Array<Nodo>, line: Number, column: Number) {
-        super(new Tipo(tipos.VOID), line, column);
+        super(null, line, column);
         this.id = id;
         this.listaParams = listaParams;
     }
@@ -64,8 +68,55 @@ export class LlamadaMetodo extends Nodo {
                 if (res instanceof Continue || res instanceof Break) {
                     return res;
                 }
+
+                if (simboloMetodo.tipo.tipo == tipos.VOID) {
+                    if (res instanceof Retorno) {
+                        const error = new Excepcion('Semantico',
+                            `No se esperaba un retorno en este metodo`,
+                            res.line, res.column);
+                        tree.excepciones.push(error);
+                        tree.consola.push(error.toString());
+                        return error;
+                    }
+                } else {
+                    if (res instanceof Retorno) {
+                        if (res.expresion != null) {
+
+                            this.tipo = res.expresion.tipo;
+                            res.execute(newtable, tree)
+                            var retorno = res.exp;
+
+                            if (simboloMetodo.tipo.tipo == res.expresion.tipo.tipo) {
+                                return retorno;
+                            } else {
+                                const error = new Excepcion('Semantico',
+                                    `No se puede retornar debido a que es de un tipo diferente al declarado`,
+                                    res.line, res.column);
+                                tree.excepciones.push(error);
+                                tree.consola.push(error.toString());
+                                return error;
+                            }
+                        } else {
+                            const error = new Excepcion('Semantico',
+                                `No se puede retornar debido a que es de un tipo diferente al declarado`,
+                                res.line, res.column);
+                            tree.excepciones.push(error);
+                            tree.consola.push(error.toString());
+                            return error;
+                        }
+                    }
+                }
+            }
+            if (simboloMetodo.tipo.tipo != tipos.VOID) {
+                const error = new Excepcion('Semantico',
+                    `Se esperaba un retorno en esta Funcion`,
+                    this.line, this.column);
+                tree.excepciones.push(error);
+                tree.consola.push(error.toString());
+                return error;
             }
         }
+        return null;
     }
 
     getNodo() {

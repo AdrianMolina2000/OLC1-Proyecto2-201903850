@@ -6,8 +6,8 @@ const Tipo_1 = require("../other/Tipo");
 const Simbolo_1 = require("../Simbols/Simbolo");
 const NodoAST_1 = require("../Abstract/NodoAST");
 class DeclaracionMetodo extends Nodo_1.Nodo {
-    constructor(id, listaParams, instrucciones, line, column) {
-        super(new Tipo_1.Tipo(Tipo_1.tipos.VOID), line, column);
+    constructor(tipo, id, listaParams, instrucciones, line, column) {
+        super(tipo, line, column);
         this.id = id;
         this.listaParams = listaParams;
         this.instrucciones = instrucciones;
@@ -35,7 +35,12 @@ class DeclaracionMetodo extends Nodo_1.Nodo {
     }
     getNodo() {
         var nodo = new NodoAST_1.NodoAST("DECLARACION METODO");
-        nodo.agregarHijo("Void");
+        if (this.tipo.tipo == Tipo_1.tipos.VOID) {
+            nodo.agregarHijo("Void");
+        }
+        else {
+            nodo.agregarHijo(this.tipo + "");
+        }
         nodo.agregarHijo(this.id);
         nodo.agregarHijo("(");
         if (this.listaParams.length != 0) {

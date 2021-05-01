@@ -6,6 +6,7 @@ import { tipos } from "../other/Tipo";
 import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
 import { NodoAST } from "../Abstract/NodoAST";
+import { Retorno } from "./Retorno";
 
 export class If extends Nodo {
     condicion: Nodo;
@@ -39,14 +40,14 @@ export class If extends Nodo {
         if (result) {
             for (let i = 0; i < this.listaIf.length; i++) {
                 const res = this.listaIf[i].execute(newtable, tree);
-                if (res instanceof Continue || res instanceof Break) {
+                if (res instanceof Continue || res instanceof Break || res instanceof Retorno) {
                     return res;
                 }
             }
         } else {
             for (let i = 0; i < this.listaElse.length; i++) {
                 const res = this.listaElse[i].execute(newtable, tree);
-                if (res instanceof Continue || res instanceof Break) {
+                if (res instanceof Continue || res instanceof Break || res instanceof Retorno) {
                     return res;
                 }
             }

@@ -6,6 +6,7 @@ import { tipos } from "../other/Tipo";
 import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
 import { NodoAST } from "../Abstract/NodoAST";
+import { Retorno } from "./Retorno";
 
 export class DoWhile extends Nodo {
     condicion: Nodo;
@@ -41,7 +42,7 @@ export class DoWhile extends Nodo {
                     const res = this.List[i].execute(newtable, tree);
                     if (res instanceof Continue) {
                         break;
-                    } else if (res instanceof Break) {
+                    } else if (res instanceof Break || res instanceof Retorno) {
                         return;
                     }
                 }
