@@ -51,7 +51,7 @@ export class Declaracion extends Nodo {
         }
 
         let simbolo: Simbolo;
-        simbolo = new Simbolo(this.tipo, this.id, result);
+        simbolo = new Simbolo(this.tipo, this.id, result, new Tipo(tipos.VARIABLE), this.line, this.column);
         const res = table.setVariable(simbolo);
         // if (res != null) {
             // const error = new Excepcion('Semantico',

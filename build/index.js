@@ -68,6 +68,7 @@ app.post('/analizar', (req, res) => {
     });
     init.agregarHijo(instr);
     Graficar_1.graphAST(init);
+    Graficar_1.graphTabla(tabla);
     res.render('views/index', {
         entrada,
         consola: tree.consola,

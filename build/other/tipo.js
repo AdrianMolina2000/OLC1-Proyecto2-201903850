@@ -11,6 +11,9 @@ var tipos;
     tipos[tipos["LIST"] = 6] = "LIST";
     tipos[tipos["ARRAY"] = 7] = "ARRAY";
     tipos[tipos["VOID"] = 8] = "VOID";
+    tipos[tipos["METODO"] = 9] = "METODO";
+    tipos[tipos["FUNCION"] = 10] = "FUNCION";
+    tipos[tipos["VARIABLE"] = 11] = "VARIABLE";
 })(tipos = exports.tipos || (exports.tipos = {}));
 function esEntero(numero) {
     if (numero % 1 == 0) {
@@ -40,6 +43,18 @@ class Tipo {
         }
         else if (this.tipo === tipos.CARACTER) {
             return 'caracter';
+        }
+        else if (this.tipo === tipos.VARIABLE) {
+            return 'Variable';
+        }
+        else if (this.tipo === tipos.METODO) {
+            return 'Metodo';
+        }
+        else if (this.tipo === tipos.FUNCION) {
+            return 'Funcion';
+        }
+        else if (this.tipo === tipos.VOID) {
+            return 'Void';
         }
     }
 }

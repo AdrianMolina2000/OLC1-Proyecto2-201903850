@@ -1,4 +1,6 @@
+import { Nodo } from "./Abstract/Nodo";
 import { NodoAST } from "./Abstract/NodoAST";
+import { Simbolo } from "./Simbols/Simbolo";
 import { Table } from "./Simbols/Table";
 
 export function graphAST(raiz: NodoAST): void {
@@ -48,17 +50,34 @@ function recorrerAST(padre: String, nPadre: NodoAST): void {
 export function graphTabla(tabla: Table): void {
     var fs = require('fs');
 
-    var stream = fs.createWriteStream(`./src/Reportes/TablaSimbolos.html`);
+    // fs.stat('./src/Reportes/TablaSimbolos.html', function (err: any) {
+    //     if (err == null) {
+    //         console.log("El archivo existe");
+    //         const exec = require('child_process').exec;
+    //         exec(`rm ./src/Reportes/TablaSimbolos.html`, (err: any, stdout: any) => {
+    //             if (err) {
+    //                 throw err;
+    //             }
+    //             console.log(stdout);
+    //         });
+    //     } else if (err.code == 'ENOENT') {
+    //         console.log("el archivo no existe");
+    //     } else {
+    //         console.log(err); // ocurrió algún error
+    //     }
+    // })
 
+    var stream = fs.createWriteStream(`./src/Reportes/TablaSimbolos.html`);
+    let documento = "";
     stream.once('open', function () {
-        stream.write(escribirHtml(tabla));
+        stream.write(escribirHtml(tabla, documento));
         stream.end();
     });
+
 }
 
-var documento: String = "";
 
-function escribirHtml(tabla: Table): void {
+function escribirHtml(tabla: Table, documento:String): String {
     documento += "<!DOCTYPE html>\n<html>\n<head>\n"
     documento += "   <meta charset='UTF-8'>\n"
     documento += "   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'>\n"
@@ -72,9 +91,28 @@ function escribirHtml(tabla: Table): void {
     documento += "               <th>Tipo</th>\n"
     documento += "               <th>Tipo</th>\n"
     documento += "               <th>linea</th>\n"
-    documento += "               <th>Error</th>\n"
-    documento += "               <th>Descripcion</th>\n"
+    documento += "               <th>Columna</th>\n"
     documento += "           </tr>\n"
     documento += "       </thead>\n"
     documento += "       <tbody>\n"
+    var num = 1;
+    let ambito: Table;
+    for (ambito = tabla; ambito != null; ambito = ambito.Anterior) {
+        for (let key of Array.from(ambito.Variables.keys())) {
+            var variable: Simbolo = ambito.Variables.get(key.toLocaleLowerCase());
+            documento += "           <tr>\n"
+            documento += `                <th><strong>${variable.id.split("$",1)[0]}</strong></th>\n`
+            documento += `                <th><strong>${variable.tipo}</strong></th>\n`
+            documento += `                <th><strong>${variable.tipo2}</strong></th>\n`
+            documento += `                <th><strong>${variable.line}</strong></th>\n`
+            documento += `                <th><strong>${variable.column}</strong></th>\n`
+            documento += "           </tr>\n"
+            num += 1
+        }
+    }
+
+    documento += "       </tbody>\n"
+    documento += "   </table>\n"
+    documento += "</body>\n</html>\n"
+    return documento;
 }

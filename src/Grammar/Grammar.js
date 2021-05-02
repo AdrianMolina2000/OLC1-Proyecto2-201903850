@@ -71,7 +71,7 @@
     recoverable: (boolean: TRUE when the parser has a error recovery rule available for this particular error)
   }
 */
-var Grammar = (function(){
+var grammar = (function(){
 var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,13],$V1=[1,14],$V2=[1,15],$V3=[1,17],$V4=[1,21],$V5=[1,22],$V6=[1,23],$V7=[1,25],$V8=[1,24],$V9=[1,26],$Va=[1,27],$Vb=[1,19],$Vc=[1,28],$Vd=[1,29],$Ve=[1,30],$Vf=[1,31],$Vg=[1,32],$Vh=[1,33],$Vi=[5,16,20,21,23,29,34,36,39,41,42,43,44,48,49,55,89,90,91,92,93,94],$Vj=[1,41],$Vk=[1,60],$Vl=[1,66],$Vm=[1,58],$Vn=[1,59],$Vo=[1,61],$Vp=[1,62],$Vq=[1,63],$Vr=[1,64],$Vs=[1,65],$Vt=[1,68],$Vu=[1,69],$Vv=[1,70],$Vw=[1,71],$Vx=[1,72],$Vy=[1,73],$Vz=[1,74],$VA=[16,27,50,57],$VB=[1,105],$VC=[1,107],$VD=[1,99],$VE=[1,98],$VF=[1,100],$VG=[1,101],$VH=[1,102],$VI=[1,103],$VJ=[1,104],$VK=[1,106],$VL=[1,108],$VM=[1,109],$VN=[1,110],$VO=[1,111],$VP=[1,112],$VQ=[18,27,29,32,40,56,57,62,64,65,66,67,68,69,70,71,72,73,74,80],$VR=[27,32],$VS=[18,27,29,32,40,73,74,80],$VT=[18,27,29,32,40,56,57,62,64,69,70,71,72,73,74,80],$VU=[18,27,29,32,40,56,57,69,70,71,72,73,74,80],$VV=[18,27,29,32,40,73,80],$VW=[1,217],$VX=[29,32],$VY=[29,39,41];
 var parser = {trace: function trace () { },
 yy: {},
@@ -980,9 +980,9 @@ return new Parser;
 
 
 if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
-exports.parser = Grammar;
-exports.Parser = Grammar.Parser;
-exports.parse = function () { return Grammar.parse.apply(Grammar, arguments); };
+exports.parser = grammar;
+exports.Parser = grammar.Parser;
+exports.parse = function () { return grammar.parse.apply(grammar, arguments); };
 exports.main = function commonjsMain (args) {
     if (!args[1]) {
         console.log('Usage: '+args[0]+' FILE');

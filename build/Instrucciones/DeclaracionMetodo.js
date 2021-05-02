@@ -18,7 +18,11 @@ class DeclaracionMetodo extends Nodo_1.Nodo {
             nombre += param.tipo;
         }
         if (table.getVariable(nombre) == null) {
-            var metodo = new Simbolo_1.Simbolo(this.tipo, nombre, [this.listaParams, this.instrucciones]);
+            var tipo2 = new Tipo_1.Tipo(Tipo_1.tipos.FUNCION);
+            if (this.tipo.tipo == Tipo_1.tipos.VOID) {
+                tipo2 = new Tipo_1.Tipo(Tipo_1.tipos.METODO);
+            }
+            var metodo = new Simbolo_1.Simbolo(this.tipo, nombre, [this.listaParams, this.instrucciones], tipo2, this.line, this.column);
             table.setVariable(metodo);
         }
         else {

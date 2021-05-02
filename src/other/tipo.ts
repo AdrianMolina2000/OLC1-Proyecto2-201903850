@@ -41,6 +41,14 @@ export class Tipo {
             return 'string';
         } else if (this.tipo === tipos.CARACTER) {
             return 'caracter';
+        }else if (this.tipo === tipos.VARIABLE) {
+            return 'Variable';
+        }else if (this.tipo === tipos.METODO) {
+            return 'Metodo';
+        }else if (this.tipo === tipos.FUNCION) {
+            return 'Funcion';
+        }else if (this.tipo === tipos.VOID) {
+            return 'Void';
         }
     }
 }

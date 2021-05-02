@@ -29,7 +29,11 @@ export class DeclaracionMetodo extends Nodo {
         }
 
         if (table.getVariable(nombre) == null) {
-            var metodo = new Simbolo(this.tipo, nombre, [this.listaParams, this.instrucciones]);
+            var tipo2 = new Tipo(tipos.FUNCION);
+            if (this.tipo.tipo == tipos.VOID) {
+                tipo2 = new Tipo(tipos.METODO);
+            }
+            var metodo = new Simbolo(this.tipo, nombre, [this.listaParams, this.instrucciones], tipo2, this.line, this.column);
             table.setVariable(metodo)
         } else {
             const error = new Excepcion('Semantico',
