@@ -21,7 +21,7 @@ class Switch extends Nodo_1.Nodo {
                 var caso2 = caso.execute(newtable, tree);
                 var condicion = new Relacional_1.Relacional(this.expresion, caso2.expresion, '==', this.line, this.column);
                 if (condicion.tipo.tipo == Tipo_1.tipos.BOOLEANO) {
-                    if (condicion.execute(newtable, tree) || ejecutado) {
+                    if (condicion.execute(newtable, tree) || !ejecutado) {
                         for (let i = 0; i < caso2.instrucciones.length; i++) {
                             const res = caso2.instrucciones[i].execute(newtable, tree);
                             if (res instanceof Break_1.Break) {

@@ -29,13 +29,9 @@ export class LlamadaMetodo extends Nodo {
 
         var nombre = this.id + "$";
 
-        if (this.listaParams.length != 0) {
-            for (let param of this.listaParams) {
-                var valor = param.execute(newtable, tree);
-                nombre += <any>param.tipo;
-            }
-        } else {
-            nombre += "SP";
+        for (let param of this.listaParams) {
+            var valor = param.execute(newtable, tree);
+            nombre += <any>param.tipo;
         }
 
 

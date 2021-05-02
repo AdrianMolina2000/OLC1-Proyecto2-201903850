@@ -1,10 +1,11 @@
 import { NodoAST } from "./Abstract/NodoAST";
+import { Table } from "./Simbols/Table";
 
 export function graphAST(raiz: NodoAST): void {
     var r: String = "AST";
     var ext: String = "pdf";
     var fs = require('fs');
-    
+
     var stream = fs.createWriteStream(`./src/Reportes/${r}.dot`);
 
     stream.once('open', function () {
@@ -13,8 +14,8 @@ export function graphAST(raiz: NodoAST): void {
     });
 
     const exec = require('child_process').exec;
-    exec(`dot -T pdf -o ./src/Reportes/${r}.${ext} ./src/Reportes/${r}.dot`,(err:any,stdout:any) => {
-        if(err){
+    exec(`dot -T pdf -o ./src/Reportes/${r}.${ext} ./src/Reportes/${r}.dot`, (err: any, stdout: any) => {
+        if (err) {
             throw err;
         }
         console.log(stdout);
@@ -36,10 +37,44 @@ function getDot(raiz: NodoAST): String {
 
 function recorrerAST(padre: String, nPadre: NodoAST): void {
     nPadre.getHijos().forEach(hijo => {
-        var nombreHijo:String = "n" + c;
+        var nombreHijo: String = "n" + c;
         grafo += nombreHijo + "[label=\"" + hijo.getValor().replace("\"", "\\\"") + "\"];\n";
         grafo += padre + "->" + nombreHijo + ";\n";
         c++;
         recorrerAST(nombreHijo, hijo);
     });
+}
+
+export function graphTabla(tabla: Table): void {
+    var fs = require('fs');
+
+    var stream = fs.createWriteStream(`./src/Reportes/TablaSimbolos.html`);
+
+    stream.once('open', function () {
+        stream.write(escribirHtml(tabla));
+        stream.end();
+    });
+}
+
+var documento: String = "";
+
+function escribirHtml(tabla: Table): void {
+    documento += "<!DOCTYPE html>\n<html>\n<head>\n"
+    documento += "   <meta charset='UTF-8'>\n"
+    documento += "   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'>\n"
+    documento += "</head>\n"
+    documento += "<body class='container grey lighten-1'>\n"
+    documento += "<h2>Tabla de Simbolos</h2>\n"
+    documento += "   <table class='highlight'>\n"
+    documento += "       <thead>\n"
+    documento += "           <tr>\n"
+    documento += "               <th>Identificador</th>\n"
+    documento += "               <th>Tipo</th>\n"
+    documento += "               <th>Tipo</th>\n"
+    documento += "               <th>linea</th>\n"
+    documento += "               <th>Error</th>\n"
+    documento += "               <th>Descripcion</th>\n"
+    documento += "           </tr>\n"
+    documento += "       </thead>\n"
+    documento += "       <tbody>\n"
 }

@@ -31,7 +31,7 @@ export class Switch extends Nodo {
 
                 var condicion = new Relacional(this.expresion, caso2.expresion, '==', this.line, this.column);
                 if (condicion.tipo.tipo == tipos.BOOLEANO) {
-                    if (condicion.execute(newtable, tree) || ejecutado) {
+                    if (condicion.execute(newtable, tree) || !ejecutado) {
 
                         for (let i = 0; i < caso2.instrucciones.length; i++) {
                             const res = caso2.instrucciones[i].execute(newtable, tree);

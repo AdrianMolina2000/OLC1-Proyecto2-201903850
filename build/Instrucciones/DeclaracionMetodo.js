@@ -14,13 +14,8 @@ class DeclaracionMetodo extends Nodo_1.Nodo {
     }
     execute(table, tree) {
         var nombre = this.id + "$";
-        if (this.listaParams.length == 0) {
-            nombre += "SP";
-        }
-        else {
-            for (let param of this.listaParams) {
-                nombre += param.tipo;
-            }
+        for (let param of this.listaParams) {
+            nombre += param.tipo;
         }
         if (table.getVariable(nombre) == null) {
             var metodo = new Simbolo_1.Simbolo(this.tipo, nombre, [this.listaParams, this.instrucciones]);

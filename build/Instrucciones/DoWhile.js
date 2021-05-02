@@ -17,6 +17,7 @@ class DoWhile extends Nodo_1.Nodo {
     execute(table, tree) {
         const newtable = new Table_1.Table(table);
         let result;
+        let bandera = true;
         do {
             result = this.condicion.execute(newtable, tree);
             if (result instanceof Excepcion_1.Excepcion) {
@@ -28,7 +29,7 @@ class DoWhile extends Nodo_1.Nodo {
                 tree.consola.push(error.toString());
                 return error;
             }
-            if (result) {
+            if (result || bandera) {
                 for (let i = 0; i < this.List.length; i++) {
                     const res = this.List[i].execute(newtable, tree);
                     if (res instanceof Continue_1.Continue) {
@@ -39,6 +40,7 @@ class DoWhile extends Nodo_1.Nodo {
                     }
                 }
             }
+            bandera = false;
         } while (result);
         return null;
     }

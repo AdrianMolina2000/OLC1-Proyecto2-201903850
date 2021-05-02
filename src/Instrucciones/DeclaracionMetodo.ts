@@ -13,29 +13,25 @@ export class DeclaracionMetodo extends Nodo {
     listaParams: Array<Nodo>;
     instrucciones: Array<Nodo>;
 
-    constructor(tipo:Tipo, id: String, listaParams: Array<Nodo>, instrucciones: Array<Nodo>, line: Number, column: Number) {
+    constructor(tipo: Tipo, id: String, listaParams: Array<Nodo>, instrucciones: Array<Nodo>, line: Number, column: Number) {
         super(tipo, line, column);
         this.id = id;
         this.listaParams = listaParams;
         this.instrucciones = instrucciones;
     }
 
-    execute(table: Table, tree: Tree):any {
-        
+    execute(table: Table, tree: Tree): any {
+
         var nombre = this.id + "$";
 
-        if(this.listaParams.length == 0){
-            nombre += "SP"
-        }else{
-            for(let param of this.listaParams){
-                nombre += param.tipo;
-            }
+        for (let param of this.listaParams) {
+            nombre += param.tipo;
         }
 
-        if(table.getVariable(nombre) == null){
+        if (table.getVariable(nombre) == null) {
             var metodo = new Simbolo(this.tipo, nombre, [this.listaParams, this.instrucciones]);
             table.setVariable(metodo)
-        }else{
+        } else {
             const error = new Excepcion('Semantico',
                 `El metodo {${nombre}} ya ha sido creado con anterioridad `,
                 this.line, this.column);
@@ -46,31 +42,31 @@ export class DeclaracionMetodo extends Nodo {
     }
 
     getNodo() {
-        var nodo:NodoAST  = new NodoAST("DECLARACION METODO");
-        if(this.tipo.tipo == tipos.VOID){
+        var nodo: NodoAST = new NodoAST("DECLARACION METODO");
+        if (this.tipo.tipo == tipos.VOID) {
             nodo.agregarHijo("Void");
-        }else{
+        } else {
             nodo.agregarHijo(this.tipo + "");
         }
         nodo.agregarHijo(this.id);
         nodo.agregarHijo("(");
-        if(this.listaParams.length != 0){
-            var nodo2:NodoAST  = new NodoAST("Parametros");
+        if (this.listaParams.length != 0) {
+            var nodo2: NodoAST = new NodoAST("Parametros");
             var index = 1;
-            for(let i = 0; i<this.listaParams.length; i++){
+            for (let i = 0; i < this.listaParams.length; i++) {
                 var param = <Declaracion>this.listaParams[i]
-                var nodo3:NodoAST  = new NodoAST(param.tipo + "");
+                var nodo3: NodoAST = new NodoAST(param.tipo + "");
                 nodo3.agregarHijo(param.id + "");
                 nodo2.agregarHijo(nodo3);
             }
             nodo.agregarHijo(nodo2);
         }
-            
+
         nodo.agregarHijo(")");
         nodo.agregarHijo("{");
-        
-        var nodo3:NodoAST  = new NodoAST("INSTRUCCIONES");
-        for(let i = 0; i<this.instrucciones.length; i++){
+
+        var nodo3: NodoAST = new NodoAST("INSTRUCCIONES");
+        for (let i = 0; i < this.instrucciones.length; i++) {
             nodo3.agregarHijo(this.instrucciones[i].getNodo());
         }
         nodo.agregarHijo(nodo3);

@@ -21,7 +21,7 @@ export class DoWhile extends Nodo {
     execute(table: Table, tree: Tree) {
         const newtable = new Table(table);
         let result: Nodo;
-        
+        let bandera = true;
         do {
             result = this.condicion.execute(newtable, tree);
             if (result instanceof Excepcion) {
@@ -37,7 +37,7 @@ export class DoWhile extends Nodo {
                 return error;
             }
 
-            if (result) {
+            if (result || bandera) {
                 for (let i = 0; i < this.List.length; i++) {
                     const res = this.List[i].execute(newtable, tree);
                     if (res instanceof Continue) {
@@ -47,6 +47,7 @@ export class DoWhile extends Nodo {
                     }
                 }
             }
+            bandera = false;
         } while (result);
         return null;
     }

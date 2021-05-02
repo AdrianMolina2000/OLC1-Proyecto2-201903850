@@ -17,14 +17,9 @@ class LlamadaMetodo extends Nodo_1.Nodo {
     execute(table, tree) {
         const newtable = new Table_1.Table(table);
         var nombre = this.id + "$";
-        if (this.listaParams.length != 0) {
-            for (let param of this.listaParams) {
-                var valor = param.execute(newtable, tree);
-                nombre += param.tipo;
-            }
-        }
-        else {
-            nombre += "SP";
+        for (let param of this.listaParams) {
+            var valor = param.execute(newtable, tree);
+            nombre += param.tipo;
         }
         let simboloMetodo;
         simboloMetodo = table.getVariable(nombre);

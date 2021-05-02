@@ -8,7 +8,10 @@ export enum tipos {
     BOOLEANO,
     LIST,
     ARRAY,
-    VOID
+    VOID, 
+    METODO,
+    FUNCION,
+    VARIABLE
 }
 
 export function esEntero(numero: number) {

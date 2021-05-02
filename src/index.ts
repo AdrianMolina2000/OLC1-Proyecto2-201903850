@@ -5,8 +5,9 @@ import { Continue } from './Expresiones/Continue';
 import { Excepcion } from './other/Excepcion';
 import { NodoAST } from './Abstract/NodoAST';
 import { Nodo } from './Abstract/Nodo';
-import { graphAST } from './Graficar';
+import { graphAST, graphTabla } from './Graficar';
 import { Retorno } from './Instrucciones/Retorno';
+import { table } from 'console';
 
 const parser = require('./Grammar/Grammar.js');
 const cors = require('cors');
@@ -76,6 +77,8 @@ app.post('/analizar', (req, res) => {
     init.agregarHijo(instr);
 
     graphAST(init);
+    graphTabla(tabla);
+    
 
     res.render('views/index', {
       entrada,

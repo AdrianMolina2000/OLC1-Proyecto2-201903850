@@ -170,7 +170,6 @@ instrucciones
 
 instruccion
 	:declaracionVar                 {$$ = $1;}       
-    |funciones
     |metodos                        {$$ = $1;}
     |llamada                        {$$ = $1;}
     |sentencia_if                   {$$ = $1;}
@@ -221,6 +220,7 @@ parametros
 
 sentencia_if
     :IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER {$$ = new If($3, $6, [], @1.first_line, @1.first_column);}
+    |IF PARIZQ expresion PARDER LLAIZQ LLADER {$$ = new If($3, [], [], @1.first_line, @1.first_column);}
     |IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER ELSE LLAIZQ instrucciones LLADER {$$ = new If($3, $6, $10, @1.first_line, @1.first_column);}
     |IF PARIZQ expresion PARDER LLAIZQ instrucciones LLADER ELSE sentencia_if {$$ = new If($3, $6, [$9], @1.first_line, @1.first_column);}
 ;
