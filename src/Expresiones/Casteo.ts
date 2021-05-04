@@ -75,7 +75,7 @@ export class Casteo extends Nodo {
     getNodo() {
         var nodo:NodoAST  = new NodoAST("CASTEO");
         nodo.agregarHijo("(");
-        nodo.agregarHijo(this.tipo.tipo);
+        nodo.agregarHijo(this.tipo + "");
         nodo.agregarHijo(")");
         nodo.agregarHijo(this.expresion.getNodo());
         return nodo;

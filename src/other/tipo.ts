@@ -6,7 +6,7 @@ export enum tipos {
     CARACTER,
     STRING,
     BOOLEANO,
-    LIST,
+    LISTA,
     ARRAY,
     VOID, 
     METODO,
@@ -51,6 +51,8 @@ export class Tipo {
             return 'Void';
         }else if (this.tipo === tipos.ARRAY) {
             return 'Vector';
+        }else if (this.tipo === tipos.LISTA) {
+            return 'Lista';
         }
     }
 }

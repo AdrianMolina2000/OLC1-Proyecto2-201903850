@@ -8,12 +8,16 @@
     const {Excepcion} = require('../other/Excepcion');
     const {Identificador} = require('../Expresiones/Identificador');
     const {Vector} = require('../Expresiones/Vector');
+    const {Lista} = require('../Expresiones/Lista');
     //Instrucciones
     const {Print} = require('../Instrucciones/Print');
     const {Declaracion, defal} = require('../Instrucciones/Declaracion');
     const {DeclaracionArray} = require('../Instrucciones/DeclaracionArray');
+    const {DeclaracionLista} = require('../Instrucciones/DeclaracionLista');
     const {Asignacion} = require('../Instrucciones/Asignacion');
     const {AsignacionVector} = require('../Instrucciones/AsignacionVector');
+    const {AsignacionLista} = require('../Instrucciones/AsignacionLista');
+    const {AddLista} = require('../Instrucciones/AddLista');
     const {If} = require('../Instrucciones/If');
     const {Switch} = require('../Instrucciones/Switch');
     const {Case} = require('../Instrucciones/Case');
@@ -282,10 +286,10 @@ declaracionVar
     |tipos CORIZQ CORDER ID ASIGNAR NEW tipos CORIZQ DECIMAL CORDER PTCOMA  {$$ = new DeclaracionArray($1, $4, $7, $9, null, @1.first_line, @1.first_column);}
     |tipos CORIZQ CORDER ID ASIGNAR LLAIZQ listaValores LLADER PTCOMA       {$$ = new DeclaracionArray($1, $4, null, null, $7, @1.first_line, @1.first_column);}
     |ID CORIZQ expresion CORDER ASIGNAR expresion PTCOMA                    {$$ = new AsignacionVector($1, $3, $6, @1.first_line, @1.first_column);} 
-    |LIST MENORQ tipos MAYORA ID ASIGNAR NEW LIST MENORQ tipos MAYORA PTCOMA
+    |LIST MENORQ tipos MAYORA ID ASIGNAR NEW LIST MENORQ tipos MAYORA PTCOMA{$$ = new DeclaracionLista($3, $5, $10, @1.first_line, @1.first_column);}
     |LIST MENORQ tipos MAYORA ID ASIGNAR tocha PTCOMA
-    |ID PUNTO ADD PARIZQ expresion PARDER PTCOMA
-    |ID CORIZQ CORIZQ ENTERO CORDER CORDER ASIGNAR expresion PTCOMA
+    |ID PUNTO ADD PARIZQ expresion PARDER PTCOMA                            {$$ = new AddLista($1, $5, @1.first_line, @1.first_column);} 
+    |ID CORIZQ CORIZQ expresion CORDER CORDER ASIGNAR expresion PTCOMA         {$$ = new AsignacionLista($1, $4, $8, @1.first_line, @1.first_column);} 
 ;
 
 expresion 
@@ -315,7 +319,7 @@ expresion
     |CADENA		                                            {$$ = new Primitivo(new Tipo(tipos.STRING), $1, @1.first_line, @1.first_column);} 
     |CARACTER                                               {$$ = new Primitivo(new Tipo(tipos.CARACTER), $1.replace(/\'/g,""), @1.first_line, @1.first_column);} 
     |ID CORIZQ expresion CORDER                	            {$$ = new Vector($1, $3, @1.first_line, @1.first_column);}
-    |ID CORIZQ CORIZQ ENTERO CORDER CORDER  	
+    |ID CORIZQ CORIZQ expresion CORDER CORDER  	            {$$ = new Vector($1, $4, @1.first_line, @1.first_column);}
     |PARIZQ expresion PARDER			                    {$$ = $2;}   	
     |PARIZQ tipos PARDER expresion                          {$$ = new Casteo($2, $4, @1.first_line, @1.first_column);}  	    	
 	|expresion INTERROGACION expresion DPUNTOS expresion    {$$ = new Ternario($1, $3, $5, @1.first_line, @1.first_column);}

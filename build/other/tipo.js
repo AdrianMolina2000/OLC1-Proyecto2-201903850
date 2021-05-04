@@ -8,7 +8,7 @@ var tipos;
     tipos[tipos["CARACTER"] = 3] = "CARACTER";
     tipos[tipos["STRING"] = 4] = "STRING";
     tipos[tipos["BOOLEANO"] = 5] = "BOOLEANO";
-    tipos[tipos["LIST"] = 6] = "LIST";
+    tipos[tipos["LISTA"] = 6] = "LISTA";
     tipos[tipos["ARRAY"] = 7] = "ARRAY";
     tipos[tipos["VOID"] = 8] = "VOID";
     tipos[tipos["METODO"] = 9] = "METODO";
@@ -58,6 +58,9 @@ class Tipo {
         }
         else if (this.tipo === tipos.ARRAY) {
             return 'Vector';
+        }
+        else if (this.tipo === tipos.LISTA) {
+            return 'Lista';
         }
     }
 }
