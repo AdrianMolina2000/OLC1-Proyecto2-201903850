@@ -1,0 +1,13 @@
+String[] simon = {"hola", "Mundo"};
+int[] vector1 = new int[4];
+int[] nums = {1,2,3};
+boolean band = true;
+boolean[] banderas = {true, false, band};
+boolean[] banderas2 = {banderas[1], false, band};
+int y = 0;
+for(int x = 0; x<3; x++){
+  print(banderas[x]);
+}
+for(int x = 0; x<3; x++){
+  print(banderas2[x]);
+}

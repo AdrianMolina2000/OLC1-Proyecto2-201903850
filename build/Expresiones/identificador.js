@@ -17,11 +17,14 @@ class Identificador extends Nodo_1.Nodo {
             return error;
         }
         this.tipo = variable.tipo;
+        this.valor = variable.valor;
         return variable.valor;
     }
     getNodo() {
         var nodo = new NodoAST_1.NodoAST("IDENTIFICADOR");
-        nodo.agregarHijo(this.id);
+        var nodo2 = new NodoAST_1.NodoAST(this.id + "");
+        nodo2.agregarHijo(this.valor + "");
+        nodo.agregarHijo(nodo2);
         return nodo;
     }
 }

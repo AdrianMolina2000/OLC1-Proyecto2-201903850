@@ -7,6 +7,7 @@ import { NodoAST } from "../Abstract/NodoAST";
 
 export class Identificador extends Nodo {
     id: String;
+    valor: any;
 
     constructor(id: String, line: Number, column: Number) {
         super(null, line, column);
@@ -24,12 +25,15 @@ export class Identificador extends Nodo {
             return error;
         }
         this.tipo = variable.tipo;
+        this.valor = variable.valor;
         return variable.valor;
     }
 
     getNodo() {
         var nodo:NodoAST  = new NodoAST("IDENTIFICADOR");
-        nodo.agregarHijo(this.id);
+        var nodo2:NodoAST  = new NodoAST(this.id + "");
+        nodo2.agregarHijo(this.valor + "");
+        nodo.agregarHijo(nodo2);
         return nodo;
     }
 }

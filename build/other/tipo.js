@@ -56,6 +56,9 @@ class Tipo {
         else if (this.tipo === tipos.VOID) {
             return 'Void';
         }
+        else if (this.tipo === tipos.ARRAY) {
+            return 'Vector';
+        }
     }
 }
 exports.Tipo = Tipo;

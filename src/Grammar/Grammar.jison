@@ -7,10 +7,13 @@
     const {Primitivo} = require('../Expresiones/Primitivo');
     const {Excepcion} = require('../other/Excepcion');
     const {Identificador} = require('../Expresiones/Identificador');
+    const {Vector} = require('../Expresiones/Vector');
     //Instrucciones
     const {Print} = require('../Instrucciones/Print');
     const {Declaracion, defal} = require('../Instrucciones/Declaracion');
+    const {DeclaracionArray} = require('../Instrucciones/DeclaracionArray');
     const {Asignacion} = require('../Instrucciones/Asignacion');
+    const {AsignacionVector} = require('../Instrucciones/AsignacionVector');
     const {If} = require('../Instrucciones/If');
     const {Switch} = require('../Instrucciones/Switch');
     const {Case} = require('../Instrucciones/Case');
@@ -276,9 +279,9 @@ declaracionVar
 	:tipos ID PTCOMA                        {$$ = new Declaracion($1, $2, defal($1), @1.first_line, @1.first_column);}
 	|tipos ID ASIGNAR expresion PTCOMA      {$$ = new Declaracion($1, $2, $4, @1.first_line, @1.first_column);}
     |ID ASIGNAR expresion PTCOMA            {$$ = new Asignacion($1, $3, @1.first_line, @1.first_column);}
-    |tipos CORIZQ CORDER ID ASIGNAR TNEW tipos CORIZQ ENTERO CORDER PTCOMA
-    |tipos CORIZQ CORDER ID ASIGNAR LLAIZQ listaValores LLADER PTCOMA
-    |ID CORIZQ ENTERO CORDER ASIGNAR expresion PTCOMA
+    |tipos CORIZQ CORDER ID ASIGNAR NEW tipos CORIZQ DECIMAL CORDER PTCOMA  {$$ = new DeclaracionArray($1, $4, $7, $9, null, @1.first_line, @1.first_column);}
+    |tipos CORIZQ CORDER ID ASIGNAR LLAIZQ listaValores LLADER PTCOMA       {$$ = new DeclaracionArray($1, $4, null, null, $7, @1.first_line, @1.first_column);}
+    |ID CORIZQ expresion CORDER ASIGNAR expresion PTCOMA                    {$$ = new AsignacionVector($1, $3, $6, @1.first_line, @1.first_column);} 
     |LIST MENORQ tipos MAYORA ID ASIGNAR NEW LIST MENORQ tipos MAYORA PTCOMA
     |LIST MENORQ tipos MAYORA ID ASIGNAR tocha PTCOMA
     |ID PUNTO ADD PARIZQ expresion PARDER PTCOMA
@@ -304,15 +307,15 @@ expresion
     |expresion DIFERENTED expresion	   	                    {$$ = new Relacional($1, $3, '!=', @1.first_line, @1.first_column);}
     |expresion OR expresion	  			                    {$$ = new Logico($1, $3, '||', @1.first_line, @1.first_column);}
     |expresion AND expresion			                    {$$ = new Logico($1, $3, '&&', @1.first_line, @1.first_column);}
-    |ID                                                     {$$ = new Identificador($1, @1.first_line, @1.first_column); }				                    
+    |ID                                                     {$$ = new Identificador($1, @1.first_line, @1.first_column);}				                    
 //  |ENTERO                                                 {$$ = new Primitivo(new Tipo(tipos.ENTERO), Number($1), _$.first_line, _$.first_column);}                                                 
     |DECIMAL                                                {$$ = new Primitivo(new Tipo(esEntero(Number($1))), Number($1), @1.first_line, @1.first_column);}                                                  
     |TRUE			                                        {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), true, @1.first_line, @1.first_column);} 
     |FALSE				                                    {$$ = new Primitivo(new Tipo(tipos.BOOLEANO), false, @1.first_line, @1.first_column);}
     |CADENA		                                            {$$ = new Primitivo(new Tipo(tipos.STRING), $1, @1.first_line, @1.first_column);} 
     |CARACTER                                               {$$ = new Primitivo(new Tipo(tipos.CARACTER), $1.replace(/\'/g,""), @1.first_line, @1.first_column);} 
+    |ID CORIZQ expresion CORDER                	            {$$ = new Vector($1, $3, @1.first_line, @1.first_column);}
     |ID CORIZQ CORIZQ ENTERO CORDER CORDER  	
-    |ID CORIZQ ENTERO CORDER                	
     |PARIZQ expresion PARDER			                    {$$ = $2;}   	
     |PARIZQ tipos PARDER expresion                          {$$ = new Casteo($2, $4, @1.first_line, @1.first_column);}  	    	
 	|expresion INTERROGACION expresion DPUNTOS expresion    {$$ = new Ternario($1, $3, $5, @1.first_line, @1.first_column);}
@@ -334,8 +337,8 @@ expresion
 // ;
 
 listaValores
-    :listaValores COMA expresion
-    |expresion
+    :listaValores COMA expresion    { $$ = $1; $$.push($3);}
+    |expresion                      { $$ = []; $$.push($1);}
 ;
 
 tocha

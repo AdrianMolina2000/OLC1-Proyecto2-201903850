@@ -17,10 +17,14 @@ class LlamadaMetodo extends Nodo_1.Nodo {
     execute(table, tree) {
         const newtable = new Table_1.Table(table);
         var nombre = this.id + "$";
+        // var nombre = this.id;
+        var index = 0;
         for (let param of this.listaParams) {
             var valor = param.execute(newtable, tree);
-            nombre += param.tipo;
+            // nombre += <any>param.tipo;
+            index += 1;
         }
+        nombre += index + "";
         let simboloMetodo;
         simboloMetodo = table.getVariable(nombre);
         if (simboloMetodo == null) {
@@ -63,6 +67,9 @@ class LlamadaMetodo extends Nodo_1.Nodo {
                                 return retorno;
                             }
                             else {
+                                if (simboloMetodo.tipo.tipo == Tipo_1.tipos.DECIMAL && (res.expresion.tipo.tipo == Tipo_1.tipos.ENTERO)) {
+                                    return retorno;
+                                }
                                 const error = new Excepcion_1.Excepcion('Semantico', `No se puede retornar debido a que es de un tipo diferente al declarado`, res.line, res.column);
                                 tree.excepciones.push(error);
                                 tree.consola.push(error.toString());

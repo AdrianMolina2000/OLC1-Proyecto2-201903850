@@ -38,24 +38,17 @@ function recorrerAST(padre, nPadre) {
         recorrerAST(nombreHijo, hijo);
     });
 }
+// export function graphTabla(tabla: Table): void {
+//     var fs = require('fs');
+//     var stream = fs.createWriteStream(`./src/Reportes/TablaSimbolos.html`);
+//     let documento = "";
+//     stream.once('open', function () {
+//         stream.write(escribirHtml(tabla, documento));
+//         stream.end();
+//     });
+// }
 function graphTabla(tabla) {
     var fs = require('fs');
-    // fs.stat('./src/Reportes/TablaSimbolos.html', function (err: any) {
-    //     if (err == null) {
-    //         console.log("El archivo existe");
-    //         const exec = require('child_process').exec;
-    //         exec(`rm ./src/Reportes/TablaSimbolos.html`, (err: any, stdout: any) => {
-    //             if (err) {
-    //                 throw err;
-    //             }
-    //             console.log(stdout);
-    //         });
-    //     } else if (err.code == 'ENOENT') {
-    //         console.log("el archivo no existe");
-    //     } else {
-    //         console.log(err); // ocurrió algún error
-    //     }
-    // })
     var stream = fs.createWriteStream(`./src/Reportes/TablaSimbolos.html`);
     let documento = "";
     stream.once('open', function () {
@@ -83,19 +76,16 @@ function escribirHtml(tabla, documento) {
     documento += "       </thead>\n";
     documento += "       <tbody>\n";
     var num = 1;
-    let ambito;
-    for (ambito = tabla; ambito != null; ambito = ambito.Anterior) {
-        for (let key of Array.from(ambito.Variables.keys())) {
-            var variable = ambito.Variables.get(key.toLocaleLowerCase());
-            documento += "           <tr>\n";
-            documento += `                <th><strong>${variable.id.split("$", 1)[0]}</strong></th>\n`;
-            documento += `                <th><strong>${variable.tipo}</strong></th>\n`;
-            documento += `                <th><strong>${variable.tipo2}</strong></th>\n`;
-            documento += `                <th><strong>${variable.line}</strong></th>\n`;
-            documento += `                <th><strong>${variable.column}</strong></th>\n`;
-            documento += "           </tr>\n";
-            num += 1;
-        }
+    for (let i = 0; i < tabla.length; i++) {
+        var variable = tabla[i];
+        documento += "           <tr>\n";
+        documento += `                <th><strong>${variable.id.split("$", 1)[0]}</strong></th>\n`;
+        documento += `                <th><strong>${variable.tipo}</strong></th>\n`;
+        documento += `                <th><strong>${variable.tipo2}</strong></th>\n`;
+        documento += `                <th><strong>${variable.line}</strong></th>\n`;
+        documento += `                <th><strong>${variable.column}</strong></th>\n`;
+        documento += "           </tr>\n";
+        num += 1;
     }
     documento += "       </tbody>\n";
     documento += "   </table>\n";

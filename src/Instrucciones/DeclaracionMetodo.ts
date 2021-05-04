@@ -22,11 +22,14 @@ export class DeclaracionMetodo extends Nodo {
 
     execute(table: Table, tree: Tree): any {
 
+        // var nombre = this.id + "$";
         var nombre = this.id + "$";
-
+        var index = 0;
         for (let param of this.listaParams) {
-            nombre += param.tipo;
+            // nombre += param.tipo;
+            index += 1;
         }
+        nombre += index + "";
 
         if (table.getVariable(nombre) == null) {
             var tipo2 = new Tipo(tipos.FUNCION);
@@ -35,9 +38,10 @@ export class DeclaracionMetodo extends Nodo {
             }
             var metodo = new Simbolo(this.tipo, nombre, [this.listaParams, this.instrucciones], tipo2, this.line, this.column);
             table.setVariable(metodo)
+            tree.Variables.push(metodo);
         } else {
             const error = new Excepcion('Semantico',
-                `El metodo {${nombre}} ya ha sido creado con anterioridad `,
+                `El metodo {${nombre.split("$",1)[0]}} ya ha sido creado con anterioridad `,
                 this.line, this.column);
             tree.excepciones.push(error);
             tree.consola.push(error.toString());

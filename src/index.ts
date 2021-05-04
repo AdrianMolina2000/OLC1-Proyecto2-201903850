@@ -77,7 +77,7 @@ app.post('/analizar', (req, res) => {
     init.agregarHijo(instr);
 
     graphAST(init);
-    graphTabla(tabla);
+    graphTabla(tree.Variables);
     
 
     res.render('views/index', {

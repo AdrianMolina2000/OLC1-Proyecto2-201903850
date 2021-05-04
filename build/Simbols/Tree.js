@@ -5,6 +5,7 @@ class Tree {
         this.instrucciones = instrucciones;
         this.excepciones = new Array();
         this.consola = new Array();
+        this.Variables = new Array();
     }
 }
 exports.Tree = Tree;

@@ -49,6 +49,7 @@ class Declaracion extends Nodo_1.Nodo {
         let simbolo;
         simbolo = new Simbolo_1.Simbolo(this.tipo, this.id, result, new Tipo_1.Tipo(Tipo_1.tipos.VARIABLE), this.line, this.column);
         const res = table.setVariable(simbolo);
+        tree.Variables.push(simbolo);
         // if (res != null) {
         // const error = new Excepcion('Semantico',
         // res,

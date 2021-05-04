@@ -49,6 +49,8 @@ export class Tipo {
             return 'Funcion';
         }else if (this.tipo === tipos.VOID) {
             return 'Void';
+        }else if (this.tipo === tipos.ARRAY) {
+            return 'Vector';
         }
     }
 }
