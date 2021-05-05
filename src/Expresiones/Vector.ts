@@ -28,6 +28,7 @@ export class Vector extends Nodo {
                 `El Vector {${this.id}} no ha sido encontrada`,
                 this.line, this.column);
             tree.excepciones.push(error);
+            tree.consola.push(error.toString());
             return error;
         }
         this.tipo = variable.tipo;

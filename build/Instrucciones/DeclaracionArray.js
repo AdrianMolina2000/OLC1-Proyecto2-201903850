@@ -43,7 +43,11 @@ class DeclaracionArray extends Nodo_1.Nodo {
             }
             else {
                 var contenido = new Array();
-                for (let i = 0; i < this.num; i++) {
+                const result = this.num.execute(table, tree);
+                if (result instanceof Excepcion_1.Excepcion) {
+                    return result;
+                }
+                for (let i = 0; i < result; i++) {
                     contenido.push(defal(this.tipo, this.line, this.column));
                 }
                 let simbolo;
@@ -101,7 +105,12 @@ class DeclaracionArray extends Nodo_1.Nodo {
             nodo.agregarHijo(this.id + "");
             nodo.agregarHijo("=");
             nodo.agregarHijo("new");
-            nodo.agregarHijo(`int[${this.num}]`);
+            var nodo2 = new NodoAST_1.NodoAST("Tamaño del Array");
+            nodo2.agregarHijo("int");
+            nodo2.agregarHijo("[");
+            nodo2.agregarHijo(this.num.getNodo());
+            nodo2.agregarHijo("]");
+            nodo.agregarHijo(nodo2);
         }
         else if ((this.tipo2 == null) && (this.num == null) && (this.listaValores != null)) {
             nodo.agregarHijo(`${this.tipo}[]`);

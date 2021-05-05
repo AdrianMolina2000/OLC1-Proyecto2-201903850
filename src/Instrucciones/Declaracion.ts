@@ -44,7 +44,7 @@ export class Declaracion extends Nodo {
                 const error = new Excepcion('Semantico',
                     `La variable no puede ser declarada debido a que son de diferentes tipos`,
                     this.line, this.column);
-                    tree.excepciones.push(error);
+                tree.excepciones.push(error);
                 tree.consola.push(error.toString());
                 return error;
             }
@@ -55,26 +55,25 @@ export class Declaracion extends Nodo {
         const res = table.setVariable(simbolo);
         tree.Variables.push(simbolo);
         // if (res != null) {
-            // const error = new Excepcion('Semantico',
-                // res,
-                // this.line, this.column);
-            // tree.excepciones.push(error);
-            // tree.consola.push(error.toString());
+        // const error = new Excepcion('Semantico',
+        // res,
+        // this.line, this.column);
+        // tree.excepciones.push(error);
+        // tree.consola.push(error.toString());
         // }
         return null;
     }
 
     getNodo() {
-        var nodo:NodoAST  = new NodoAST("DECLARACION");
-        nodo.agregarHijo(this.tipo+"");
+        var nodo: NodoAST = new NodoAST("DECLARACION");
+        nodo.agregarHijo(this.tipo + "");
         nodo.agregarHijo(this.id);
-        
-        if(this.valor != null)
-        {
+
+        if (this.valor != null) {
             nodo.agregarHijo("=");
             nodo.agregarHijo(this.valor.getNodo());
         }
-        
+
         return nodo;
     }
 }

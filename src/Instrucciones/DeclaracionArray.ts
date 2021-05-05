@@ -25,10 +25,10 @@ export class DeclaracionArray extends Nodo {
     tipo: Tipo;
     id: String;
     tipo2: Tipo;
-    num: Number;
+    num: Nodo;
     listaValores: Array<Nodo>;
 
-    constructor(tipo: Tipo, id: String, tipo2: Tipo, num: Number, listaValores: Array<Nodo>, line: Number, column: Number) {
+    constructor(tipo: Tipo, id: String, tipo2: Tipo, num: Nodo, listaValores: Array<Nodo>, line: Number, column: Number) {
         super(tipo, line, column);
         this.id = id;
         this.tipo2 = tipo2;
@@ -49,7 +49,11 @@ export class DeclaracionArray extends Nodo {
                 return error;
             } else {
                 var contenido: Array<Nodo> = new Array<Nodo>();
-                for (let i = 0; i < this.num; i++) {
+                const result = this.num.execute(table, tree);
+                if (result instanceof Excepcion) {
+                    return result;
+                }
+                for (let i = 0; i < result; i++) {
                     contenido.push(defal(this.tipo, this.line, this.column));
                 }
                 let simbolo: Simbolo;
@@ -77,7 +81,7 @@ export class DeclaracionArray extends Nodo {
                 if ((this.tipo.tipo == tipos.DECIMAL) && (this.listaValores[i].tipo.tipo == tipos.ENTERO)) {
                     this.listaValores[i].tipo = new Tipo(tipos.DECIMAL);
                     contenido.push(this.listaValores[i]);
-                }else if (this.tipo.tipo != this.listaValores[i].tipo.tipo) {
+                } else if (this.tipo.tipo != this.listaValores[i].tipo.tipo) {
                     const error = new Excepcion('Semantico',
                         `El vector no puede ser declarado debido a que son de diferentes tipos`,
                         this.line, this.column);
@@ -116,7 +120,12 @@ export class DeclaracionArray extends Nodo {
             nodo.agregarHijo(this.id + "");
             nodo.agregarHijo("=");
             nodo.agregarHijo("new");
-            nodo.agregarHijo(`int[${this.num}]`)
+            var nodo2: NodoAST = new NodoAST("Tamaño del Array");
+            nodo2.agregarHijo("int");
+            nodo2.agregarHijo("[");
+            nodo2.agregarHijo(this.num.getNodo());
+            nodo2.agregarHijo("]");
+            nodo.agregarHijo(nodo2);
 
         } else if ((this.tipo2 == null) && (this.num == null) && (this.listaValores != null)) {
             nodo.agregarHijo(`${this.tipo}[]`);

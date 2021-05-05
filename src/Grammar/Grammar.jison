@@ -36,7 +36,12 @@
     const {Ternario} = require('../Expresiones/Ternario');
     const {Casteo} = require('../Expresiones/Casteo');
     const {InDecrement} = require('../Expresiones/InDecrement');
-
+    const {Length} = require('../Expresiones/Length');
+    const {ToLower} = require('../Expresiones/ToLower');
+    const {ToUpper} = require('../Expresiones/ToUpper');
+    const {Truncate} = require('../Expresiones/Truncate');
+    const {Round} = require('../Expresiones/Round');
+    const {TypeOf} = require('../Expresiones/TypeOf');
 
 %}
 /* Definición Léxica */
@@ -283,7 +288,7 @@ declaracionVar
 	:tipos ID PTCOMA                        {$$ = new Declaracion($1, $2, defal($1), @1.first_line, @1.first_column);}
 	|tipos ID ASIGNAR expresion PTCOMA      {$$ = new Declaracion($1, $2, $4, @1.first_line, @1.first_column);}
     |ID ASIGNAR expresion PTCOMA            {$$ = new Asignacion($1, $3, @1.first_line, @1.first_column);}
-    |tipos CORIZQ CORDER ID ASIGNAR NEW tipos CORIZQ DECIMAL CORDER PTCOMA  {$$ = new DeclaracionArray($1, $4, $7, $9, null, @1.first_line, @1.first_column);}
+    |tipos CORIZQ CORDER ID ASIGNAR NEW tipos CORIZQ expresion CORDER PTCOMA  {$$ = new DeclaracionArray($1, $4, $7, $9, null, @1.first_line, @1.first_column);}
     |tipos CORIZQ CORDER ID ASIGNAR LLAIZQ listaValores LLADER PTCOMA       {$$ = new DeclaracionArray($1, $4, null, null, $7, @1.first_line, @1.first_column);}
     |ID CORIZQ expresion CORDER ASIGNAR expresion PTCOMA                    {$$ = new AsignacionVector($1, $3, $6, @1.first_line, @1.first_column);} 
     |LIST MENORQ tipos MAYORA ID ASIGNAR NEW LIST MENORQ tipos MAYORA PTCOMA{$$ = new DeclaracionLista($3, $5, $10, @1.first_line, @1.first_column);}
@@ -323,14 +328,14 @@ expresion
     |PARIZQ expresion PARDER			                    {$$ = $2;}   	
     |PARIZQ tipos PARDER expresion                          {$$ = new Casteo($2, $4, @1.first_line, @1.first_column);}  	    	
 	|expresion INTERROGACION expresion DPUNTOS expresion    {$$ = new Ternario($1, $3, $5, @1.first_line, @1.first_column);}
-    |llamar                                                 {$$ = $1}
-    |TOLOWER PARIZQ expresion PARDER        
-    |TOUPPER PARIZQ expresion PARDER        
-    |LENGTH PARIZQ expresion PARDER         
-    |TRUNCATE PARIZQ expresion PARDER       
-    |ROUND PARIZQ expresion PARDER          
-    |TYPEOF PARIZQ expresion PARDER         
+    |LENGTH PARIZQ expresion PARDER                         {$$ = new Length($3, @1.first_line, @1.first_column);}
+    |TOLOWER PARIZQ expresion PARDER                        {$$ = new ToLower($3, @1.first_line, @1.first_column);}        
+    |TOUPPER PARIZQ expresion PARDER                        {$$ = new ToUpper($3, @1.first_line, @1.first_column);}        
+    |TRUNCATE PARIZQ expresion PARDER                       {$$ = new Truncate($3, @1.first_line, @1.first_column);}
+    |ROUND PARIZQ expresion PARDER                          {$$ = new Round($3, @1.first_line, @1.first_column);}
+    |TYPEOF PARIZQ expresion PARDER                         {$$ = new TypeOf($3, @1.first_line, @1.first_column);}
     |TOSTRING PARIZQ expresion PARDER   
+    |llamar                                                 {$$ = $1}
 ;
 
 

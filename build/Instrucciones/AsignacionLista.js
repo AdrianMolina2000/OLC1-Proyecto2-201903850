@@ -62,7 +62,7 @@ class AsignacionLista extends Nodo_1.Nodo {
         }
     }
     getNodo() {
-        var nodo = new NodoAST_1.NodoAST("ASIGNACION Lista");
+        var nodo = new NodoAST_1.NodoAST("ASIGNACION LISTA");
         nodo.agregarHijo(this.id + "");
         nodo.agregarHijo(`[${this.pos}]`);
         nodo.agregarHijo("=");
