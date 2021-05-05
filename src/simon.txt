@@ -31,40 +31,26 @@ for(int x = 0; x<3; x++){
 
 
 
-
 int [] a = {8,5,7,1,2,6,4,3};
 int aux;
-int t;
 //Metodo Burbuja
-for(int i = 0; i<8; i++)
-{	
-  	int j = 0;
-    for(j = 0; j<8;j++)
-    {		
-      	print("----------");
-      	print(j);
-      	print(a[j] > a[j+1]);
-      print("----------");
+for(int i = 0; i<length(a); i++)
+{
+    for(int j = 0; j<length(a);j++)
+    {
         if(a[j] > a[j+1])
         {
             aux = a[j];
-          	t = a[j+1];
-          	print(aux);
-          	print(t);
-          	print("---");
-          	a[j] = t;
-          	print(a[j]);
-            print("---2");
+            a[j] = a[j+1];
             a[j+1] = aux;
-          	print(a[j+1]);
-          	print("---3");
         }
     }
 }
 print("Salida: ");
-print(a[0]);
-print(a[1]);
-
+for(int b = 0; b<length(a); b++)
+{
+    print(a[b]);
+}
 
 
 

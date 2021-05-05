@@ -4,9 +4,9 @@ const Nodo_1 = require("../Abstract/Nodo");
 const Excepcion_1 = require("../other/Excepcion");
 const Tipo_1 = require("../other/Tipo");
 const NodoAST_1 = require("../Abstract/NodoAST");
-class Round extends Nodo_1.Nodo {
+class ToString extends Nodo_1.Nodo {
     constructor(expresion, line, column) {
-        super(new Tipo_1.Tipo(Tipo_1.tipos.ENTERO), line, column);
+        super(new Tipo_1.Tipo(Tipo_1.tipos.STRING), line, column);
         this.expresion = expresion;
     }
     execute(table, tree) {
@@ -16,11 +16,19 @@ class Round extends Nodo_1.Nodo {
                 return resultado;
             }
             else {
-                return resultado.toFixed();
+                if (this.expresion.tipo.tipo == Tipo_1.tipos.ENTERO || this.expresion.tipo.tipo == Tipo_1.tipos.DECIMAL || this.expresion.tipo.tipo == Tipo_1.tipos.BOOLEANO) {
+                    return resultado.toString();
+                }
+                else {
+                    const error = new Excepcion_1.Excepcion('Semantico', `No es posible convertir el tipo {${this.expresion.tipo}} a texto`, this.line, this.column);
+                    tree.excepciones.push(error);
+                    tree.consola.push(error.toString());
+                    return error;
+                }
             }
         }
         catch (err) {
-            const error = new Excepcion_1.Excepcion('Semantico', `Ha ocurrido un error al redondear`, this.line, this.column);
+            const error = new Excepcion_1.Excepcion('Semantico', `Ha ocurrido un error al devolver el tipo`, this.line, this.column);
             tree.excepciones.push(error);
             tree.consola.push(error.toString());
             return error;
@@ -28,17 +36,17 @@ class Round extends Nodo_1.Nodo {
     }
     getNodo() {
         try {
-            var nodo = new NodoAST_1.NodoAST("ROUND");
-            nodo.agregarHijo("Round");
+            var nodo = new NodoAST_1.NodoAST("TOSTRING");
+            nodo.agregarHijo("ToString");
             nodo.agregarHijo("(");
             nodo.agregarHijo(this.expresion.getNodo());
             nodo.agregarHijo(")");
             return nodo;
         }
         catch (err) {
-            var nodo = new NodoAST_1.NodoAST("Round");
+            var nodo = new NodoAST_1.NodoAST("ToString");
             return nodo;
         }
     }
 }
-exports.Round = Round;
+exports.ToString = ToString;

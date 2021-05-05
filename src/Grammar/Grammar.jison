@@ -42,6 +42,8 @@
     const {Truncate} = require('../Expresiones/Truncate');
     const {Round} = require('../Expresiones/Round');
     const {TypeOf} = require('../Expresiones/TypeOf');
+    const {ToString} = require('../Expresiones/ToString');
+    const {ToCharArray} = require('../Expresiones/ToCharArray');
 
 %}
 /* Definición Léxica */
@@ -291,8 +293,8 @@ declaracionVar
     |tipos CORIZQ CORDER ID ASIGNAR NEW tipos CORIZQ expresion CORDER PTCOMA  {$$ = new DeclaracionArray($1, $4, $7, $9, null, @1.first_line, @1.first_column);}
     |tipos CORIZQ CORDER ID ASIGNAR LLAIZQ listaValores LLADER PTCOMA       {$$ = new DeclaracionArray($1, $4, null, null, $7, @1.first_line, @1.first_column);}
     |ID CORIZQ expresion CORDER ASIGNAR expresion PTCOMA                    {$$ = new AsignacionVector($1, $3, $6, @1.first_line, @1.first_column);} 
-    |LIST MENORQ tipos MAYORA ID ASIGNAR NEW LIST MENORQ tipos MAYORA PTCOMA{$$ = new DeclaracionLista($3, $5, $10, @1.first_line, @1.first_column);}
-    |LIST MENORQ tipos MAYORA ID ASIGNAR tocha PTCOMA
+    |LIST MENORQ tipos MAYORA ID ASIGNAR NEW LIST MENORQ tipos MAYORA PTCOMA{$$ = new DeclaracionLista($3, $5, $10, null, @1.first_line, @1.first_column);}
+    |LIST MENORQ tipos MAYORA ID ASIGNAR tocha PTCOMA                       {$$ = new DeclaracionLista($3, $5, null, $7, @1.first_line, @1.first_column);}
     |ID PUNTO ADD PARIZQ expresion PARDER PTCOMA                            {$$ = new AddLista($1, $5, @1.first_line, @1.first_column);} 
     |ID CORIZQ CORIZQ expresion CORDER CORDER ASIGNAR expresion PTCOMA         {$$ = new AsignacionLista($1, $4, $8, @1.first_line, @1.first_column);} 
 ;
@@ -334,7 +336,7 @@ expresion
     |TRUNCATE PARIZQ expresion PARDER                       {$$ = new Truncate($3, @1.first_line, @1.first_column);}
     |ROUND PARIZQ expresion PARDER                          {$$ = new Round($3, @1.first_line, @1.first_column);}
     |TYPEOF PARIZQ expresion PARDER                         {$$ = new TypeOf($3, @1.first_line, @1.first_column);}
-    |TOSTRING PARIZQ expresion PARDER   
+    |TOSTRING PARIZQ expresion PARDER                       {$$ = new ToString($3, @1.first_line, @1.first_column);}
     |llamar                                                 {$$ = $1}
 ;
 
@@ -351,7 +353,7 @@ listaValores
 ;
 
 tocha
-    :TOCHARARRAY PARIZQ expresion PARDER  
+    :TOCHARARRAY PARIZQ expresion PARDER    {$$ = new ToCharArray($3, @1.first_line, @1.first_column);}
 ;
 
 // numeroD

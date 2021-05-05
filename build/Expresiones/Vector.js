@@ -31,9 +31,16 @@ class Vector extends Nodo_1.Nodo {
                 return error;
             }
             else {
-                this.bandera1 = true;
-                this.valor = arreglo[this.posicion.execute(table, tree)];
-                return arreglo[this.posicion.execute(table, tree)].execute(table, tree);
+                try {
+                    this.bandera1 = true;
+                    this.valor = arreglo[this.posicion.execute(table, tree)];
+                    return arreglo[this.posicion.execute(table, tree)].execute(table, tree);
+                }
+                catch (err) {
+                    const error = new Excepcion_1.Excepcion('Semantico', `La Posicion especificada no es valida para el vector {${this.id}}`, this.line, this.column);
+                    tree.excepciones.push(error);
+                    return error;
+                }
             }
         }
         else {
@@ -44,10 +51,14 @@ class Vector extends Nodo_1.Nodo {
     }
     getNodo() {
         var nodo = new NodoAST_1.NodoAST("Vector Posicion");
-        if (this.bandera1) {
-            var nodo2 = new NodoAST_1.NodoAST(`${this.id}[${this.pos}]`);
-            nodo2.agregarHijo(this.valor.getNodo());
-            nodo.agregarHijo(nodo2);
+        try {
+            if (this.bandera1) {
+                var nodo2 = new NodoAST_1.NodoAST(`${this.id}[${this.pos}]`);
+                nodo2.agregarHijo(this.valor.getNodo());
+                nodo.agregarHijo(nodo2);
+            }
+        }
+        catch (err) {
         }
         return nodo;
     }

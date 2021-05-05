@@ -49,8 +49,12 @@ class AsignacionVector extends Nodo_1.Nodo {
                     }
                 }
                 else {
+                    var arreglo2 = variable.valor;
+                    for (let i = 0; i < arreglo.length; i++) {
+                        arreglo2.push(arreglo[i]);
+                    }
                     arreglo[this.posicion.execute(table, tree)] = this.valor;
-                    variable.valor = arreglo;
+                    variable.valor = arreglo2;
                     return null;
                 }
             }

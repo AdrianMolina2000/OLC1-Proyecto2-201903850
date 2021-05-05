@@ -35,18 +35,26 @@ export class Vector extends Nodo {
         var arreglo: Array<Nodo>;
         arreglo = <Array<Nodo>>variable.valor;
         this.pos = this.posicion.execute(table, tree);
-        
+
         if (this.posicion.tipo.tipo == tipos.ENTERO) {
             if ((this.posicion.execute(table, tree) >= arreglo.length) || (this.posicion.execute(table, tree) < 0)) {
                 const error = new Excepcion('Semantico',
-                `La Posicion especificada no es valida para el vector {${this.id}}`,
-                this.line, this.column);
+                    `La Posicion especificada no es valida para el vector {${this.id}}`,
+                    this.line, this.column);
                 tree.excepciones.push(error);
                 return error;
             } else {
-                this.bandera1 = true;
-                this.valor = arreglo[this.posicion.execute(table, tree)];
-                return arreglo[this.posicion.execute(table, tree)].execute(table, tree);
+                try {
+                    this.bandera1 = true;
+                    this.valor = arreglo[this.posicion.execute(table, tree)];
+                    return arreglo[this.posicion.execute(table, tree)].execute(table, tree);
+                } catch (err) {
+                    const error = new Excepcion('Semantico',
+                        `La Posicion especificada no es valida para el vector {${this.id}}`,
+                        this.line, this.column);
+                    tree.excepciones.push(error);
+                    return error;
+                }
             }
         } else {
             const error = new Excepcion('Semantico',
@@ -59,10 +67,14 @@ export class Vector extends Nodo {
 
     getNodo() {
         var nodo: NodoAST = new NodoAST("Vector Posicion");
-        if (this.bandera1) {
-            var nodo2: NodoAST = new NodoAST(`${this.id}[${this.pos}]`);
-            nodo2.agregarHijo(this.valor.getNodo());
-            nodo.agregarHijo(nodo2);
+        try {
+            if (this.bandera1) {
+                var nodo2: NodoAST = new NodoAST(`${this.id}[${this.pos}]`);
+                nodo2.agregarHijo(this.valor.getNodo());
+                nodo.agregarHijo(nodo2);
+            }
+        } catch (err) {
+
         }
         return nodo;
     }

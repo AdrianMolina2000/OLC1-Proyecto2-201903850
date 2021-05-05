@@ -17,7 +17,6 @@ class TypeOf extends Nodo_1.Nodo {
             }
             else {
                 try {
-                    console.log("entra");
                     let variable;
                     variable = table.getVariable(this.expresion.id);
                     if (variable.tipo2.tipo == Tipo_1.tipos.VARIABLE) {
@@ -26,7 +25,6 @@ class TypeOf extends Nodo_1.Nodo {
                     return variable.tipo2 + "";
                 }
                 catch (err) {
-                    console.log("no entra");
                     return this.expresion.tipo + "";
                 }
             }
