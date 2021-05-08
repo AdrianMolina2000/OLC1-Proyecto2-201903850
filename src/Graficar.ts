@@ -1,8 +1,5 @@
-import { table } from "console";
-import { Nodo } from "./Abstract/Nodo";
 import { NodoAST } from "./Abstract/NodoAST";
 import { Simbolo } from "./Simbols/Simbolo";
-import { Table } from "./Simbols/Table";
 
 export function graphAST(raiz: NodoAST): void {
     var r: String = "AST";
@@ -48,18 +45,6 @@ function recorrerAST(padre: String, nPadre: NodoAST): void {
     });
 }
 
-// export function graphTabla(tabla: Table): void {
-//     var fs = require('fs');
-
-//     var stream = fs.createWriteStream(`./src/Reportes/TablaSimbolos.html`);
-//     let documento = "";
-//     stream.once('open', function () {
-//         stream.write(escribirHtml(tabla, documento));
-//         stream.end();
-//     });
-
-// }
-
 export function graphTabla(tabla: Array<Simbolo>): void {
     var fs = require('fs');
 
@@ -71,7 +56,6 @@ export function graphTabla(tabla: Array<Simbolo>): void {
     });
 
 }
-
 
 function escribirHtml(tabla: Array<Simbolo>, documento: String): String {
     documento += "<!DOCTYPE html>\n<html>\n<head>\n"
