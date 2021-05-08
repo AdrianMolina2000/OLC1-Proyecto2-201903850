@@ -20,7 +20,7 @@
     </center>
     <form method="post" action="/analizar" id="form">
         <div style="display: flex; width: 1000px; margin: auto;">
-           
+
             <div style="width: 50%; margin-right: 20px;">
                 <h5 style="color: beige;">Input</h5>
                 <% if (entrada) { %>
@@ -41,6 +41,7 @@
     </form>
     <center>
         <button class="btn btn-primary" onclick="ejecutar()">Ejecutar</button>
+        <input type="file" id="archivoTexto" class="btn btn-primary">
     </center>
     <hr>
     <script src="./Main.js"></script>
@@ -63,17 +64,43 @@
         });
 
         editor.setSize(500, 400);
-        
+
         const editor2 = CodeMirror.fromTextArea(consola, {
             lineNumbers: true,
             mode: "python",
             theme: "material-darker",
-            readOnly:"nocursor"
-            
+            readOnly: "nocursor"
+
 
         });
 
         editor2.setSize(500, 400);
+
+
+        //CARGAR ARCHIVO
+        function abrirArchivo(evento) {
+            let archivo = evento.target.files[0]
+
+            if (archivo) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    let contenido = e.target.result;
+                    // document.getElementById('entrada').innerText = contenido;
+
+                    var textArea = document.getElementById("entrada");
+                    editor.getDoc().setValue(contenido);
+                };
+
+                reader.readAsText(archivo)
+            }
+        }
+
+
+        window.addEventListener('load', () => {
+            document.getElementById('archivoTexto').addEventListener('change', abrirArchivo)
+        });
+
+
     </script>
 </body>
 

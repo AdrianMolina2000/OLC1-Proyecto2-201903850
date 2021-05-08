@@ -48,23 +48,23 @@ app.post('/analizar', (req, res) => {
     tree.instrucciones.map((m: any) => {
       try {
         const res = m.execute(tabla, tree);
+        if (res instanceof Break || res instanceof Retorno) {
+          const error = new Excepcion('Semantico',
+            `Sentencia break fuera de un ciclo`,
+            res.line, res.column);
+          tree.excepciones.push(error);
+          tree.consola.push(error.toString());
+        } else if (res instanceof Continue) {
+          const error = new Excepcion('Semantico',
+            `Sentencia continue fuera de un ciclo`,
+            res.line, res.column);
+          tree.excepciones.push(error);
+          tree.consola.push(error.toString());
+        }
       } catch (error) {
         const error2 = new Excepcion('Sintactico',
           `Irrecuperable`, 0, 0);
         tree.consola.push(error2.toString());
-      }
-      if (res instanceof Break || res instanceof Retorno) {
-        const error = new Excepcion('Semantico',
-          `Sentencia break fuera de un ciclo`,
-          res.line, res.column);
-        tree.excepciones.push(error);
-        tree.consola.push(error.toString());
-      } else if (res instanceof Continue) {
-        const error = new Excepcion('Semantico',
-          `Sentencia continue fuera de un ciclo`,
-          res.line, res.column);
-        tree.excepciones.push(error);
-        tree.consola.push(error.toString());
       }
     });
 
@@ -78,7 +78,7 @@ app.post('/analizar', (req, res) => {
 
     graphAST(init);
     graphTabla(tree.Variables);
-    
+
 
     res.render('views/index', {
       entrada,
@@ -88,18 +88,20 @@ app.post('/analizar', (req, res) => {
 
 
   } catch (error) {
+    console.log(error)
     let consola2 = new Array<String>();
-    consola2.push("Ocurrio un Error sintactico Irrecuperable\n\n"); 
-    consola2.push("                   FFFFFFFFFFFFFFF\n"+
-                  "                   FFFFFFFFFFFFFFF\n"+
-                  "                   FFFFFF\n"+
-                  "                   FFFFFF\n"+
-                  "                   FFFFFFFFFFFFFFF\n"+
-                  "                   FFFFFFFFFFFFFFF\n"+
-                  "                   FFFFFFF\n"+
-                  "                   FFFFFFF\n"+
-                  "                   FFFFFFF\n"+
-                  "                   FFFFFFF");
+    consola2.push(error);
+    consola2.push("Ocurrio un Error sintactico Irrecuperable\n\n");
+    consola2.push("                   FFFFFFFFFFFFFFF\n" +
+      "                   FFFFFFFFFFFFFFF\n" +
+      "                   FFFFFF\n" +
+      "                   FFFFFF\n" +
+      "                   FFFFFFFFFFFFFFF\n" +
+      "                   FFFFFFFFFFFFFFF\n" +
+      "                   FFFFFFF\n" +
+      "                   FFFFFFF\n" +
+      "                   FFFFFFF\n" +
+      "                   FFFFFFF");
     res.render('views/index', {
       entrada,
       consola: consola2

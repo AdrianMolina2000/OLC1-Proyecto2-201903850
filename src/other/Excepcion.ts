@@ -15,3 +15,5 @@ export class Excepcion{
         return `Error ${this.tipo} en la linea ${this.line} y columna ${this.column}, ${this.descripcion}`;
     }
 }
+
+

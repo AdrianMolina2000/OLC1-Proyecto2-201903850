@@ -38,15 +38,6 @@ function recorrerAST(padre, nPadre) {
         recorrerAST(nombreHijo, hijo);
     });
 }
-// export function graphTabla(tabla: Table): void {
-//     var fs = require('fs');
-//     var stream = fs.createWriteStream(`./src/Reportes/TablaSimbolos.html`);
-//     let documento = "";
-//     stream.once('open', function () {
-//         stream.write(escribirHtml(tabla, documento));
-//         stream.end();
-//     });
-// }
 function graphTabla(tabla) {
     var fs = require('fs');
     var stream = fs.createWriteStream(`./src/Reportes/TablaSimbolos.html`);

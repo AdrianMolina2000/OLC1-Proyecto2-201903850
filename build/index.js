@@ -39,59 +39,62 @@ app.post('/analizar', (req, res) => {
     if (!entrada) {
         return res.redirect('/');
     }
-    // try {
-    const tree = parser.parse(entrada);
-    const tabla = new Table_1.Table(null);
-    tree.instrucciones.map((m) => {
-        // try {
-        const res = m.execute(tabla, tree);
-        // } catch (error) {
-        // const error2 = new Excepcion('Sintactico',
-        // `Irrecuperable`, 0, 0);
-        // tree.consola.push(error2.toString());
-        // }
-        if (res instanceof Break_1.Break || res instanceof Retorno_1.Retorno) {
-            const error = new Excepcion_1.Excepcion('Semantico', `Sentencia break fuera de un ciclo`, res.line, res.column);
-            tree.excepciones.push(error);
-            tree.consola.push(error.toString());
-        }
-        else if (res instanceof Continue_1.Continue) {
-            const error = new Excepcion_1.Excepcion('Semantico', `Sentencia continue fuera de un ciclo`, res.line, res.column);
-            tree.excepciones.push(error);
-            tree.consola.push(error.toString());
-        }
-    });
-    var init = new NodoAST_1.NodoAST("RAIZ");
-    var instr = new NodoAST_1.NodoAST("INSTRUCCIONES");
-    tree.instrucciones.map((m) => {
-        instr.agregarHijo(m.getNodo());
-    });
-    init.agregarHijo(instr);
-    Graficar_1.graphAST(init);
-    Graficar_1.graphTabla(tree.Variables);
-    res.render('views/index', {
-        entrada,
-        consola: tree.consola,
-        errores: tree.excepciones
-    });
-    // } catch (error) {
-    //   let consola2 = new Array<String>();
-    //   consola2.push("Ocurrio un Error sintactico Irrecuperable\n\n"); 
-    //   consola2.push("                   FFFFFFFFFFFFFFF\n"+
-    //                 "                   FFFFFFFFFFFFFFF\n"+
-    //                 "                   FFFFFF\n"+
-    //                 "                   FFFFFF\n"+
-    //                 "                   FFFFFFFFFFFFFFF\n"+
-    //                 "                   FFFFFFFFFFFFFFF\n"+
-    //                 "                   FFFFFFF\n"+
-    //                 "                   FFFFFFF\n"+
-    //                 "                   FFFFFFF\n"+
-    //                 "                   FFFFFFF");
-    //   res.render('views/index', {
-    //     entrada,
-    //     consola: consola2
-    //   });
-    // }
+    try {
+        const tree = parser.parse(entrada);
+        const tabla = new Table_1.Table(null);
+        tree.instrucciones.map((m) => {
+            try {
+                const res = m.execute(tabla, tree);
+                if (res instanceof Break_1.Break || res instanceof Retorno_1.Retorno) {
+                    const error = new Excepcion_1.Excepcion('Semantico', `Sentencia break fuera de un ciclo`, res.line, res.column);
+                    tree.excepciones.push(error);
+                    tree.consola.push(error.toString());
+                }
+                else if (res instanceof Continue_1.Continue) {
+                    const error = new Excepcion_1.Excepcion('Semantico', `Sentencia continue fuera de un ciclo`, res.line, res.column);
+                    tree.excepciones.push(error);
+                    tree.consola.push(error.toString());
+                }
+            }
+            catch (error) {
+                const error2 = new Excepcion_1.Excepcion('Sintactico', `Irrecuperable`, 0, 0);
+                tree.consola.push(error2.toString());
+            }
+        });
+        var init = new NodoAST_1.NodoAST("RAIZ");
+        var instr = new NodoAST_1.NodoAST("INSTRUCCIONES");
+        tree.instrucciones.map((m) => {
+            instr.agregarHijo(m.getNodo());
+        });
+        init.agregarHijo(instr);
+        Graficar_1.graphAST(init);
+        Graficar_1.graphTabla(tree.Variables);
+        res.render('views/index', {
+            entrada,
+            consola: tree.consola,
+            errores: tree.excepciones
+        });
+    }
+    catch (error) {
+        console.log(error);
+        let consola2 = new Array();
+        consola2.push(error);
+        consola2.push("Ocurrio un Error sintactico Irrecuperable\n\n");
+        consola2.push("                   FFFFFFFFFFFFFFF\n" +
+            "                   FFFFFFFFFFFFFFF\n" +
+            "                   FFFFFF\n" +
+            "                   FFFFFF\n" +
+            "                   FFFFFFFFFFFFFFF\n" +
+            "                   FFFFFFFFFFFFFFF\n" +
+            "                   FFFFFFF\n" +
+            "                   FFFFFFF\n" +
+            "                   FFFFFFF\n" +
+            "                   FFFFFFF");
+        res.render('views/index', {
+            entrada,
+            consola: consola2
+        });
+    }
 });
 app.listen(port, err => {
     return console.log(`server is listening on ${port}`);
