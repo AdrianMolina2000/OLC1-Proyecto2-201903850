@@ -4,7 +4,7 @@ const Nodo_1 = require("../Abstract/Nodo");
 const Excepcion_1 = require("../other/Excepcion");
 const NodoAST_1 = require("../Abstract/NodoAST");
 const tipo_1 = require("../other/tipo");
-class Vector extends Nodo_1.Nodo {
+class Lista extends Nodo_1.Nodo {
     constructor(id, posicion, line, column) {
         super(null, line, column);
         this.id = id;
@@ -19,6 +19,12 @@ class Vector extends Nodo_1.Nodo {
             tree.excepciones.push(error);
             return error;
         }
+        if (variable.tipo2.tipo == tipo_1.tipos.ARRAY) {
+            const error = new Excepcion_1.Excepcion('Semantico', `La lista {${this.id}} no ha sido encontrado`, this.line, this.column);
+            tree.excepciones.push(error);
+            tree.consola.push(error.toString());
+            return error;
+        }
         this.tipo = variable.tipo;
         var arreglo;
         arreglo = variable.valor;
@@ -30,9 +36,16 @@ class Vector extends Nodo_1.Nodo {
                 return error;
             }
             else {
-                this.bandera1 = true;
-                this.valor = arreglo[this.posicion.execute(table, tree)];
-                return arreglo[this.posicion.execute(table, tree)].execute(table, tree);
+                try {
+                    this.bandera1 = true;
+                    this.valor = arreglo[this.posicion.execute(table, tree)];
+                    return arreglo[this.posicion.execute(table, tree)].execute(table, tree);
+                }
+                catch (err) {
+                    const error = new Excepcion_1.Excepcion('Semantico', `La Posicion especificada no es valida para la Lista {${this.id}}`, this.line, this.column);
+                    tree.excepciones.push(error);
+                    return error;
+                }
             }
         }
         else {
@@ -42,13 +55,19 @@ class Vector extends Nodo_1.Nodo {
         }
     }
     getNodo() {
-        var nodo = new NodoAST_1.NodoAST("Posicion Lista");
-        if (this.bandera1) {
-            var nodo2 = new NodoAST_1.NodoAST(`${this.id}[${this.pos}]`);
-            nodo2.agregarHijo(this.valor.getNodo());
-            nodo.agregarHijo(nodo2);
+        try {
+            var nodo = new NodoAST_1.NodoAST("Posicion Lista");
+            if (this.bandera1) {
+                var nodo2 = new NodoAST_1.NodoAST(`${this.id}[${this.pos}]`);
+                nodo2.agregarHijo(this.valor.getNodo());
+                nodo.agregarHijo(nodo2);
+            }
+            return nodo;
         }
-        return nodo;
+        catch (err) {
+            var nodo = new NodoAST_1.NodoAST("Posicion Lista");
+            return nodo;
+        }
     }
 }
-exports.Vector = Vector;
+exports.Lista = Lista;

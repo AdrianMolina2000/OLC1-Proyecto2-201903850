@@ -26,6 +26,20 @@ export class AsignacionLista extends Nodo {
             return result;
         }
 
+        var result2: Nodo;
+        result2 = this.valor;
+
+        try {
+            let variable: Simbolo
+            variable = table.getVariable((<any>this.valor).id)
+            if (variable.tipo2.tipo == tipos.LISTA) {
+                result2 = (<any>this.valor).valor;
+            } if (variable.tipo2.tipo == tipos.VARIABLE) {
+                result2 = (<any>this.valor).valor;
+            }
+        } catch (err) {
+        }
+
         let variable: Simbolo;
         variable = table.getVariable(this.id);
         if (variable == null) {
@@ -52,7 +66,7 @@ export class AsignacionLista extends Nodo {
                     this.valor.execute(table, tree);
                     if ((variable.tipo.tipo == tipos.DECIMAL) && (this.valor.tipo.tipo == tipos.ENTERO)) {
                         this.valor.tipo.tipo = tipos.DECIMAL;
-                        arreglo[this.posicion.execute(table, tree)] = this.valor;
+                        arreglo[this.posicion.execute(table, tree)] = result2;
                         variable.valor = arreglo;
                         return null;
                     } else {
@@ -65,7 +79,7 @@ export class AsignacionLista extends Nodo {
                         return error;
                     }
                 } else {
-                    arreglo[this.posicion.execute(table, tree)] = this.valor;
+                    arreglo[this.posicion.execute(table, tree)] = result2;
                     variable.valor = arreglo;
                     return null;
                 }
@@ -81,10 +95,14 @@ export class AsignacionLista extends Nodo {
 
     getNodo() {
         var nodo: NodoAST = new NodoAST("ASIGNACION LISTA");
-        nodo.agregarHijo(this.id + "");
-        nodo.agregarHijo(`[${this.pos}]`);
-        nodo.agregarHijo("=");
-        nodo.agregarHijo(this.valor.getNodo());
+        try {
+            nodo.agregarHijo(this.id + "");
+            nodo.agregarHijo(`[${this.pos}]`);
+            nodo.agregarHijo("=");
+            nodo.agregarHijo(this.valor.getNodo());
+        } catch (err) {
+            return nodo;
+        }
         return nodo;
     }
 }

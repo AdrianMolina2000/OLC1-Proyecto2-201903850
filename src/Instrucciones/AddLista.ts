@@ -10,7 +10,7 @@ import { NodoAST } from "../Abstract/NodoAST";
 export class AddLista extends Nodo {
     id: String;
     expresion: Nodo;
-    dar:any;
+    dar: any;
     constructor(id: String, expresion: Nodo, line: Number, column: Number) {
         super(null, line, column);
         this.id = id;
@@ -39,6 +39,7 @@ export class AddLista extends Nodo {
 
 
         if (variable.tipo.tipo != this.expresion.tipo.tipo) {
+
             if ((variable.tipo.tipo == tipos.DECIMAL) && (this.expresion.tipo.tipo == tipos.ENTERO)) {
                 this.expresion.tipo.tipo = tipos.DECIMAL;
                 arreglo.push(this.expresion);
@@ -52,10 +53,20 @@ export class AddLista extends Nodo {
                 tree.consola.push(error.toString());
                 return error;
             }
+
         } else {
-            arreglo.push(this.expresion);
-            variable.valor = arreglo;
-            return null;
+            if (variable.tipo2.tipo == tipos.LISTA) {
+                arreglo.push(this.expresion);
+                variable.valor = arreglo;
+                return null;
+            } else {
+                const error = new Excepcion('Semantico',
+                    `No se puede agregar un valor al vector {${this.id}}`,
+                    this.line, this.column);
+                tree.excepciones.push(error);
+                tree.consola.push(error.toString());
+                return error;
+            }
         }
     }
 

@@ -40,9 +40,17 @@ class AddLista extends Nodo_1.Nodo {
             }
         }
         else {
-            arreglo.push(this.expresion);
-            variable.valor = arreglo;
-            return null;
+            if (variable.tipo2.tipo == Tipo_1.tipos.LISTA) {
+                arreglo.push(this.expresion);
+                variable.valor = arreglo;
+                return null;
+            }
+            else {
+                const error = new Excepcion_1.Excepcion('Semantico', `No se puede agregar un valor al vector {${this.id}}`, this.line, this.column);
+                tree.excepciones.push(error);
+                tree.consola.push(error.toString());
+                return error;
+            }
         }
     }
     getNodo() {

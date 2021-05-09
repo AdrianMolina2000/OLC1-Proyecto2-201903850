@@ -326,7 +326,7 @@ expresion
     |CADENA		                                            {$$ = new Primitivo(new Tipo(tipos.STRING), $1, @1.first_line, @1.first_column);} 
     |CARACTER                                               {$$ = new Primitivo(new Tipo(tipos.CARACTER), $1.replace(/\'/g,""), @1.first_line, @1.first_column);} 
     |ID CORIZQ expresion CORDER                	            {$$ = new Vector($1, $3, @1.first_line, @1.first_column);}
-    |ID CORIZQ CORIZQ expresion CORDER CORDER  	            {$$ = new Vector($1, $4, @1.first_line, @1.first_column);}
+    |ID CORIZQ CORIZQ expresion CORDER CORDER  	            {$$ = new Lista($1, $4, @1.first_line, @1.first_column);}
     |PARIZQ expresion PARDER			                    {$$ = $2;}   	
     |PARIZQ tipos PARDER expresion                          {$$ = new Casteo($2, $4, @1.first_line, @1.first_column);}  	    	
 	|expresion INTERROGACION expresion DPUNTOS expresion    {$$ = new Ternario($1, $3, $5, @1.first_line, @1.first_column);}

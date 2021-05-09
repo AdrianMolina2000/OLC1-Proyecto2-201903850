@@ -4,8 +4,6 @@ import { Tree } from "../Simbols/Tree";
 import { Excepcion } from "../other/Excepcion";
 import { tipos, Tipo } from "../other/Tipo";
 import { NodoAST } from "../Abstract/NodoAST";
-import { Vector } from "./Lista";
-import { Print } from "../Instrucciones/Print";
 
 export class Length extends Nodo {
     expresion: Nodo;

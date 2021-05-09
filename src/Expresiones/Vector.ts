@@ -31,6 +31,16 @@ export class Vector extends Nodo {
             tree.consola.push(error.toString());
             return error;
         }
+        if (variable.tipo2.tipo == tipos.LISTA) {
+            const error = new Excepcion('Semantico',
+                `El vector {${this.id}} no ha sido encontrado`,
+                this.line, this.column);
+            tree.excepciones.push(error);
+            tree.consola.push(error.toString());
+            return error;
+        }
+
+
         this.tipo = variable.tipo;
         var arreglo: Array<Nodo>;
         arreglo = <Array<Nodo>>variable.valor;

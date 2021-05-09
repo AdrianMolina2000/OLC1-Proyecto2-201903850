@@ -1,4 +1,4 @@
-import { Nodo} from "../Abstract/Nodo";
+import { Nodo } from "../Abstract/Nodo";
 import { Table } from "../Simbols/Table";
 import { Tree } from "../Simbols/Tree";
 import { Excepcion } from "../other/Excepcion";
@@ -27,7 +27,7 @@ export class Asignacion extends Nodo {
         variable = table.getVariable(this.id);
         if (variable == null) {
             const error = new Excepcion('Semantico',
-            `La variable {${this.id}} no ha sido encontrada`,
+                `La variable {${this.id}} no ha sido encontrada`,
                 this.line, this.column);
             tree.excepciones.push(error);
             tree.consola.push(error.toString());
@@ -46,12 +46,27 @@ export class Asignacion extends Nodo {
                 return error;
             }
         }
-        variable.valor = result;
+
+        var val = result;
+        try {
+            let variable: Simbolo
+            variable = table.getVariable((<any>this.valor).id)
+            if (variable.tipo2.tipo == tipos.ARRAY) {
+                val = (<any>this.valor).valor;
+            }else if (variable.tipo2.tipo == tipos.LISTA) {
+                val = (<any>this.valor).valor;
+            }
+            
+        } catch (err) {
+            val = result;
+        }
+
+        variable.valor = val;
         return null;
     }
 
     getNodo() {
-        var nodo:NodoAST  = new NodoAST("ASIGNACION");
+        var nodo: NodoAST = new NodoAST("ASIGNACION");
         nodo.agregarHijo(this.id);
         nodo.agregarHijo("=");
         nodo.agregarHijo(this.valor.getNodo());

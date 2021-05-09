@@ -319,7 +319,7 @@ var grammar = (function () {
                     this.$ = new Vector($$[$0 - 3], $$[$0 - 1], _$[$0 - 3].first_line, _$[$0 - 3].first_column);
                     break;
                 case 84:
-                    this.$ = new Vector($$[$0 - 5], $$[$0 - 2], _$[$0 - 5].first_line, _$[$0 - 5].first_column);
+                    this.$ = new Lista($$[$0 - 5], $$[$0 - 2], _$[$0 - 5].first_line, _$[$0 - 5].first_column);
                     break;
                 case 86:
                     this.$ = new Casteo($$[$0 - 2], $$[$0], _$[$0 - 3].first_line, _$[$0 - 3].first_column);

@@ -65,6 +65,7 @@ app.post('/analizar', (req, res) => {
         const error2 = new Excepcion('Sintactico',
           `Irrecuperable`, 0, 0);
         tree.consola.push(error2.toString());
+        console.log(error)
       }
     });
 

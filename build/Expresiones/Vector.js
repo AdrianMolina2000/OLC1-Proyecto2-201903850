@@ -20,6 +20,12 @@ class Vector extends Nodo_1.Nodo {
             tree.consola.push(error.toString());
             return error;
         }
+        if (variable.tipo2.tipo == tipo_1.tipos.LISTA) {
+            const error = new Excepcion_1.Excepcion('Semantico', `El vector {${this.id}} no ha sido encontrado`, this.line, this.column);
+            tree.excepciones.push(error);
+            tree.consola.push(error.toString());
+            return error;
+        }
         this.tipo = variable.tipo;
         var arreglo;
         arreglo = variable.valor;

@@ -16,6 +16,20 @@ class AsignacionVector extends Nodo_1.Nodo {
         if (result instanceof Excepcion_1.Excepcion) {
             return result;
         }
+        var result2;
+        result2 = this.valor;
+        try {
+            let variable;
+            variable = table.getVariable(this.valor.id);
+            if (variable.tipo2.tipo == Tipo_1.tipos.ARRAY) {
+                result2 = this.valor.valor;
+            }
+            if (variable.tipo2.tipo == Tipo_1.tipos.VARIABLE) {
+                result2 = this.valor.valor;
+            }
+        }
+        catch (err) {
+        }
         let variable;
         variable = table.getVariable(this.id);
         if (variable == null) {
@@ -37,7 +51,7 @@ class AsignacionVector extends Nodo_1.Nodo {
                     this.valor.execute(table, tree);
                     if ((variable.tipo.tipo == Tipo_1.tipos.DECIMAL) && (this.valor.tipo.tipo == Tipo_1.tipos.ENTERO)) {
                         this.valor.tipo.tipo = Tipo_1.tipos.DECIMAL;
-                        arreglo[this.posicion.execute(table, tree)] = this.valor;
+                        arreglo[this.posicion.execute(table, tree)] = result2;
                         variable.valor = arreglo;
                         return null;
                     }
@@ -49,7 +63,7 @@ class AsignacionVector extends Nodo_1.Nodo {
                     }
                 }
                 else {
-                    arreglo[this.posicion.execute(table, tree)] = this.valor;
+                    arreglo[this.posicion.execute(table, tree)] = result2;
                     variable.valor = arreglo;
                     return null;
                 }

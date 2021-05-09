@@ -59,6 +59,7 @@ app.post('/analizar', (req, res) => {
             catch (error) {
                 const error2 = new Excepcion_1.Excepcion('Sintactico', `Irrecuperable`, 0, 0);
                 tree.consola.push(error2.toString());
+                console.log(error);
             }
         });
         var init = new NodoAST_1.NodoAST("RAIZ");

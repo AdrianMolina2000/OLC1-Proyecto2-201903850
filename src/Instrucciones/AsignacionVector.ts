@@ -5,6 +5,7 @@ import { Excepcion } from "../other/Excepcion";
 import { Simbolo } from "../Simbols/Simbolo";
 import { Tipo, tipos } from "../other/Tipo";
 import { NodoAST } from "../Abstract/NodoAST";
+import { Vector } from "../Expresiones/Vector";
 
 
 export class AsignacionVector extends Nodo {
@@ -21,9 +22,24 @@ export class AsignacionVector extends Nodo {
     }
 
     execute(table: Table, tree: Tree) {
+
         const result = this.valor.execute(table, tree);
         if (result instanceof Excepcion) {
             return result;
+        }
+
+        var result2: Nodo;
+        result2 = this.valor;
+
+        try {
+            let variable: Simbolo
+            variable = table.getVariable((<any>this.valor).id)
+            if (variable.tipo2.tipo == tipos.ARRAY) {
+                result2 = (<any>this.valor).valor;
+            } if (variable.tipo2.tipo == tipos.VARIABLE) {
+                result2 = (<any>this.valor).valor;
+            }
+        } catch (err) {
         }
 
         let variable: Simbolo;
@@ -39,7 +55,6 @@ export class AsignacionVector extends Nodo {
 
         var arreglo: Array<Nodo> = <Array<Nodo>>variable.valor;
         this.pos = this.posicion.execute(table, tree);
-
         if (this.posicion.tipo.tipo == tipos.ENTERO) {
             if ((this.posicion.execute(table, tree) >= arreglo.length) || (this.posicion.execute(table, tree) < 0)) {
                 const error = new Excepcion('Semantico',
@@ -52,7 +67,7 @@ export class AsignacionVector extends Nodo {
                     this.valor.execute(table, tree);
                     if ((variable.tipo.tipo == tipos.DECIMAL) && (this.valor.tipo.tipo == tipos.ENTERO)) {
                         this.valor.tipo.tipo = tipos.DECIMAL;
-                        arreglo[this.posicion.execute(table, tree)] = this.valor;
+                        arreglo[this.posicion.execute(table, tree)] = result2;
                         variable.valor = arreglo;
                         return null;
                     } else {
@@ -65,7 +80,7 @@ export class AsignacionVector extends Nodo {
                         return error;
                     }
                 } else {
-                    arreglo[this.posicion.execute(table, tree)] = this.valor;
+                    arreglo[this.posicion.execute(table, tree)] = result2;
                     variable.valor = arreglo;
                     return null;
                 }

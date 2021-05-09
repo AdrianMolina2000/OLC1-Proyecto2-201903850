@@ -34,7 +34,21 @@ class Asignacion extends Nodo_1.Nodo {
                 return error;
             }
         }
-        variable.valor = result;
+        var val = result;
+        try {
+            let variable;
+            variable = table.getVariable(this.valor.id);
+            if (variable.tipo2.tipo == Tipo_1.tipos.ARRAY) {
+                val = this.valor.valor;
+            }
+            else if (variable.tipo2.tipo == Tipo_1.tipos.LISTA) {
+                val = this.valor.valor;
+            }
+        }
+        catch (err) {
+            val = result;
+        }
+        variable.valor = val;
         return null;
     }
     getNodo() {
