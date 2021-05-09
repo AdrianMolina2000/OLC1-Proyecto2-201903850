@@ -2,6 +2,7 @@ digraph {
 n0[label="RAIZ"];
 n1[label="INSTRUCCIONES"];
 n0->n1;
+<<<<<<< HEAD
 n2[label="DECLARACION METODO"];
 n1->n2;
 n3[label="entero"];
@@ -218,4 +219,46 @@ n108[label="}"];
 n97->n108;
 n109[label=")"];
 n94->n109;
+=======
+n2[label="DECLARACION ARRAY"];
+n1->n2;
+n3[label="entero[]"];
+n2->n3;
+n4[label="a"];
+n2->n4;
+n5[label="="];
+n2->n5;
+n6[label="{"];
+n2->n6;
+n7[label="Lista Valores"];
+n2->n7;
+n8[label="PRIMITIVO"];
+n7->n8;
+n9[label="1"];
+n8->n9;
+n10[label="PRIMITIVO"];
+n7->n10;
+n11[label="2"];
+n10->n11;
+n12[label="PRIMITIVO"];
+n7->n12;
+n13[label="34"];
+n12->n13;
+n14[label="}"];
+n2->n14;
+n15[label="ADD"];
+n1->n15;
+n16[label="a"];
+n15->n16;
+n17[label=".add"];
+n15->n17;
+n18[label="("];
+n15->n18;
+n19[label="PRIMITIVO"];
+n15->n19;
+n20[label="12"];
+n19->n20;
+n21[label=")"];
+n15->n21;
+>>>>>>> fbee52e7e142ca7ad73cc48aad0ad0d15055bf05
 }
